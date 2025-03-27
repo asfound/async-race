@@ -38,4 +38,6 @@ function createElementFactory<T extends TagType>(tag: T) {
   };
 }
 
+export const button = createElementFactory(TAG_NAME.BUTTON);
+
 export const main = createElementFactory(TAG_NAME.MAIN);
