@@ -1,14 +1,17 @@
 :root {
+  --white: white;
+  --primary-dark: #262626;
+
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
-  color: black;
+  color: var(--white);
   text-rendering: optimizelegibility;
 
   color-scheme: light dark;
-  background-color: white;
+  background-color: var(--primary-dark);
 
   font-synthesis: none;
 }
