@@ -8,12 +8,15 @@ import { createButton } from '../../button/button';
 
 export function createCarItem(): HTMLLIElement {
   const trackItem = li({});
+  const abortController = new AbortController();
+  const { signal } = abortController;
 
   const startButton = createButton({
     textContent: BUTTON_TEXT_CONTENT.START,
     onClick: () => {
       console.log('start');
     },
+    signal,
   });
 
   const returnButton = createButton({
@@ -21,13 +24,17 @@ export function createCarItem(): HTMLLIElement {
     onClick: () => {
       console.log('return');
     },
+    signal,
   });
 
   const deleteButton = createButton({
     textContent: BUTTON_TEXT_CONTENT.DELETE,
     onClick: () => {
       console.log('delete');
+      abortController.abort();
+      trackItem.remove();
     },
+    signal,
   });
 
   const buttonsContainer = div({}, [startButton, returnButton, deleteButton]);
