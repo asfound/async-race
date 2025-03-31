@@ -42,4 +42,8 @@ export const button = createElementFactory(TAG_NAME.BUTTON);
 
 export const div = createElementFactory(TAG_NAME.DIV);
 
+export const li = createElementFactory(TAG_NAME.LI);
+
 export const main = createElementFactory(TAG_NAME.MAIN);
+
+export const ul = createElementFactory(TAG_NAME.UL);
