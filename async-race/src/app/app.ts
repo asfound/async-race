@@ -2,8 +2,8 @@ import { createButton } from '~/app/components/button/button';
 import { BUTTON_TEXT_CONTENT } from '~/app/constants/constants';
 import { div, main } from '~/app/utils/create-element';
 
-import { renderGarage } from './pages/render-garage';
-import { renderWinners } from './pages/render-winners';
+import { createGaragePage } from './pages/garage';
+import { createWinnersPage } from './pages/winners';
 import { Route } from './router/route';
 import { initRouter, navigate } from './router/router';
 
@@ -29,8 +29,8 @@ export function initApp(): void {
   initRouter({
     root,
     routes: {
-      [Route.GARAGE]: renderGarage,
-      [Route.WINNERS]: renderWinners,
+      [Route.GARAGE]: createGaragePage,
+      [Route.WINNERS]: createWinnersPage,
     },
   });
 }

@@ -1,5 +1,5 @@
 import { div } from '../utils/create-element';
 
-export function renderWinners(): HTMLElement {
+export function createWinnersPage(): HTMLElement {
   return div({}, ['Winners']);
 }
