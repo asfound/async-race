@@ -1,5 +1,6 @@
 export const TAG_NAME = {
   BUTTON: 'button',
+  DIV: 'div',
   MAIN: 'main',
 } as const;
 
