@@ -17,9 +17,10 @@ export const BUTTON_TEXT_CONTENT = {
   GARAGE: 'Garage',
   WINNERS: 'Winners',
 
-  START: 'Start',
-  RETURN: 'Return',
+  EDIT: 'Edit',
   DELETE: 'Delete',
+  RETURN: 'Return',
+  START: 'Start',
 } as const;
 
 export const COLOR_MODEL: string[] = ['red', 'green', 'blue'];
