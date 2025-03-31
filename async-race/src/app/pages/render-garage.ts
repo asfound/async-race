@@ -3,5 +3,6 @@ import { div } from '../utils/create-element';
 
 export function renderGarage(): HTMLElement {
   console.log(getCars());
+
   return div({}, ['Garage']);
 }
