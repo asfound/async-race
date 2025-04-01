@@ -1,12 +1,58 @@
+import type { CarItemProperties } from '../types/interfaces';
+
 export function isNonNullable<T>(value: T): value is NonNullable<T> {
   return value !== null && value !== undefined;
 }
 
-// TODO remove magic string
+// TODO remove magic strings
 export function assertIsSVGElement(
   element: Element | null
 ): asserts element is SVGElement {
   if (!(element instanceof SVGElement)) {
     throw new TypeError('Parsed SVG is not a valid SVGElement');
+  }
+}
+
+function isCarItemProperties(object: unknown): object is CarItemProperties {
+  const isObject = typeof object !== 'object' || object === null;
+
+  if (
+    isObject ||
+    !('id' in object) ||
+    !('name' in object) ||
+    !('color' in object)
+  ) {
+    return false;
+  }
+
+  return (
+    typeof object.id === 'number' ||
+    typeof object.name === 'string' ||
+    typeof object.color === 'string'
+  );
+}
+
+export function assertIsCarItemProperties(
+  object: unknown
+): asserts object is CarItemProperties {
+  if (!isCarItemProperties(object)) {
+    throw new TypeError(`Not valid CarItemProperties values`);
+  }
+}
+
+export function assertIsArray<T>(object: unknown): asserts object is T[] {
+  if (!Array.isArray(object)) {
+    throw new TypeError('Not array');
+  }
+}
+
+export function assertCarItemPropertiesArray(
+  data: unknown
+): asserts data is CarItemProperties[] {
+  if (
+    !Array.isArray(data) ||
+    !data.every((object) => isCarItemProperties(object))
+  ) {
+    throw new Error('Not valid CarItemProperties values or not an array');
   }
 }

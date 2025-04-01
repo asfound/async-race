@@ -3,5 +3,11 @@ export interface ButtonProperties {
   type?: HTMLButtonElement['type'];
   className?: string;
   signal?: AbortSignal;
-  onClick: () => void;
+  onClick: (() => void) | (() => Promise<unknown>);
+}
+
+export interface CarItemProperties {
+  id: number;
+  name: string;
+  color: string;
 }
