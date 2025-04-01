@@ -1,14 +1,15 @@
+import { store } from '~/app/store/store';
+
 import { createButton } from '../../components/button/button';
-import { createCar, getCars } from '../../services/api/async-race-api';
+import { createCar } from '../../services/api/async-race-api';
 import { div, ul } from '../../utils/create-element';
 import { getRandomColor } from '../../utils/get-random-color';
 import { getRandomName } from '../../utils/get-random-name';
-import { loadCars } from './utils/load-cars';
-import { renderCarsList } from './utils/render-cars-list';
+import { loadAndRenderCars } from './utils/load-cars';
+
+const NEXT = 1;
 
 export function createGaragePage(): HTMLElement {
-  console.log(getCars());
-
   const container = div({}, ['Garage']);
   const carsList = ul({});
 
@@ -16,9 +17,8 @@ export function createGaragePage(): HTMLElement {
     textContent: 'Add Car',
     onClick: () => {
       createCar(getRandomName(), getRandomColor())
-        .then(() => loadCars())
-        .then(({ cars }) => {
-          renderCarsList(cars, carsList);
+        .then(() => {
+          loadAndRenderCars(carsList, store.getState().currentPage);
         })
         .catch((error: unknown) => {
           console.error('Error during car creation or loading:', error);
@@ -26,15 +26,21 @@ export function createGaragePage(): HTMLElement {
     },
   });
 
-  loadCars()
-    .then(({ cars }) => {
-      renderCarsList(cars, carsList);
-    })
-    .catch((error: unknown) => {
-      console.error('Error loading cars:', error);
-    });
+  const nextPageButton = createButton({
+    textContent: 'Next',
+    onClick: () => {
+      const { currentPage } = store.getState();
+      store.setState({ currentPage: currentPage + NEXT });
+    },
+  });
 
-  container.append(addCarButton, carsList);
+  loadAndRenderCars(carsList, store.getState().currentPage);
+
+  store.subscribe('stateUpdate', ({ currentPage }) => {
+    loadAndRenderCars(carsList, currentPage);
+  });
+
+  container.append(addCarButton, nextPageButton, carsList);
 
   return container;
 }

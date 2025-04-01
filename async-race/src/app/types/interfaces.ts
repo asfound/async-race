@@ -3,7 +3,7 @@ export interface ButtonProperties {
   type?: HTMLButtonElement['type'];
   className?: string;
   signal?: AbortSignal;
-  onClick: (() => void) | (() => Promise<unknown>);
+  onClick: () => void;
 }
 
 export interface CarItemProperties {

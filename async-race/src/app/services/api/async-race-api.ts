@@ -12,10 +12,9 @@ const PATH = {
 } as const;
 
 const CARS_PER_PAGE = 7;
-const FIRST_PAGE = 1;
 
 export async function getCars(
-  page = FIRST_PAGE
+  page: number
 ): Promise<{ cars: CarItemProperties[]; totalCount: number }> {
   const query = new URLSearchParams();
 
