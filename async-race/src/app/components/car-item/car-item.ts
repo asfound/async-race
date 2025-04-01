@@ -5,6 +5,7 @@ import { div, li, p } from '~/app/utils/create-element';
 import { createSVGElement } from '~/app/utils/create-svg-icon';
 import carSVG from '~/assets/icons/car.svg?raw';
 
+import styles from './car-item.module.css';
 import { createItemControls } from './item-controls/item-controls';
 
 export function createCarItem({
@@ -23,7 +24,7 @@ export function createCarItem({
     id
   );
 
-  const carName = p({ textContent: name });
+  const carName = p({ textContent: name, className: styles.name });
 
   const carIcon = createSVGElement(
     carSVG,
