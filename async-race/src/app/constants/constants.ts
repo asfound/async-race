@@ -55,16 +55,16 @@ export const PAD_LENGTH = 2;
 export const PAD_VALUE = '0';
 
 export const CAR_MODELS: Record<string, string[]> = {
-  Tesla: ['Model X', 'Model S', 'Model 3', 'Model Y', 'Cybertruck'],
-  BMW: ['i3', 'i4', 'i8', 'M4', 'X5'],
-  Audi: ['A3', 'A4', 'Q7', 'Q5', 'e-tron'],
-  Mercedes: ['A-Class', 'C-Class', 'E-Class', 'S-Class', 'GLC'],
-  Ford: ['Mustang', 'F-150', 'Explorer', 'Focus', 'Bronco'],
-  Toyota: ['Camry', 'Corolla', 'Highlander', 'RAV4', 'Prius'],
-  Chevrolet: ['Malibu', 'Impala', 'Tahoe', 'Silverado', 'Bolt EV'],
-  Volkswagen: ['Golf', 'Passat', 'Tiguan', 'ID.4', 'Beetle'],
-  Nissan: ['Altima', 'Maxima', '370Z', 'Leaf', 'Rogue'],
-  Subaru: ['Outback', 'Impreza', 'Forester', 'Crosstrek', 'Legacy'],
-  Ferrari: ['488 GTB', 'Portofino', 'LaFerrari', 'F8 Tributo', 'GTC4Lusso'],
-  Bugatti: ['Chiron', 'Veyron', 'Divo', 'Bolide', 'Chiron Pur Sport'],
+  Pussla: ['Model X', 'Model S', 'Model 3', 'Model Y', 'Cybertruck'],
+  BMeoW: ['i3', 'i4', 'i8', 'M4', 'X5'],
+  Meowdi: ['A3', 'A4', 'Q7', 'Q5', 'e-tron'],
+  Murcedes: ['A-Class', 'C-Class', 'E-Class', 'S-Class', 'GLC'],
+  Furd: ['Mustang', 'F-150', 'Explorer', 'Focus', 'Bronco'],
+  Nekoyota: ['Camry', 'Corolla', 'Highlander', 'RAV4', 'Prius'],
+  Chevrocat: ['Malibu', 'Impala', 'Tahoe', 'Silverado', 'Bolt EV'],
+  Catswagen: ['Golf', 'Pussat', 'Tiguan', 'ID.4', 'Beetle'],
+  Nyanssan: ['Altima', 'Maxima', '370Z', 'Leaf', 'Rogue'],
+  Subeowru: ['Outback', 'Impreza', 'Forester', 'Crosstrek', 'Legacy'],
+  Purrari: ['488 GTB', 'Portofino', 'LaFerrari', 'F8 Tributo', 'GTC4Lusso'],
+  Murgatti: ['Chiron', 'Veyron', 'Divo', 'Bolide', 'Chiron Purr Sport'],
 };
