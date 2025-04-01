@@ -1,3 +1,8 @@
+import type { CarItemProperties } from '~/app/types/interfaces';
+
+import { DEFAULT_NUMBER_VALUE } from '~/app/constants/constants';
+import { assertCarItemPropertiesArray } from '~/app/utils/type-guards';
+
 const BASE_URL = 'http://127.0.0.1:3000';
 
 const PATH = {
@@ -9,7 +14,9 @@ const PATH = {
 const CARS_PER_PAGE = 7;
 const FIRST_PAGE = 1;
 
-export async function getCars(page = FIRST_PAGE): Promise<void> {
+export async function getCars(
+  page = FIRST_PAGE
+): Promise<{ cars: CarItemProperties[]; totalCount: number }> {
   const query = new URLSearchParams();
 
   query.append('_page', page.toString());
@@ -18,9 +25,15 @@ export async function getCars(page = FIRST_PAGE): Promise<void> {
   const response = await fetch(`${BASE_URL}${PATH.GARAGE}?${query.toString()}`);
 
   const cars: unknown = await response.json();
-  const totalCount = response.headers.get('X-Total-Count');
+
+  assertCarItemPropertiesArray(cars);
+
+  const totalCount =
+    Number(response.headers.get('X-Total-Count')) || DEFAULT_NUMBER_VALUE;
 
   console.log(cars, totalCount);
+
+  return { cars, totalCount };
 }
 
 export async function getCar(id: number): Promise<void> {

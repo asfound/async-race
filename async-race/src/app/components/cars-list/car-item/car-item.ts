@@ -1,12 +1,17 @@
+import type { CarItemProperties } from '~/app/types/interfaces';
+
 import { CAR_ICON_SIZE } from '~/app/constants/constants';
-import { div, li } from '~/app/utils/create-element';
+import { div, li, p } from '~/app/utils/create-element';
 import { createSVGElement } from '~/app/utils/create-svg-icon';
-import { getRandomColor } from '~/app/utils/get-random-color';
 import carSVG from '~/assets/icons/car.svg?raw';
 
 import { createItemControls } from './item-controls/item-controls';
 
-export function createCarItem(): HTMLLIElement {
+export function createCarItem({
+  id,
+  name,
+  color,
+}: CarItemProperties): HTMLLIElement {
   const trackItem = li({});
   const abortController = new AbortController();
   const { signal } = abortController;
@@ -14,18 +19,21 @@ export function createCarItem(): HTMLLIElement {
   const buttonsContainer = createItemControls(
     trackItem,
     abortController,
-    signal
+    signal,
+    id
   );
+
+  const carName = p({ textContent: name });
 
   const carIcon = createSVGElement(
     carSVG,
-    getRandomColor(),
+    color,
     CAR_ICON_SIZE.WIDTH,
     CAR_ICON_SIZE.HEIGHT
   );
 
   const carTrack = div({}, [carIcon]);
 
-  trackItem.append(buttonsContainer, carTrack);
+  trackItem.append(buttonsContainer, carName, carTrack);
   return trackItem;
 }

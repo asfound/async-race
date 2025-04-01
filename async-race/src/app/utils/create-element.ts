@@ -46,4 +46,6 @@ export const li = createElementFactory(TAG_NAME.LI);
 
 export const main = createElementFactory(TAG_NAME.MAIN);
 
+export const p = createElementFactory(TAG_NAME.P);
+
 export const ul = createElementFactory(TAG_NAME.UL);

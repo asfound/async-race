@@ -1,11 +1,13 @@
 import { createButton } from '~/app/components/button/button';
 import { BUTTON_TEXT_CONTENT } from '~/app/constants/constants';
+import { deleteCar } from '~/app/services/api/async-race-api';
 import { div } from '~/app/utils/create-element';
 
 export function createItemControls(
   trackItem: HTMLLIElement,
   abortController: AbortController,
-  signal: AbortSignal
+  signal: AbortSignal,
+  id: number
 ): HTMLElement {
   const buttons = [
     {
@@ -28,8 +30,9 @@ export function createItemControls(
     },
     {
       text: BUTTON_TEXT_CONTENT.DELETE,
-      action: (): void => {
+      action: async (): Promise<void> => {
         console.log('delete');
+        await deleteCar(id);
         abortController.abort();
         trackItem.remove();
       },
