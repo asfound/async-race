@@ -1,49 +1,10 @@
-import { BUTTON_TEXT_CONTENT, CAR_ICON_SIZE } from '~/app/constants/constants';
+import { CAR_ICON_SIZE } from '~/app/constants/constants';
 import { div, li } from '~/app/utils/create-element';
 import { createSVGElement } from '~/app/utils/create-svg-icon';
 import { getRandomColor } from '~/app/utils/get-random-color';
 import carSVG from '~/assets/icons/car.svg?raw';
 
-import { createButton } from '../../button/button';
-
-function createItemControls(
-  trackItem: HTMLLIElement,
-  abortController: AbortController,
-  signal: AbortSignal
-): HTMLElement {
-  const buttons = [
-    {
-      text: BUTTON_TEXT_CONTENT.START,
-      action: (): void => {
-        console.log('start');
-      },
-    },
-    {
-      text: BUTTON_TEXT_CONTENT.RETURN,
-      action: (): void => {
-        console.log('return');
-      },
-    },
-    {
-      text: BUTTON_TEXT_CONTENT.EDIT,
-      action: (): void => {
-        console.log('edit');
-      },
-    },
-    {
-      text: BUTTON_TEXT_CONTENT.DELETE,
-      action: (): void => {
-        console.log('delete');
-        abortController.abort();
-        trackItem.remove();
-      },
-    },
-  ].map(({ text, action }) =>
-    createButton({ textContent: text, onClick: action, signal })
-  );
-
-  return div({}, buttons);
-}
+import { createItemControls } from './item-controls/item-controls';
 
 export function createCarItem(): HTMLLIElement {
   const trackItem = li({});
