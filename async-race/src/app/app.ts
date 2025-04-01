@@ -2,8 +2,8 @@ import { createButton } from '~/app/components/button/button';
 import { BUTTON_TEXT_CONTENT } from '~/app/constants/constants';
 import { div, main } from '~/app/utils/create-element';
 
-import { createGaragePage } from './pages/garage';
-import { createWinnersPage } from './pages/winners';
+import { createGaragePage } from './pages/garage/garage-page';
+import { createWinnersPage } from './pages/winners/winners-page';
 import { Route } from './router/route';
 import { initRouter, navigate } from './router/router';
 
