@@ -2,13 +2,17 @@ import type { Listener } from '../utils/event-emitter';
 
 import { EventEmitter } from '../utils/event-emitter';
 
+export enum EventType {
+  PAGE_CHANGE = 'pageChange',
+}
+
 export interface State {
   currentPage: number;
 }
 
 interface Store {
   getState: () => State;
-  setState: (newState: Partial<State>) => void;
+  setPage: (newState: Partial<State>) => void;
   subscribe: (event: string, callback: Listener) => void;
 }
 
@@ -19,9 +23,9 @@ export function createStore(initialState: State): Store {
   return {
     getState: (): State => state,
 
-    setState: (newState: Partial<State>): void => {
+    setPage: (newState: Partial<State>): void => {
       Object.assign(state, newState);
-      eventBus.emit('stateUpdate', state);
+      eventBus.emit(EventType.PAGE_CHANGE, newState);
     },
 
     subscribe: (event: string, callback: Listener): void => {
@@ -30,6 +34,7 @@ export function createStore(initialState: State): Store {
   };
 }
 
-const DEFAULT_STATE: State = { currentPage: 1 };
+export const DEFAULT_PAGE = 1;
+const DEFAULT_STATE: State = { currentPage: DEFAULT_PAGE };
 
 export const store = createStore(DEFAULT_STATE);

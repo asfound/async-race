@@ -1,4 +1,4 @@
-import { store } from '~/app/store/store';
+import { DEFAULT_PAGE, EventType, store } from '~/app/store/store';
 
 import { createButton } from '../../components/button/button';
 import { createCar } from '../../services/api/async-race-api';
@@ -30,13 +30,13 @@ export function createGaragePage(): HTMLElement {
     textContent: 'Next',
     onClick: () => {
       const { currentPage } = store.getState();
-      store.setState({ currentPage: currentPage + NEXT });
+      store.setPage({ currentPage: currentPage + NEXT });
     },
   });
 
   loadAndRenderCars(carsList, store.getState().currentPage);
 
-  store.subscribe('stateUpdate', ({ currentPage }) => {
+  store.subscribe(EventType.PAGE_CHANGE, ({ currentPage = DEFAULT_PAGE }) => {
     loadAndRenderCars(carsList, currentPage);
   });
 

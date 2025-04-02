@@ -1,6 +1,6 @@
 import type { State } from '../store/store';
 
-export type Listener = (data: State) => void;
+export type Listener = (data: Partial<State>) => void;
 
 export class EventEmitter {
   private readonly events = new Map<string, Listener[]>();
@@ -22,7 +22,7 @@ export class EventEmitter {
     }
   }
 
-  public emit(event: string, data: State): void {
+  public emit(event: string, data: Partial<State>): void {
     const listeners = this.events.get(event);
     if (listeners) {
       for (const callback of listeners) {
