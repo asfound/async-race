@@ -11,6 +11,7 @@ import { createCar } from '../../services/api/async-race-api';
 import { div, span, ul } from '../../utils/create-element';
 import { getRandomColor } from '../../utils/get-random-color';
 import { getRandomName } from '../../utils/get-random-name';
+import { checkIfOnCurrent, checkIfOnLast } from './utils/check-page';
 import { loadCars } from './utils/load-cars';
 
 export function createGaragePage(): HTMLElement {
@@ -25,7 +26,15 @@ export function createGaragePage(): HTMLElement {
     onClick: () => {
       createCar(getRandomName(), getRandomColor())
         .then(() => {
-          loadCars(carsList, store.getState().currentPage);
+          const { currentPage, carsCount: currentCount } = store.getState();
+
+          const updatedCount = currentCount + DEFAULT_INCREMENT;
+
+          store.setCount({ carsCount: updatedCount });
+
+          if (checkIfOnCurrent(currentPage, updatedCount)) {
+            loadCars(carsList, store.getState().currentPage);
+          }
         })
         .catch((error: unknown) => {
           console.error('Error during car creation or loading:', error);
@@ -58,6 +67,8 @@ function createPaginationControls(store: Store): HTMLElement {
       if (currentPage === DEFAULT_PAGE + DEFAULT_INCREMENT) {
         previousPageButton.disabled = true;
       }
+
+      nextPageButton.disabled = false;
     },
   });
 
@@ -68,11 +79,18 @@ function createPaginationControls(store: Store): HTMLElement {
   const nextPageButton = createButton({
     textContent: BUTTON_TEXT_CONTENT.NEXT,
     onClick: () => {
-      const { currentPage } = store.getState();
-      store.setPage({ currentPage: currentPage + DEFAULT_INCREMENT });
+      const { currentPage, carsCount } = store.getState();
+
+      const nextPage = currentPage + DEFAULT_INCREMENT;
+
+      store.setPage({ currentPage: nextPage });
 
       if (currentPage === DEFAULT_PAGE) {
         previousPageButton.disabled = false;
+      }
+
+      if (checkIfOnLast(nextPage, carsCount)) {
+        nextPageButton.disabled = true;
       }
     },
   });

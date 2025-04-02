@@ -1,6 +1,6 @@
 import type { CarItemProperties } from '~/app/types/interfaces';
 
-import { DEFAULT_NUMBER_VALUE } from '~/app/constants/constants';
+import { CARS_PER_PAGE, DEFAULT_NUMBER_VALUE } from '~/app/constants/constants';
 import { assertCarItemPropertiesArray } from '~/app/utils/type-guards';
 
 const BASE_URL = 'http://127.0.0.1:3000';
@@ -10,8 +10,6 @@ const PATH = {
   ENGINE: '/engine',
   WINNERS: '/winners',
 } as const;
-
-const CARS_PER_PAGE = 7;
 
 export async function getCars(
   page: number

@@ -1,6 +1,11 @@
 import { createButton } from '~/app/components/button/button';
-import { BUTTON_TEXT_CONTENT, EVENT_NAME } from '~/app/constants/constants';
+import {
+  BUTTON_TEXT_CONTENT,
+  DEFAULT_INCREMENT,
+  EVENT_NAME,
+} from '~/app/constants/constants';
 import { deleteCar } from '~/app/services/api/async-race-api';
+import { store } from '~/app/store/store';
 import { div } from '~/app/utils/create-element';
 
 import styles from './item-controls.module.css';
@@ -37,6 +42,11 @@ export function createItemControls(
     console.log('delete');
     deleteCar(id)
       .then(() => {
+        const currentCount = store.getState().carsCount;
+        store.setCount({ carsCount: currentCount - DEFAULT_INCREMENT });
+
+        const currentPage = store.getState().currentPage;
+        store.setPage({ currentPage });
         trackItem.remove();
       })
       .catch((error: unknown) => {
