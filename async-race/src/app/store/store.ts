@@ -10,7 +10,7 @@ export interface State {
   currentPage: number;
 }
 
-interface Store {
+export interface Store {
   getState: () => State;
   setPage: (newState: Partial<State>) => void;
   subscribe: (event: string, callback: Listener) => void;

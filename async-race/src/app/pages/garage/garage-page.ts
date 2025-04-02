@@ -1,3 +1,5 @@
+import type { Store } from '~/app/store/store';
+
 import {
   BUTTON_TEXT_CONTENT,
   DEFAULT_INCREMENT,
@@ -13,7 +15,10 @@ import { loadCars } from './utils/load-cars';
 
 export function createGaragePage(): HTMLElement {
   const container = div({}, ['Garage']);
+
   const carsList = ul({});
+
+  const paginationControls = createPaginationControls(store);
 
   const addCarButton = createButton({
     textContent: BUTTON_TEXT_CONTENT.ADD_CAR,
@@ -28,17 +33,21 @@ export function createGaragePage(): HTMLElement {
     },
   });
 
-  const nextPageButton = createButton({
-    textContent: BUTTON_TEXT_CONTENT.NEXT,
-    onClick: () => {
-      const { currentPage } = store.getState();
-      store.setPage({ currentPage: currentPage + DEFAULT_INCREMENT });
+  loadCars(carsList, store.getState().currentPage);
 
-      if (currentPage === DEFAULT_PAGE) {
-        previousPageButton.disabled = false;
-      }
-    },
+  store.subscribe(EventType.PAGE_CHANGE, ({ currentPage = DEFAULT_PAGE }) => {
+    loadCars(carsList, currentPage);
   });
+
+  container.append(addCarButton, paginationControls, carsList);
+
+  return container;
+}
+
+function createPaginationControls(store: Store): HTMLElement {
+  const paginationContainer = div({});
+
+  const currentPage = store.getState().currentPage;
 
   const previousPageButton = createButton({
     textContent: BUTTON_TEXT_CONTENT.PREVIOUS,
@@ -52,26 +61,31 @@ export function createGaragePage(): HTMLElement {
     },
   });
 
-  previousPageButton.disabled = true;
+  const pageNumber = span({
+    textContent: String(currentPage),
+  });
 
-  const currentPage = store.getState().currentPage;
+  const nextPageButton = createButton({
+    textContent: BUTTON_TEXT_CONTENT.NEXT,
+    onClick: () => {
+      const { currentPage } = store.getState();
+      store.setPage({ currentPage: currentPage + DEFAULT_INCREMENT });
 
-  const pageNumber = span({ textContent: String(currentPage) });
+      if (currentPage === DEFAULT_PAGE) {
+        previousPageButton.disabled = false;
+      }
+    },
+  });
 
-  loadCars(carsList, currentPage);
+  if (currentPage === DEFAULT_PAGE) {
+    previousPageButton.disabled = true;
+  }
 
   store.subscribe(EventType.PAGE_CHANGE, ({ currentPage = DEFAULT_PAGE }) => {
-    loadCars(carsList, currentPage);
     pageNumber.textContent = String(currentPage);
   });
 
-  container.append(
-    addCarButton,
-    previousPageButton,
-    pageNumber,
-    nextPageButton,
-    carsList
-  );
+  paginationContainer.append(previousPageButton, pageNumber, nextPageButton);
 
-  return container;
+  return paginationContainer;
 }
