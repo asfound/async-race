@@ -5,7 +5,7 @@ import { createCar } from '../../services/api/async-race-api';
 import { div, ul } from '../../utils/create-element';
 import { getRandomColor } from '../../utils/get-random-color';
 import { getRandomName } from '../../utils/get-random-name';
-import { loadAndRenderCars } from './utils/load-cars';
+import { loadCars } from './utils/load-cars';
 
 const NEXT = 1;
 
@@ -18,7 +18,7 @@ export function createGaragePage(): HTMLElement {
     onClick: () => {
       createCar(getRandomName(), getRandomColor())
         .then(() => {
-          loadAndRenderCars(carsList, store.getState().currentPage);
+          loadCars(carsList, store.getState().currentPage);
         })
         .catch((error: unknown) => {
           console.error('Error during car creation or loading:', error);
@@ -34,10 +34,10 @@ export function createGaragePage(): HTMLElement {
     },
   });
 
-  loadAndRenderCars(carsList, store.getState().currentPage);
+  loadCars(carsList, store.getState().currentPage);
 
   store.subscribe(EventType.PAGE_CHANGE, ({ currentPage = DEFAULT_PAGE }) => {
-    loadAndRenderCars(carsList, currentPage);
+    loadCars(carsList, currentPage);
   });
 
   container.append(addCarButton, nextPageButton, carsList);

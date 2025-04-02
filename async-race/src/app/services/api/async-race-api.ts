@@ -21,18 +21,24 @@ export async function getCars(
   query.append('_page', page.toString());
   query.append('_limit', CARS_PER_PAGE.toString());
 
-  const response = await fetch(`${BASE_URL}${PATH.GARAGE}?${query.toString()}`);
+  try {
+    const response = await fetch(
+      `${BASE_URL}${PATH.GARAGE}?${query.toString()}`
+    );
 
-  const cars: unknown = await response.json();
+    const cars: unknown = await response.json();
 
-  assertCarItemPropertiesArray(cars);
+    assertCarItemPropertiesArray(cars);
 
-  const totalCount =
-    Number(response.headers.get('X-Total-Count')) || DEFAULT_NUMBER_VALUE;
+    const totalCount =
+      Number(response.headers.get('X-Total-Count')) || DEFAULT_NUMBER_VALUE;
 
-  console.log(cars, totalCount);
+    console.log(cars, totalCount);
 
-  return { cars, totalCount };
+    return { cars, totalCount };
+  } catch {
+    return { cars: [], totalCount: DEFAULT_NUMBER_VALUE };
+  }
 }
 
 export async function getCar(id: number): Promise<void> {
