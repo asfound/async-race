@@ -11,7 +11,6 @@ export const createButton = (
     type = DEFAULT_BUTTON_TYPE,
     className,
     onClick,
-    signal,
   } = properties;
 
   const buttonElement = button({
@@ -23,9 +22,7 @@ export const createButton = (
     buttonElement.classList.add(className);
   }
 
-  if (signal) {
-    buttonElement.addEventListener(EVENT_NAME.CLICK, onClick, { signal });
-  } else {
+  if (onClick) {
     buttonElement.addEventListener(EVENT_NAME.CLICK, onClick);
   }
 
