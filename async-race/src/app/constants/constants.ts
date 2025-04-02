@@ -4,6 +4,7 @@ export const TAG_NAME = {
   LI: 'li',
   MAIN: 'main',
   P: 'p',
+  SPAN: 'span',
   SVG: 'svg',
   UL: 'ul',
 } as const;
@@ -17,6 +18,10 @@ export const DEFAULT_BUTTON_TYPE = 'button';
 export const BUTTON_TEXT_CONTENT = {
   GARAGE: 'Garage',
   WINNERS: 'Winners',
+
+  ADD_CAR: 'Add Car',
+  NEXT: 'Next',
+  PREVIOUS: 'Previous',
 
   EDIT: 'Edit',
   DELETE: 'Delete',
@@ -50,6 +55,7 @@ export const MIME_TYPE = {
 
 export const EMPTY_STRING = '';
 export const DEFAULT_NUMBER_VALUE = 0;
+export const DEFAULT_INCREMENT = 1;
 export const HEX_BASE = 16;
 export const PAD_LENGTH = 2;
 export const PAD_VALUE = '0';

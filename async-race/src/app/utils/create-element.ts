@@ -48,4 +48,6 @@ export const main = createElementFactory(TAG_NAME.MAIN);
 
 export const p = createElementFactory(TAG_NAME.P);
 
+export const span = createElementFactory(TAG_NAME.SPAN);
+
 export const ul = createElementFactory(TAG_NAME.UL);
