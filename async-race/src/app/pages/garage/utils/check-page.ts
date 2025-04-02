@@ -13,5 +13,5 @@ export function checkIfOnLast(
   totalCount: number
 ): boolean {
   const lastPage = Math.ceil(totalCount / CARS_PER_PAGE);
-  return currentPage === lastPage;
+  return currentPage >= lastPage;
 }

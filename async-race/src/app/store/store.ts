@@ -6,6 +6,7 @@ import { EventEmitter } from '../utils/event-emitter';
 
 export enum EventType {
   PAGE_CHANGE = 'pageChange',
+  COUNT_CHANGE = 'countChange',
 }
 
 export interface State {
@@ -34,6 +35,7 @@ export function createStore(initialState: State): Store {
 
     setCount: (newState: Partial<State>): void => {
       Object.assign(state, newState);
+      eventBus.emit(EventType.COUNT_CHANGE, state);
     },
 
     subscribe: (event: string, callback: Listener): void => {

@@ -32,7 +32,7 @@ export function createGaragePage(): HTMLElement {
 
           store.setCount({ carsCount: updatedCount });
 
-          if (checkIfOnCurrent(currentPage, updatedCount)) {
+          if (checkIfOnCurrent(currentPage, currentCount)) {
             loadCars(carsList, store.getState().currentPage);
           }
         })
@@ -56,7 +56,7 @@ export function createGaragePage(): HTMLElement {
 function createPaginationControls(store: Store): HTMLElement {
   const paginationContainer = div({});
 
-  const currentPage = store.getState().currentPage;
+  const { currentPage, carsCount } = store.getState();
 
   const previousPageButton = createButton({
     textContent: BUTTON_TEXT_CONTENT.PREVIOUS,
@@ -99,8 +99,19 @@ function createPaginationControls(store: Store): HTMLElement {
     previousPageButton.disabled = true;
   }
 
+  if (checkIfOnLast(currentPage, carsCount)) {
+    nextPageButton.disabled = true;
+  }
+
   store.subscribe(EventType.PAGE_CHANGE, ({ currentPage = DEFAULT_PAGE }) => {
     pageNumber.textContent = String(currentPage);
+  });
+
+  store.subscribe(EventType.COUNT_CHANGE, ({ currentPage, carsCount }) => {
+    console.log(currentPage, carsCount);
+    if (currentPage && carsCount && !checkIfOnLast(currentPage, carsCount)) {
+      nextPageButton.disabled = false;
+    }
   });
 
   paginationContainer.append(previousPageButton, pageNumber, nextPageButton);
