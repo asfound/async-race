@@ -1,0 +1,13 @@
+.form {
+  padding: 1rem;
+}
+
+.color {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+
+  appearance: none;
+  background: none;
+}
