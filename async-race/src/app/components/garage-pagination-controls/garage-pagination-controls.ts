@@ -23,10 +23,6 @@ export function createPaginationControls(store: Store): HTMLElement {
 
   const nextPageButton = createNextButton(store);
 
-  const carsCounter = span({
-    textContent: `Total cars: ${String(carsCount)}`,
-  });
-
   const setButtonsState = (currentPage: number, carsCount: number): void => {
     nextPageButton.disabled = isOnLast(currentPage, carsCount);
     previousPageButton.disabled = isOnFirst(currentPage);
@@ -46,16 +42,9 @@ export function createPaginationControls(store: Store): HTMLElement {
     if (currentPage && carsCount) {
       setButtonsState(currentPage, carsCount);
     }
-
-    carsCounter.textContent = `Total cars: ${String(carsCount)}`;
   });
 
-  paginationContainer.append(
-    previousPageButton,
-    pageNumber,
-    nextPageButton,
-    carsCounter
-  );
+  paginationContainer.append(previousPageButton, pageNumber, nextPageButton);
 
   return paginationContainer;
 }

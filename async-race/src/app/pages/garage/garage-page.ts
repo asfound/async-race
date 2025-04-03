@@ -10,7 +10,7 @@ import { EventType } from '~/app/types/enums';
 
 import { createCar } from '../../services/api/async-race-api';
 import { isOnCurrent } from '../../utils/check-page';
-import { div, ul } from '../../utils/create-element';
+import { div, span, ul } from '../../utils/create-element';
 import styles from './garage-page.module.css';
 import { loadCars } from './utils/load-cars';
 
@@ -38,18 +38,28 @@ export function createGaragePage(): HTMLElement {
       });
   };
 
+  const { currentPage, carsCount } = store.getState();
+
+  const carsCounter = span({
+    textContent: `Total cars: ${String(carsCount)}`,
+  });
+
   const addCarForm = createSettingsForm(
     BUTTON_TEXT_CONTENT.ADD_CAR,
     addCarHandler
   );
 
-  loadCars(carsList, store.getState().currentPage);
+  loadCars(carsList, currentPage);
 
   store.subscribe(EventType.PAGE_CHANGE, ({ currentPage = DEFAULT_PAGE }) => {
     loadCars(carsList, currentPage);
   });
 
-  container.append(addCarForm, paginationControls, carsList);
+  store.subscribe(EventType.COUNT_CHANGE, ({ carsCount }) => {
+    carsCounter.textContent = `Total cars: ${String(carsCount)}`;
+  });
+
+  container.append(addCarForm, carsCounter, paginationControls, carsList);
 
   return container;
 }
