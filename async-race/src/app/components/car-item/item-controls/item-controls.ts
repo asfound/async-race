@@ -2,6 +2,7 @@ import { createButton } from '~/app/components/button/button';
 import {
   BUTTON_TEXT_CONTENT,
   DEFAULT_INCREMENT,
+  DEFAULT_PAGE,
 } from '~/app/constants/constants';
 import { deleteCar } from '~/app/services/api/async-race-api';
 import { store } from '~/app/store/store';
@@ -48,7 +49,7 @@ export function createItemControls(
         store.setCount({ carsCount: updatedCount });
 
         const updatedPage = isExceeding(currentPage, updatedCount)
-          ? currentPage - DEFAULT_INCREMENT
+          ? currentPage - DEFAULT_INCREMENT || DEFAULT_PAGE
           : currentPage;
 
         store.setPage({ currentPage: updatedPage });
