@@ -1,3 +1,4 @@
+import { createSettingsForm } from '~/app/components/car-settings-form/car-settings-form';
 import { createPaginationControls } from '~/app/components/pagination-controls/pagination-controls';
 import {
   BUTTON_TEXT_CONTENT,
@@ -7,7 +8,6 @@ import {
 import { store } from '~/app/store/store';
 import { EventType } from '~/app/types/enums';
 
-import { createButton } from '../../components/button/button';
 import { createCar } from '../../services/api/async-race-api';
 import { isOnCurrent } from '../../utils/check-page';
 import { div, ul } from '../../utils/create-element';
@@ -23,24 +23,26 @@ export function createGaragePage(): HTMLElement {
 
   const paginationControls = createPaginationControls(store);
 
-  const addCarButton = createButton({
-    textContent: BUTTON_TEXT_CONTENT.ADD_CAR,
-    onClick: () => {
-      createCar(getRandomName(), getRandomColor())
-        .then(() => {
-          const { currentPage, carsCount: currentCount } = store.getState();
+  const addCarHandler = (): void => {
+    createCar(getRandomName(), getRandomColor())
+      .then(() => {
+        const { currentPage, carsCount: currentCount } = store.getState();
 
-          if (isOnCurrent(currentPage, currentCount)) {
-            loadCars(carsList, currentPage);
-          }
+        if (isOnCurrent(currentPage, currentCount)) {
+          loadCars(carsList, currentPage);
+        }
 
-          store.setCount({ carsCount: currentCount + DEFAULT_INCREMENT });
-        })
-        .catch((error: unknown) => {
-          console.error('Error during car creation or loading:', error);
-        });
-    },
-  });
+        store.setCount({ carsCount: currentCount + DEFAULT_INCREMENT });
+      })
+      .catch((error: unknown) => {
+        console.error('Error during car creation or loading:', error);
+      });
+  };
+
+  const addCarForm = createSettingsForm(
+    BUTTON_TEXT_CONTENT.ADD_CAR,
+    addCarHandler
+  );
 
   loadCars(carsList, store.getState().currentPage);
 
@@ -48,7 +50,7 @@ export function createGaragePage(): HTMLElement {
     loadCars(carsList, currentPage);
   });
 
-  container.append(addCarButton, paginationControls, carsList);
+  container.append(addCarForm, paginationControls, carsList);
 
   return container;
 }

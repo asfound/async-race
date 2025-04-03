@@ -28,6 +28,8 @@ export const HTTP_METHOD = {
 export const TAG_NAME = {
   BUTTON: 'button',
   DIV: 'div',
+  FORM: 'form',
+  INPUT: 'input',
   LI: 'li',
   MAIN: 'main',
   P: 'p',

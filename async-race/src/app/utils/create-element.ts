@@ -42,6 +42,10 @@ export const button = createElementFactory(TAG_NAME.BUTTON);
 
 export const div = createElementFactory(TAG_NAME.DIV);
 
+export const form = createElementFactory(TAG_NAME.FORM);
+
+export const input = createElementFactory(TAG_NAME.INPUT);
+
 export const li = createElementFactory(TAG_NAME.LI);
 
 export const main = createElementFactory(TAG_NAME.MAIN);
