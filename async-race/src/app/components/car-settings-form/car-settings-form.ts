@@ -16,6 +16,7 @@ export function createSettingsForm(
   const formElement = form({ className: styles.form, method: 'dialog' });
 
   const nameInput = input({
+    className: styles.name,
     type: INPUT_TYPE.TEXT,
     placeholder: PLACEHOLDERS.NAME,
   });

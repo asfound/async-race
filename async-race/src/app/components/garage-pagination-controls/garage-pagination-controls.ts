@@ -6,9 +6,10 @@ import { isOnLast, isOnFirst } from '~/app/utils/check-page';
 import { div, span } from '~/app/utils/create-element';
 
 import { createButton } from '../button/button';
+import styles from './garage-pagination-controls.module.css';
 
 export function createPaginationControls(store: Store): HTMLElement {
-  const paginationContainer = div({});
+  const paginationContainer = div({ className: styles.container });
 
   const previousPageButton = createPreviousButton(store);
 

@@ -1,6 +1,31 @@
+.form {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.name {
+  margin: 0;
+  padding: 0;
+  padding-left: 0.5rem;
+  border: 2px transparent solid;
+
+  font: inherit;
+
+  outline: none;
+}
+
+.name:focus {
+  border: 2px var(--accent) solid;
+}
+
+.name:focus::placeholder {
+  color: var(--white);
+}
+
 .color {
-  width: 2rem;
+  width: 1.8rem;
   height: 2rem;
+  margin: 0;
   padding: 0;
   border: none;
 

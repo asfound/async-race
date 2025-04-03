@@ -1,6 +1,6 @@
 import { createButton } from '~/app/components/button/button';
 import { BUTTON_TEXT } from '~/app/constants/constants';
-import { main, section } from '~/app/utils/create-element';
+import { div, main, section } from '~/app/utils/create-element';
 
 import styles from './app.module.css';
 import { createGaragePage } from './pages/garage/garage-page';
@@ -9,6 +9,8 @@ import { Route } from './router/route';
 import { initRouter, navigate } from './router/router';
 
 export function initApp(): void {
+  const buttonsContainer = div({ className: styles.container });
+
   const garageButton = createButton({
     textContent: BUTTON_TEXT.GARAGE,
     onClick: () => {
@@ -23,10 +25,10 @@ export function initApp(): void {
     },
   });
 
-  const mainElement = main({ className: styles.main }, [
-    garageButton,
-    winnersButton,
-  ]);
+  buttonsContainer.append(garageButton, winnersButton);
+
+  const mainElement = main({ className: styles.main }, [buttonsContainer]);
+
   const root = section({});
 
   mainElement.append(root);
