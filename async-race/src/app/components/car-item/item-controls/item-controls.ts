@@ -17,62 +17,6 @@ export function createItemControls(
   trackItem: HTMLLIElement,
   id: number
 ): HTMLElement {
-  const startButton = createButton({
-    textContent: BUTTON_TEXT_CONTENT.START,
-  });
-
-  const returnButton = createButton({
-    textContent: BUTTON_TEXT_CONTENT.RETURN,
-  });
-
-  const deleteButton = createButton({
-    textContent: BUTTON_TEXT_CONTENT.DELETE,
-  });
-
-  const editButton = createButton({
-    textContent: BUTTON_TEXT_CONTENT.EDIT,
-  });
-
-  const startHandler = (): void => {
-    console.log(`start ${String(id)}`);
-  };
-
-  const returnHandler = (): void => {
-    console.log(`return ${String(id)}`);
-  };
-
-  const deleteHandler = (): void => {
-    deleteCar(id)
-      .then(() => {
-        const { currentPage, carsCount: currentCount } = store.getState();
-
-        const updatedCount = currentCount - DEFAULT_INCREMENT;
-
-        store.setCount({ carsCount: updatedCount });
-
-        const updatedPage = isExceeding(currentPage, updatedCount)
-          ? currentPage - DEFAULT_INCREMENT || DEFAULT_PAGE
-          : currentPage;
-
-        store.setPage({ currentPage: updatedPage });
-
-        trackItem.remove();
-      })
-      .catch((error: unknown) => {
-        console.error('Error deleting car:', error);
-      });
-  };
-
-  const editHandler = (): void => {
-    const settingsForm = createSettingsForm(
-      BUTTON_TEXT_CONTENT.SAVE,
-      updateHandler
-    );
-    const modalWindow = createModal(settingsForm);
-    document.body.prepend(modalWindow);
-    modalWindow.showModal();
-  };
-
   const updateHandler = (name: string, color: string): void => {
     updateCar({ id, name, color }).catch((error: unknown) => {
       console.error('Error updating car:', error);
@@ -82,13 +26,81 @@ export function createItemControls(
     store.setPage({ currentPage });
   };
 
+  const startButton = createButton({
+    textContent: BUTTON_TEXT_CONTENT.START,
+  });
+
+  const returnButton = createButton({
+    textContent: BUTTON_TEXT_CONTENT.RETURN,
+  });
+
+  const deleteButton = createDeleteButton(trackItem, id);
+
+  const editButton = createEditButton(updateHandler);
+
+  const startHandler = (): void => {
+    console.log(`start ${String(id)}`);
+  };
+
+  const returnHandler = (): void => {
+    console.log(`return ${String(id)}`);
+  };
+
   startButton.addEventListener('click', startHandler);
   returnButton.addEventListener('click', returnHandler);
-  deleteButton.addEventListener('click', deleteHandler);
-  editButton.addEventListener('click', editHandler);
 
   const buttonsContainer = div({ className: styles.container });
   buttonsContainer.append(startButton, returnButton, deleteButton, editButton);
 
   return buttonsContainer;
+}
+
+function createDeleteButton(
+  trackItem: HTMLLIElement,
+  id: number
+): HTMLButtonElement {
+  return createButton({
+    textContent: BUTTON_TEXT_CONTENT.DELETE,
+    onClick: (): void => {
+      deleteCar(id)
+        .then(() => {
+          const { currentPage, carsCount: currentCount } = store.getState();
+
+          const updatedCount = currentCount - DEFAULT_INCREMENT;
+
+          store.setCount({ carsCount: updatedCount });
+
+          const updatedPage = isExceeding(currentPage, updatedCount)
+            ? currentPage - DEFAULT_INCREMENT || DEFAULT_PAGE
+            : currentPage;
+
+          store.setPage({ currentPage: updatedPage });
+
+          trackItem.remove();
+        })
+        .catch((error: unknown) => {
+          console.error('Error deleting car:', error);
+        });
+    },
+  });
+}
+
+function createEditButton(
+  updateHandler: (name: string, color: string) => void
+): HTMLButtonElement {
+  return createButton({
+    textContent: BUTTON_TEXT_CONTENT.EDIT,
+    onClick: (): void => {
+      const settingsForm = createSettingsForm(
+        BUTTON_TEXT_CONTENT.SAVE,
+        updateHandler
+      );
+
+      const modalWindow = createModal(settingsForm);
+
+      document.body.prepend(modalWindow);
+
+      modalWindow.showModal();
+    },
+  });
 }

@@ -47,7 +47,7 @@ export default [
       '@typescript-eslint/member-ordering': 'error',
       'max-lines-per-function': [
         'error',
-        { max: 60, skipBlankLines: true, skipComments: true },
+        { max: 40, skipBlankLines: true, skipComments: true },
       ],
       'no-magic-numbers': 'error',
       'lines-between-class-members': ['error', 'always'],
