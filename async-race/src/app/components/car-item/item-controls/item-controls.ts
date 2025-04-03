@@ -1,6 +1,6 @@
 import { createButton } from '~/app/components/button/button';
 import {
-  BUTTON_TEXT_CONTENT,
+  BUTTON_TEXT,
   DEFAULT_INCREMENT,
   DEFAULT_PAGE,
 } from '~/app/constants/constants';
@@ -27,11 +27,11 @@ export function createItemControls(
   };
 
   const startButton = createButton({
-    textContent: BUTTON_TEXT_CONTENT.START,
+    textContent: BUTTON_TEXT.START,
   });
 
   const returnButton = createButton({
-    textContent: BUTTON_TEXT_CONTENT.RETURN,
+    textContent: BUTTON_TEXT.RETURN,
   });
 
   const deleteButton = createDeleteButton(trackItem, id);
@@ -60,7 +60,7 @@ function createDeleteButton(
   id: number
 ): HTMLButtonElement {
   return createButton({
-    textContent: BUTTON_TEXT_CONTENT.DELETE,
+    textContent: BUTTON_TEXT.DELETE,
     onClick: (): void => {
       deleteCar(id)
         .then(() => {
@@ -89,12 +89,9 @@ function createEditButton(
   updateHandler: (name: string, color: string) => void
 ): HTMLButtonElement {
   return createButton({
-    textContent: BUTTON_TEXT_CONTENT.EDIT,
+    textContent: BUTTON_TEXT.EDIT,
     onClick: (): void => {
-      const settingsForm = createSettingsForm(
-        BUTTON_TEXT_CONTENT.SAVE,
-        updateHandler
-      );
+      const settingsForm = createSettingsForm(BUTTON_TEXT.SAVE, updateHandler);
 
       const modalWindow = createModal(settingsForm);
 

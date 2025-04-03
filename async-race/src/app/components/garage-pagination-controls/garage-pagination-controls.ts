@@ -1,9 +1,6 @@
 import type { Store } from '~/app/types/interfaces';
 
-import {
-  BUTTON_TEXT_CONTENT,
-  DEFAULT_INCREMENT,
-} from '~/app/constants/constants';
+import { BUTTON_TEXT, DEFAULT_INCREMENT } from '~/app/constants/constants';
 import { EventType } from '~/app/types/enums';
 import { isOnLast, isOnFirst } from '~/app/utils/check-page';
 import { div, span } from '~/app/utils/create-element';
@@ -51,7 +48,7 @@ export function createPaginationControls(store: Store): HTMLElement {
 
 function createPreviousButton(store: Store): HTMLButtonElement {
   return createButton({
-    textContent: BUTTON_TEXT_CONTENT.PREVIOUS,
+    textContent: BUTTON_TEXT.PREVIOUS,
     onClick: () => {
       const { currentPage } = store.getState();
 
@@ -62,7 +59,7 @@ function createPreviousButton(store: Store): HTMLButtonElement {
 
 function createNextButton(store: Store): HTMLButtonElement {
   return createButton({
-    textContent: BUTTON_TEXT_CONTENT.NEXT,
+    textContent: BUTTON_TEXT.NEXT,
     onClick: () => {
       const { currentPage } = store.getState();
 

@@ -1,35 +1,28 @@
 import { createSettingsForm } from '~/app/components/car-settings-form/car-settings-form';
 import { createPaginationControls } from '~/app/components/garage-pagination-controls/garage-pagination-controls';
 import {
-  BUTTON_TEXT_CONTENT,
+  BUTTON_TEXT,
   DEFAULT_INCREMENT,
   DEFAULT_PAGE,
+  EMPTY_COUNT,
+  TITLES,
 } from '~/app/constants/constants';
 import { store } from '~/app/store/store';
 import { EventType } from '~/app/types/enums';
 
 import { createCar } from '../../services/api/async-race-api';
 import { isOnCurrent } from '../../utils/check-page';
-import { div, span, ul } from '../../utils/create-element';
+import { div, h1, span, ul } from '../../utils/create-element';
 import styles from './garage-page.module.css';
 import { loadCars } from './utils/load-cars';
 
 export function createGaragePage(): HTMLElement {
-  const container = div({});
-  // TODO add h1 with garage
+  const { currentPage, carsCount } = store.getState();
 
-  const carsList = ul({ className: styles.list });
-
-  const paginationControls = createPaginationControls(store);
-
-  const addCarHandler = (name: string, color: string): void => {
+  const carAdditionHandler = (name: string, color: string): void => {
     createCar(name, color)
       .then(() => {
-        const { currentPage, carsCount: currentCount } = store.getState();
-
-        if (isOnCurrent(currentPage, currentCount)) {
-          loadCars(carsList, currentPage);
-        }
+        const { carsCount: currentCount } = store.getState();
 
         store.setCount({ carsCount: currentCount + DEFAULT_INCREMENT });
       })
@@ -38,16 +31,24 @@ export function createGaragePage(): HTMLElement {
       });
   };
 
-  const { currentPage, carsCount } = store.getState();
+  const container = div({});
+
+  const pageTitle = h1({ textContent: TITLES.GARAGE });
+
+  const addCarForm = createSettingsForm(
+    BUTTON_TEXT.ADD_CAR,
+    carAdditionHandler
+  );
 
   const carsCounter = span({
     textContent: `Total cars: ${String(carsCount)}`,
   });
 
-  const addCarForm = createSettingsForm(
-    BUTTON_TEXT_CONTENT.ADD_CAR,
-    addCarHandler
-  );
+  container.append(pageTitle, addCarForm, carsCounter);
+
+  const paginationControls = createPaginationControls(store);
+
+  const carsList = ul({ className: styles.list });
 
   loadCars(carsList, currentPage);
 
@@ -55,11 +56,17 @@ export function createGaragePage(): HTMLElement {
     loadCars(carsList, currentPage);
   });
 
-  store.subscribe(EventType.COUNT_CHANGE, ({ carsCount }) => {
+  store.subscribe(EventType.COUNT_CHANGE, ({ currentPage, carsCount }) => {
+    const previousCount = (carsCount ?? EMPTY_COUNT) - DEFAULT_INCREMENT;
+
+    if (currentPage && isOnCurrent(currentPage, previousCount)) {
+      loadCars(carsList, currentPage);
+    }
+
     carsCounter.textContent = `Total cars: ${String(carsCount)}`;
   });
 
-  container.append(addCarForm, carsCounter, paginationControls, carsList);
+  container.append(paginationControls, carsList);
 
   return container;
 }

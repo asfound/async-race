@@ -1,7 +1,7 @@
 import type { State, Store } from '../types/interfaces';
 import type { Listener } from '../types/types';
 
-import { DEFAULT_NUMBER_VALUE, DEFAULT_PAGE } from '../constants/constants';
+import { DEFAULT_PAGE, EMPTY_COUNT } from '../constants/constants';
 import { getCars } from '../services/api/async-race-api';
 import { EventType } from '../types/enums';
 import { EventEmitter } from '../utils/event-emitter';
@@ -31,7 +31,7 @@ export function createStore(initialState: State): Store {
 
 const defaultState: State = {
   currentPage: DEFAULT_PAGE,
-  carsCount: DEFAULT_NUMBER_VALUE,
+  carsCount: EMPTY_COUNT,
 };
 
 async function initializeCarCount(): Promise<void> {

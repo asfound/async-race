@@ -31,6 +31,7 @@ export const TAG_NAME = {
   DIALOG: 'dialog',
   DIV: 'div',
   FORM: 'form',
+  H1: 'h1',
   INPUT: 'input',
   LI: 'li',
   MAIN: 'main',
@@ -43,7 +44,7 @@ export const TAG_NAME = {
 
 export const DEFAULT_BUTTON_TYPE = 'button';
 
-export const BUTTON_TEXT_CONTENT = {
+export const BUTTON_TEXT = {
   GARAGE: 'Garage',
   WINNERS: 'Winners',
 
@@ -57,6 +58,11 @@ export const BUTTON_TEXT_CONTENT = {
   START: 'Start',
 
   SAVE: 'Save',
+} as const;
+
+export const TITLES = {
+  GARAGE: 'Garage',
+  WINNERS: 'Winners',
 } as const;
 
 export const PLACEHOLDERS = {
@@ -93,7 +99,7 @@ export const MIME_TYPE = {
 } as const;
 
 export const EMPTY_STRING = '';
-export const DEFAULT_NUMBER_VALUE = 0;
+export const EMPTY_COUNT = 0;
 export const DEFAULT_INCREMENT = 1;
 export const DEFAULT_PAGE = 1;
 export const DEFAULT_COLOR = '#FFE338';

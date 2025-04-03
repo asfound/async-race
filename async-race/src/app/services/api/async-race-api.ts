@@ -4,7 +4,7 @@ import {
   BASE_URL,
   CARS_PER_PAGE,
   CONTENT_TYPE,
-  DEFAULT_NUMBER_VALUE,
+  EMPTY_COUNT,
   HEADER,
   HTTP_METHOD,
   PATH,
@@ -30,14 +30,13 @@ export async function getCars(
     assertCarItemPropertiesArray(cars);
 
     const totalCount =
-      Number(response.headers.get(HEADER.X_TOTAL_COUNT)) ||
-      DEFAULT_NUMBER_VALUE;
+      Number(response.headers.get(HEADER.X_TOTAL_COUNT)) || EMPTY_COUNT;
 
     console.log(cars, totalCount);
 
     return { cars, totalCount };
   } catch {
-    return { cars: [], totalCount: DEFAULT_NUMBER_VALUE };
+    return { cars: [], totalCount: EMPTY_COUNT };
   }
 }
 

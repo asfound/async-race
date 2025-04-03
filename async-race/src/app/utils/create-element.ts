@@ -46,6 +46,8 @@ export const div = createElementFactory(TAG_NAME.DIV);
 
 export const form = createElementFactory(TAG_NAME.FORM);
 
+export const h1 = createElementFactory(TAG_NAME.H1);
+
 export const input = createElementFactory(TAG_NAME.INPUT);
 
 export const li = createElementFactory(TAG_NAME.LI);

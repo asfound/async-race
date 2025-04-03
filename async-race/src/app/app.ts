@@ -1,5 +1,5 @@
 import { createButton } from '~/app/components/button/button';
-import { BUTTON_TEXT_CONTENT } from '~/app/constants/constants';
+import { BUTTON_TEXT } from '~/app/constants/constants';
 import { main, section } from '~/app/utils/create-element';
 
 import styles from './app.module.css';
@@ -10,14 +10,14 @@ import { initRouter, navigate } from './router/router';
 
 export function initApp(): void {
   const garageButton = createButton({
-    textContent: BUTTON_TEXT_CONTENT.GARAGE,
+    textContent: BUTTON_TEXT.GARAGE,
     onClick: () => {
       navigate(Route.GARAGE);
     },
   });
 
   const winnersButton = createButton({
-    textContent: BUTTON_TEXT_CONTENT.WINNERS,
+    textContent: BUTTON_TEXT.WINNERS,
     onClick: () => {
       navigate(Route.WINNERS);
     },
