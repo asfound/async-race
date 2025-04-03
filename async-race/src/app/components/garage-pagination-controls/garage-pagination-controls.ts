@@ -13,29 +13,15 @@ import { createButton } from '../button/button';
 export function createPaginationControls(store: Store): HTMLElement {
   const paginationContainer = div({});
 
+  const previousPageButton = createPreviousButton(store);
+
   const { currentPage, carsCount } = store.getState();
-
-  const previousPageButton = createButton({
-    textContent: BUTTON_TEXT_CONTENT.PREVIOUS,
-    onClick: () => {
-      const { currentPage } = store.getState();
-
-      store.setPage({ currentPage: currentPage - DEFAULT_INCREMENT });
-    },
-  });
 
   const pageNumber = span({
     textContent: String(currentPage),
   });
 
-  const nextPageButton = createButton({
-    textContent: BUTTON_TEXT_CONTENT.NEXT,
-    onClick: () => {
-      const { currentPage } = store.getState();
-
-      store.setPage({ currentPage: currentPage + DEFAULT_INCREMENT });
-    },
-  });
+  const nextPageButton = createNextButton(store);
 
   const carsCounter = span({
     textContent: `Total cars: ${String(carsCount)}`,
@@ -72,4 +58,26 @@ export function createPaginationControls(store: Store): HTMLElement {
   );
 
   return paginationContainer;
+}
+
+function createPreviousButton(store: Store): HTMLButtonElement {
+  return createButton({
+    textContent: BUTTON_TEXT_CONTENT.PREVIOUS,
+    onClick: () => {
+      const { currentPage } = store.getState();
+
+      store.setPage({ currentPage: currentPage - DEFAULT_INCREMENT });
+    },
+  });
+}
+
+function createNextButton(store: Store): HTMLButtonElement {
+  return createButton({
+    textContent: BUTTON_TEXT_CONTENT.NEXT,
+    onClick: () => {
+      const { currentPage } = store.getState();
+
+      store.setPage({ currentPage: currentPage + DEFAULT_INCREMENT });
+    },
+  });
 }

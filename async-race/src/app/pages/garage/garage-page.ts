@@ -1,5 +1,5 @@
 import { createSettingsForm } from '~/app/components/car-settings-form/car-settings-form';
-import { createPaginationControls } from '~/app/components/pagination-controls/pagination-controls';
+import { createPaginationControls } from '~/app/components/garage-pagination-controls/garage-pagination-controls';
 import {
   BUTTON_TEXT_CONTENT,
   DEFAULT_INCREMENT,
