@@ -2,6 +2,7 @@ import { createButton } from '~/app/components/button/button';
 import { BUTTON_TEXT_CONTENT } from '~/app/constants/constants';
 import { div, main } from '~/app/utils/create-element';
 
+import styles from './app.module.css';
 import { createGaragePage } from './pages/garage/garage-page';
 import { createWinnersPage } from './pages/winners/winners-page';
 import { Route } from './router/route';
@@ -22,8 +23,15 @@ export function initApp(): void {
     },
   });
 
+  const mainElement = main({ className: styles.main }, [
+    garageButton,
+    winnersButton,
+  ]);
   const root = div({});
-  document.body.append(main({}, [garageButton, winnersButton]), root);
+
+  mainElement.append(root);
+
+  document.body.append(mainElement);
 
   // TODO add error page
   initRouter({

@@ -1,6 +1,9 @@
 :root {
   --white: white;
-  --primary-dark: #262626;
+  --primary-dark: #000;
+  --primary-bright: #e0e0e0;
+  --primary-medium: #4c4c4c;
+  --accent: #ffe338;
 
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 400;
@@ -10,8 +13,27 @@
   color: var(--white);
   text-rendering: optimizelegibility;
 
-  color-scheme: light dark;
-  background-color: var(--primary-dark);
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      var(--primary-dark) 25%,
+      transparent 25%,
+      transparent 75%,
+      var(--primary-dark) 75%,
+      var(--primary-dark)
+    ),
+    repeating-linear-gradient(
+      45deg,
+      var(--primary-dark) 25%,
+      var(--primary-bright) 25%,
+      var(--primary-bright) 75%,
+      var(--primary-dark) 75%,
+      var(--primary-dark)
+    );
+  background-position:
+    0 0,
+    22px 22px;
+  background-size: 44px 44px;
 
   font-synthesis: none;
 }
