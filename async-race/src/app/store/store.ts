@@ -30,7 +30,7 @@ export function createStore(initialState: State): Store {
 
     setPage: (newState: Partial<State>): void => {
       Object.assign(state, newState);
-      eventBus.emit(EventType.PAGE_CHANGE, newState);
+      eventBus.emit(EventType.PAGE_CHANGE, state);
     },
 
     setCount: (newState: Partial<State>): void => {

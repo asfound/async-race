@@ -22,7 +22,7 @@ export class EventEmitter {
     }
   }
 
-  public emit(event: string, data: Partial<State>): void {
+  public emit(event: string, data: State): void {
     const listeners = this.events.get(event);
     if (listeners) {
       for (const callback of listeners) {

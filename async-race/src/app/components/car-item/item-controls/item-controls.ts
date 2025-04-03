@@ -4,6 +4,7 @@ import {
   DEFAULT_INCREMENT,
   EVENT_NAME,
 } from '~/app/constants/constants';
+import { isExceeding } from '~/app/pages/garage/utils/check-page';
 import { deleteCar } from '~/app/services/api/async-race-api';
 import { store } from '~/app/store/store';
 import { div } from '~/app/utils/create-element';
@@ -39,14 +40,20 @@ export function createItemControls(
   };
 
   const deleteHandler = (): void => {
-    console.log('delete');
     deleteCar(id)
       .then(() => {
-        const currentCount = store.getState().carsCount;
-        store.setCount({ carsCount: currentCount - DEFAULT_INCREMENT });
+        const { currentPage, carsCount: currentCount } = store.getState();
 
-        const currentPage = store.getState().currentPage;
-        store.setPage({ currentPage });
+        const updatedCount = currentCount - DEFAULT_INCREMENT;
+
+        store.setCount({ carsCount: updatedCount });
+
+        const updatedPage = isExceeding(currentPage, updatedCount)
+          ? currentPage - DEFAULT_INCREMENT
+          : currentPage;
+
+        store.setPage({ currentPage: updatedPage });
+
         trackItem.remove();
       })
       .catch((error: unknown) => {
