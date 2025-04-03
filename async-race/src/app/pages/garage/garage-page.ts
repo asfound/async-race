@@ -11,13 +11,14 @@ import { EventType } from '~/app/types/enums';
 import { createCar } from '../../services/api/async-race-api';
 import { isOnCurrent } from '../../utils/check-page';
 import { div, ul } from '../../utils/create-element';
+import styles from './garage-page.module.css';
 import { loadCars } from './utils/load-cars';
 
 export function createGaragePage(): HTMLElement {
   const container = div({});
   // TODO add h1 with garage
 
-  const carsList = ul({});
+  const carsList = ul({ className: styles.list });
 
   const paginationControls = createPaginationControls(store);
 

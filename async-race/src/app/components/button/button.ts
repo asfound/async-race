@@ -3,6 +3,7 @@ import type { ButtonProperties } from '~/app/types/interfaces';
 import { DEFAULT_BUTTON_TYPE } from '~/app/constants/constants';
 import { button } from '~/app/utils/create-element';
 
+import styles from './button.module.css';
 export const createButton = (
   properties: ButtonProperties
 ): HTMLButtonElement => {
@@ -14,6 +15,7 @@ export const createButton = (
   } = properties;
 
   const buttonElement = button({
+    className: styles.button,
     textContent,
     type,
   });
