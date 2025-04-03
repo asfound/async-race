@@ -1,10 +1,12 @@
-import type { Store } from '~/app/store/store';
+import type { Store } from '~/app/types/interfaces';
 
 import {
   BUTTON_TEXT_CONTENT,
   DEFAULT_INCREMENT,
+  DEFAULT_PAGE,
 } from '~/app/constants/constants';
-import { DEFAULT_PAGE, EventType, store } from '~/app/store/store';
+import { store } from '~/app/store/store';
+import { EventType } from '~/app/types/enums';
 
 import { createButton } from '../../components/button/button';
 import { createCar } from '../../services/api/async-race-api';

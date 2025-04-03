@@ -1,5 +1,4 @@
-import { CARS_PER_PAGE } from '~/app/constants/constants';
-import { DEFAULT_PAGE } from '~/app/store/store';
+import { CARS_PER_PAGE, DEFAULT_PAGE } from '~/app/constants/constants';
 
 export function isOnCurrent(currentPage: number, totalCount: number): boolean {
   const lastItemOnPage = currentPage * CARS_PER_PAGE;

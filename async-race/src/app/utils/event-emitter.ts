@@ -1,6 +1,5 @@
-import type { State } from '../store/store';
-
-export type Listener = (data: Partial<State>) => void;
+import type { State } from '../types/interfaces';
+import type { Listener } from '../types/types';
 
 export class EventEmitter {
   private readonly events = new Map<string, Listener[]>();

@@ -1,25 +1,10 @@
-import type { Listener } from '../utils/event-emitter';
+import type { State, Store } from '../types/interfaces';
+import type { Listener } from '../types/types';
 
-import { DEFAULT_NUMBER_VALUE } from '../constants/constants';
+import { DEFAULT_NUMBER_VALUE, DEFAULT_PAGE } from '../constants/constants';
 import { getCars } from '../services/api/async-race-api';
+import { EventType } from '../types/enums';
 import { EventEmitter } from '../utils/event-emitter';
-
-export enum EventType {
-  PAGE_CHANGE = 'pageChange',
-  COUNT_CHANGE = 'countChange',
-}
-
-export interface State {
-  currentPage: number;
-  carsCount: number;
-}
-
-export interface Store {
-  getState: () => State;
-  setPage: (newState: Partial<State>) => void;
-  setCount: (newState: Partial<State>) => void;
-  subscribe: (event: string, callback: Listener) => void;
-}
 
 export function createStore(initialState: State): Store {
   const state = { ...initialState };
@@ -44,18 +29,16 @@ export function createStore(initialState: State): Store {
   };
 }
 
-export const DEFAULT_PAGE = 1;
-
-const DEFAULT_STATE: State = {
+const defaultState: State = {
   currentPage: DEFAULT_PAGE,
   carsCount: DEFAULT_NUMBER_VALUE,
 };
 
 async function initializeCarCount(): Promise<void> {
   const { totalCount } = await getCars(DEFAULT_PAGE);
-  DEFAULT_STATE.carsCount = totalCount;
+  defaultState.carsCount = totalCount;
 }
 
 await initializeCarCount();
 
-export const store = createStore(DEFAULT_STATE);
+export const store = createStore(defaultState);

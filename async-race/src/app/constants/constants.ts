@@ -56,6 +56,7 @@ export const MIME_TYPE = {
 export const EMPTY_STRING = '';
 export const DEFAULT_NUMBER_VALUE = 0;
 export const DEFAULT_INCREMENT = 1;
+export const DEFAULT_PAGE = 1;
 export const CARS_PER_PAGE = 7;
 export const HEX_BASE = 16;
 export const PAD_LENGTH = 2;
