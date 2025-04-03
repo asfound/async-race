@@ -4,11 +4,13 @@ import {
   DEFAULT_INCREMENT,
   DEFAULT_PAGE,
 } from '~/app/constants/constants';
-import { deleteCar } from '~/app/services/api/async-race-api';
+import { deleteCar, updateCar } from '~/app/services/api/async-race-api';
 import { store } from '~/app/store/store';
 import { isExceeding } from '~/app/utils/check-page';
 import { div } from '~/app/utils/create-element';
 
+import { createSettingsForm } from '../../car-settings-form/car-settings-form';
+import { createModal } from '../../modal/modal';
 import styles from './item-controls.module.css';
 
 export function createItemControls(
@@ -62,7 +64,22 @@ export function createItemControls(
   };
 
   const editHandler = (): void => {
-    console.log(`edit ${String(id)}`);
+    const settingsForm = createSettingsForm(
+      BUTTON_TEXT_CONTENT.SAVE,
+      updateHandler
+    );
+    const modalWindow = createModal(settingsForm);
+    document.body.prepend(modalWindow);
+    modalWindow.showModal();
+  };
+
+  const updateHandler = (name: string, color: string): void => {
+    updateCar({ id, name, color }).catch((error: unknown) => {
+      console.error('Error updating car:', error);
+    });
+
+    const { currentPage } = store.getState();
+    store.setPage({ currentPage });
   };
 
   startButton.addEventListener('click', startHandler);

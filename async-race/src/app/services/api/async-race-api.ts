@@ -64,6 +64,21 @@ export async function deleteCar(id: number): Promise<unknown> {
   });
 }
 
+export async function updateCar(
+  properties: CarItemProperties
+): Promise<unknown> {
+  const response = await fetch(
+    `${BASE_URL}${PATH.GARAGE}/${String(properties.id)}`,
+    {
+      method: HTTP_METHOD.PUT,
+      headers: { [HEADER.CONTENT_TYPE]: CONTENT_TYPE.JSON },
+      body: JSON.stringify({ name: properties.name, color: properties.color }),
+    }
+  );
+
+  return response.json();
+}
+
 export async function getWinners(): Promise<void> {
   const response = await fetch(`${BASE_URL}${PATH.WINNERS}`);
   const data: unknown = await response.json();

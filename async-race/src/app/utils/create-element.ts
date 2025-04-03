@@ -40,6 +40,8 @@ function createElementFactory<T extends TagType>(tag: T) {
 
 export const button = createElementFactory(TAG_NAME.BUTTON);
 
+export const dialog = createElementFactory(TAG_NAME.DIALOG);
+
 export const div = createElementFactory(TAG_NAME.DIV);
 
 export const form = createElementFactory(TAG_NAME.FORM);

@@ -11,8 +11,6 @@ import { EventType } from '~/app/types/enums';
 import { createCar } from '../../services/api/async-race-api';
 import { isOnCurrent } from '../../utils/check-page';
 import { div, ul } from '../../utils/create-element';
-import { getRandomColor } from '../../utils/get-random-color';
-import { getRandomName } from '../../utils/get-random-name';
 import { loadCars } from './utils/load-cars';
 
 export function createGaragePage(): HTMLElement {
@@ -23,8 +21,8 @@ export function createGaragePage(): HTMLElement {
 
   const paginationControls = createPaginationControls(store);
 
-  const addCarHandler = (): void => {
-    createCar(getRandomName(), getRandomColor())
+  const addCarHandler = (name: string, color: string): void => {
+    createCar(name, color)
       .then(() => {
         const { currentPage, carsCount: currentCount } = store.getState();
 

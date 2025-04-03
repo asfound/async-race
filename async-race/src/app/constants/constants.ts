@@ -23,10 +23,12 @@ export const CONTENT_TYPE = {
 export const HTTP_METHOD = {
   DELETE: 'DELETE',
   POST: 'POST',
+  PUT: 'PUT',
 } as const;
 
 export const TAG_NAME = {
   BUTTON: 'button',
+  DIALOG: 'dialog',
   DIV: 'div',
   FORM: 'form',
   INPUT: 'input',
@@ -52,7 +54,13 @@ export const BUTTON_TEXT_CONTENT = {
   DELETE: 'Delete',
   RETURN: 'Return',
   START: 'Start',
+
+  SAVE: 'Save',
 } as const;
+
+export const PLACEHOLDERS = {
+  NAME: 'Enter car name...',
+};
 
 export const COLOR_MODEL: string[] = ['red', 'green', 'blue'];
 
@@ -67,7 +75,12 @@ export const ATTRIBUTE = {
   WIDTH: 'width',
   HEIGHT: 'height',
   FILL: 'fill',
-};
+} as const;
+
+export const INPUT_TYPE = {
+  TEXT: 'text',
+  COLOR: 'color',
+} as const;
 
 export const CAR_ICON_SIZE = {
   WIDTH: '62',
@@ -82,6 +95,7 @@ export const EMPTY_STRING = '';
 export const DEFAULT_NUMBER_VALUE = 0;
 export const DEFAULT_INCREMENT = 1;
 export const DEFAULT_PAGE = 1;
+export const DEFAULT_COLOR = '#FFE338';
 export const CARS_PER_PAGE = 7;
 export const HEX_BASE = 16;
 export const PAD_LENGTH = 2;
