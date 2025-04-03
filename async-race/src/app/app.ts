@@ -1,6 +1,6 @@
 import { createButton } from '~/app/components/button/button';
 import { BUTTON_TEXT_CONTENT } from '~/app/constants/constants';
-import { div, main } from '~/app/utils/create-element';
+import { main, section } from '~/app/utils/create-element';
 
 import styles from './app.module.css';
 import { createGaragePage } from './pages/garage/garage-page';
@@ -27,7 +27,7 @@ export function initApp(): void {
     garageButton,
     winnersButton,
   ]);
-  const root = div({});
+  const root = section({});
 
   mainElement.append(root);
 

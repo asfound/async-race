@@ -35,6 +35,7 @@ export const TAG_NAME = {
   LI: 'li',
   MAIN: 'main',
   P: 'p',
+  SECTION: 'section',
   SPAN: 'span',
   SVG: 'svg',
   UL: 'ul',
