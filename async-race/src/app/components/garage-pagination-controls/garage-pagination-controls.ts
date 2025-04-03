@@ -2,7 +2,7 @@ import type { Store } from '~/app/types/interfaces';
 
 import { BUTTON_TEXT, DEFAULT_INCREMENT } from '~/app/constants/constants';
 import { EventType } from '~/app/types/enums';
-import { isOnLast, isOnFirst } from '~/app/utils/check-page';
+import { isOnLast, isOnFirst, calculateLastPage } from '~/app/utils/check-page';
 import { div, span } from '~/app/utils/create-element';
 
 import { createButton } from '../button/button';
@@ -16,7 +16,7 @@ export function createPaginationControls(store: Store): HTMLElement {
   const { currentPage, carsCount } = store.getState();
 
   const pageNumber = span({
-    textContent: String(currentPage),
+    textContent: `${String(currentPage)}/${String(calculateLastPage(carsCount))}`,
   });
 
   const nextPageButton = createNextButton(store);
@@ -31,14 +31,14 @@ export function createPaginationControls(store: Store): HTMLElement {
   store.subscribe(EventType.PAGE_CHANGE, ({ currentPage, carsCount }) => {
     if (currentPage && carsCount) {
       setButtonsState(currentPage, carsCount);
+      setPageNumberState(pageNumber, currentPage, carsCount);
     }
-
-    pageNumber.textContent = String(currentPage);
   });
 
   store.subscribe(EventType.COUNT_CHANGE, ({ currentPage, carsCount }) => {
     if (currentPage && carsCount) {
       setButtonsState(currentPage, carsCount);
+      setPageNumberState(pageNumber, currentPage, carsCount);
     }
   });
 
@@ -67,4 +67,12 @@ function createNextButton(store: Store): HTMLButtonElement {
       store.setPage({ currentPage: currentPage + DEFAULT_INCREMENT });
     },
   });
+}
+
+function setPageNumberState(
+  pageNumber: HTMLElement,
+  currentPage: number,
+  carsCount: number
+): void {
+  pageNumber.textContent = `${String(currentPage)}/${String(calculateLastPage(carsCount))}`;
 }
