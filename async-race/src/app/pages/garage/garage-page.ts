@@ -1,5 +1,4 @@
-import type { Store } from '~/app/types/interfaces';
-
+import { createPaginationControls } from '~/app/components/pagination-controls/pagination-controls';
 import {
   BUTTON_TEXT_CONTENT,
   DEFAULT_INCREMENT,
@@ -10,10 +9,10 @@ import { EventType } from '~/app/types/enums';
 
 import { createButton } from '../../components/button/button';
 import { createCar } from '../../services/api/async-race-api';
-import { div, span, ul } from '../../utils/create-element';
+import { isOnCurrent } from '../../utils/check-page';
+import { div, ul } from '../../utils/create-element';
 import { getRandomColor } from '../../utils/get-random-color';
 import { getRandomName } from '../../utils/get-random-name';
-import { isOnCurrent, isOnFirst, isOnLast } from './utils/check-page';
 import { loadCars } from './utils/load-cars';
 
 export function createGaragePage(): HTMLElement {
@@ -52,68 +51,4 @@ export function createGaragePage(): HTMLElement {
   container.append(addCarButton, paginationControls, carsList);
 
   return container;
-}
-
-function createPaginationControls(store: Store): HTMLElement {
-  const paginationContainer = div({});
-
-  const { currentPage, carsCount } = store.getState();
-
-  const previousPageButton = createButton({
-    textContent: BUTTON_TEXT_CONTENT.PREVIOUS,
-    onClick: () => {
-      const { currentPage } = store.getState();
-
-      store.setPage({ currentPage: currentPage - DEFAULT_INCREMENT });
-    },
-  });
-
-  const pageNumber = span({
-    textContent: String(currentPage),
-  });
-
-  const nextPageButton = createButton({
-    textContent: BUTTON_TEXT_CONTENT.NEXT,
-    onClick: () => {
-      const { currentPage } = store.getState();
-
-      store.setPage({ currentPage: currentPage + DEFAULT_INCREMENT });
-    },
-  });
-
-  const carsCounter = span({
-    textContent: `Total cars: ${String(carsCount)}`,
-  });
-
-  const setButtonsState = (currentPage: number, carsCount: number): void => {
-    nextPageButton.disabled = isOnLast(currentPage, carsCount);
-    previousPageButton.disabled = isOnFirst(currentPage);
-  };
-
-  setButtonsState(currentPage, carsCount);
-
-  store.subscribe(EventType.PAGE_CHANGE, ({ currentPage, carsCount }) => {
-    if (currentPage && carsCount) {
-      setButtonsState(currentPage, carsCount);
-    }
-
-    pageNumber.textContent = String(currentPage);
-  });
-
-  store.subscribe(EventType.COUNT_CHANGE, ({ currentPage, carsCount }) => {
-    if (currentPage && carsCount) {
-      setButtonsState(currentPage, carsCount);
-    }
-
-    carsCounter.textContent = `Total cars: ${String(carsCount)}`;
-  });
-
-  paginationContainer.append(
-    previousPageButton,
-    pageNumber,
-    nextPageButton,
-    carsCounter
-  );
-
-  return paginationContainer;
 }

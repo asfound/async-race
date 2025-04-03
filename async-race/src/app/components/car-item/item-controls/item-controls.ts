@@ -4,9 +4,9 @@ import {
   DEFAULT_INCREMENT,
   EVENT_NAME,
 } from '~/app/constants/constants';
-import { isExceeding } from '~/app/pages/garage/utils/check-page';
 import { deleteCar } from '~/app/services/api/async-race-api';
 import { store } from '~/app/store/store';
+import { isExceeding } from '~/app/utils/check-page';
 import { div } from '~/app/utils/create-element';
 
 import styles from './item-controls.module.css';
