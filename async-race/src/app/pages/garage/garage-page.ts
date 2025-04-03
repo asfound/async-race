@@ -83,22 +83,24 @@ function createPaginationControls(store: Store): HTMLElement {
     textContent: `Total cars: ${String(carsCount)}`,
   });
 
-  nextPageButton.disabled = isOnLast(currentPage, carsCount);
-  previousPageButton.disabled = isOnFirst(currentPage);
+  const setButtonsState = (currentPage: number, carsCount: number): void => {
+    nextPageButton.disabled = isOnLast(currentPage, carsCount);
+    previousPageButton.disabled = isOnFirst(currentPage);
+  };
+
+  setButtonsState(currentPage, carsCount);
 
   store.subscribe(EventType.PAGE_CHANGE, ({ currentPage, carsCount }) => {
-    pageNumber.textContent = String(currentPage);
-
     if (currentPage && carsCount) {
-      nextPageButton.disabled = isOnLast(currentPage, carsCount);
-      previousPageButton.disabled = isOnFirst(currentPage);
+      setButtonsState(currentPage, carsCount);
     }
+
+    pageNumber.textContent = String(currentPage);
   });
 
   store.subscribe(EventType.COUNT_CHANGE, ({ currentPage, carsCount }) => {
     if (currentPage && carsCount) {
-      nextPageButton.disabled = isOnLast(currentPage, carsCount);
-      previousPageButton.disabled = isOnFirst(currentPage);
+      setButtonsState(currentPage, carsCount);
     }
 
     carsCounter.textContent = `Total cars: ${String(carsCount)}`;
