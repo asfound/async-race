@@ -5,6 +5,8 @@ import styles from './modal.module.css';
 export function createModal(content: HTMLElement): HTMLDialogElement {
   const modalWindow = dialog({ className: styles.modal });
 
+  content.classList.add(styles.content);
+
   modalWindow.addEventListener('click', (event) => {
     if (event.target === modalWindow) {
       modalWindow.close();
