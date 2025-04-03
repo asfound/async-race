@@ -13,7 +13,7 @@ export function createCarItem({
   name,
   color,
 }: CarItemProperties): HTMLLIElement {
-  const trackItem = li({});
+  const trackItem = li({ className: styles.item });
 
   const buttonsContainer = createItemControls(trackItem, id);
 
@@ -26,7 +26,7 @@ export function createCarItem({
     CAR_ICON_SIZE.HEIGHT
   );
 
-  const carTrack = div({}, [carIcon]);
+  const carTrack = div({ className: styles.track }, [carIcon]);
 
   trackItem.append(buttonsContainer, carName, carTrack);
   return trackItem;

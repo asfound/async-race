@@ -1,4 +1,27 @@
+.item {
+  margin-bottom: 0.5rem;
+}
+
 .name {
   display: inline;
   margin: 0;
+  padding-left: 1rem;
+  font-weight: 600;
+}
+
+.track {
+  position: relative;
+  width: 100%;
+  line-height: 0;
+}
+
+.track::after {
+  content: '';
+
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+  border-bottom: 1px dashed var(--primary-bright);
 }
