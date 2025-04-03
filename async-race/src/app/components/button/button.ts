@@ -1,6 +1,6 @@
 import type { ButtonProperties } from '~/app/types/interfaces';
 
-import { DEFAULT_BUTTON_TYPE, EVENT_NAME } from '~/app/constants/constants';
+import { DEFAULT_BUTTON_TYPE } from '~/app/constants/constants';
 import { button } from '~/app/utils/create-element';
 
 export const createButton = (
@@ -23,7 +23,7 @@ export const createButton = (
   }
 
   if (onClick) {
-    buttonElement.addEventListener(EVENT_NAME.CLICK, onClick);
+    buttonElement.addEventListener('click', onClick);
   }
 
   return buttonElement;

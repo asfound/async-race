@@ -36,10 +36,6 @@ export const TAG_NAME = {
   UL: 'ul',
 } as const;
 
-export const EVENT_NAME = {
-  CLICK: 'click',
-} as const;
-
 export const DEFAULT_BUTTON_TYPE = 'button';
 
 export const BUTTON_TEXT_CONTENT = {
@@ -88,6 +84,12 @@ export const CARS_PER_PAGE = 7;
 export const HEX_BASE = 16;
 export const PAD_LENGTH = 2;
 export const PAD_VALUE = '0';
+
+export const CAR_PROPERTIES = {
+  ID: 'id',
+  NAME: 'name',
+  COLOR: 'color',
+} as const;
 
 export const CAR_MODELS: Record<string, string[]> = {
   Pussla: ['Model X', 'Model S', 'Model 3', 'Model Y', 'Cybertruck'],

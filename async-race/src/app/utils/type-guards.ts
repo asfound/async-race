@@ -1,5 +1,7 @@
 import type { CarItemProperties } from '../types/interfaces';
 
+import { CAR_PROPERTIES } from '../constants/constants';
+
 export function isNonNullable<T>(value: T): value is NonNullable<T> {
   return value !== null && value !== undefined;
 }
@@ -18,9 +20,9 @@ function isCarItemProperties(object: unknown): object is CarItemProperties {
 
   if (
     isObject ||
-    !('id' in object) ||
-    !('name' in object) ||
-    !('color' in object)
+    !(CAR_PROPERTIES.ID in object) ||
+    !(CAR_PROPERTIES.NAME in object) ||
+    !(CAR_PROPERTIES.COLOR in object)
   ) {
     return false;
   }

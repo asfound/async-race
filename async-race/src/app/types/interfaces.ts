@@ -1,3 +1,4 @@
+import type { CAR_PROPERTIES } from '../constants/constants';
 import type { Listener } from './types';
 
 export interface ButtonProperties {
@@ -8,9 +9,9 @@ export interface ButtonProperties {
 }
 
 export interface CarItemProperties {
-  id: number;
-  name: string;
-  color: string;
+  [CAR_PROPERTIES.ID]: number;
+  [CAR_PROPERTIES.NAME]: string;
+  [CAR_PROPERTIES.COLOR]: string;
 }
 
 export interface State {

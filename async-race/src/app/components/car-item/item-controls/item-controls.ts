@@ -2,7 +2,6 @@ import { createButton } from '~/app/components/button/button';
 import {
   BUTTON_TEXT_CONTENT,
   DEFAULT_INCREMENT,
-  EVENT_NAME,
 } from '~/app/constants/constants';
 import { deleteCar } from '~/app/services/api/async-race-api';
 import { store } from '~/app/store/store';
@@ -65,10 +64,10 @@ export function createItemControls(
     console.log(`edit ${String(id)}`);
   };
 
-  startButton.addEventListener(EVENT_NAME.CLICK, startHandler);
-  returnButton.addEventListener(EVENT_NAME.CLICK, returnHandler);
-  deleteButton.addEventListener(EVENT_NAME.CLICK, deleteHandler);
-  editButton.addEventListener(EVENT_NAME.CLICK, editHandler);
+  startButton.addEventListener('click', startHandler);
+  returnButton.addEventListener('click', returnHandler);
+  deleteButton.addEventListener('click', deleteHandler);
+  editButton.addEventListener('click', editHandler);
 
   const buttonsContainer = div({ className: styles.container });
   buttonsContainer.append(startButton, returnButton, deleteButton, editButton);
