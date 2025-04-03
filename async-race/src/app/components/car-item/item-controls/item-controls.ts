@@ -14,7 +14,7 @@ import styles from './item-controls.module.css';
 export function createItemControls(
   trackItem: HTMLLIElement,
   id: number
-): { buttonsContainer: HTMLElement; removeListeners: () => void } {
+): HTMLElement {
   const startButton = createButton({
     textContent: BUTTON_TEXT_CONTENT.START,
   });
@@ -70,15 +70,8 @@ export function createItemControls(
   deleteButton.addEventListener(EVENT_NAME.CLICK, deleteHandler);
   editButton.addEventListener(EVENT_NAME.CLICK, editHandler);
 
-  const removeListeners = (): void => {
-    startButton.removeEventListener(EVENT_NAME.CLICK, startHandler);
-    returnButton.removeEventListener(EVENT_NAME.CLICK, returnHandler);
-    deleteButton.removeEventListener(EVENT_NAME.CLICK, deleteHandler);
-    editButton.removeEventListener(EVENT_NAME.CLICK, editHandler);
-  };
-
   const buttonsContainer = div({ className: styles.container });
   buttonsContainer.append(startButton, returnButton, deleteButton, editButton);
 
-  return { buttonsContainer, removeListeners };
+  return buttonsContainer;
 }

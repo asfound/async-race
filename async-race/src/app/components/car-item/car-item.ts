@@ -8,16 +8,14 @@ import carSVG from '~/assets/icons/car.svg?raw';
 import styles from './car-item.module.css';
 import { createItemControls } from './item-controls/item-controls';
 
-export function createCarItem({ id, name, color }: CarItemProperties): {
-  item: HTMLLIElement;
-  removeListeners: () => void;
-} {
+export function createCarItem({
+  id,
+  name,
+  color,
+}: CarItemProperties): HTMLLIElement {
   const trackItem = li({});
 
-  const { buttonsContainer, removeListeners } = createItemControls(
-    trackItem,
-    id
-  );
+  const buttonsContainer = createItemControls(trackItem, id);
 
   const carName = p({ textContent: name, className: styles.name });
 
@@ -31,5 +29,5 @@ export function createCarItem({ id, name, color }: CarItemProperties): {
   const carTrack = div({}, [carIcon]);
 
   trackItem.append(buttonsContainer, carName, carTrack);
-  return { item: trackItem, removeListeners };
+  return trackItem;
 }
