@@ -1,3 +1,30 @@
+export const BASE_URL = 'http://127.0.0.1:3000';
+
+export const PATH = {
+  GARAGE: '/garage',
+  ENGINE: '/engine',
+  WINNERS: '/winners',
+} as const;
+
+export const QUERY_PARAMETER = {
+  PAGE: '_page',
+  LIMIT: '_limit',
+} as const;
+
+export const HEADER = {
+  CONTENT_TYPE: 'Content-Type',
+  X_TOTAL_COUNT: 'X-Total-Count',
+} as const;
+
+export const CONTENT_TYPE = {
+  JSON: 'application/json',
+} as const;
+
+export const HTTP_METHOD = {
+  DELETE: 'DELETE',
+  POST: 'POST',
+} as const;
+
 export const TAG_NAME = {
   BUTTON: 'button',
   DIV: 'div',

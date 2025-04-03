@@ -1,23 +1,24 @@
 import type { CarItemProperties } from '~/app/types/interfaces';
 
-import { CARS_PER_PAGE, DEFAULT_NUMBER_VALUE } from '~/app/constants/constants';
+import {
+  BASE_URL,
+  CARS_PER_PAGE,
+  CONTENT_TYPE,
+  DEFAULT_NUMBER_VALUE,
+  HEADER,
+  HTTP_METHOD,
+  PATH,
+  QUERY_PARAMETER,
+} from '~/app/constants/constants';
 import { assertCarItemPropertiesArray } from '~/app/utils/type-guards';
-
-const BASE_URL = 'http://127.0.0.1:3000';
-
-const PATH = {
-  GARAGE: '/garage',
-  ENGINE: '/engine',
-  WINNERS: '/winners',
-} as const;
 
 export async function getCars(
   page: number
 ): Promise<{ cars: CarItemProperties[]; totalCount: number }> {
-  const query = new URLSearchParams();
-
-  query.append('_page', page.toString());
-  query.append('_limit', CARS_PER_PAGE.toString());
+  const query = new URLSearchParams({
+    [QUERY_PARAMETER.PAGE]: page.toString(),
+    [QUERY_PARAMETER.LIMIT]: CARS_PER_PAGE.toString(),
+  });
 
   try {
     const response = await fetch(
@@ -29,7 +30,8 @@ export async function getCars(
     assertCarItemPropertiesArray(cars);
 
     const totalCount =
-      Number(response.headers.get('X-Total-Count')) || DEFAULT_NUMBER_VALUE;
+      Number(response.headers.get(HEADER.X_TOTAL_COUNT)) ||
+      DEFAULT_NUMBER_VALUE;
 
     console.log(cars, totalCount);
 
@@ -48,16 +50,18 @@ export async function getCar(id: number): Promise<void> {
 
 export async function createCar(name: string, color: string): Promise<unknown> {
   const response = await fetch(`${BASE_URL}${PATH.GARAGE}`, {
-    method: 'POST',
+    method: HTTP_METHOD.POST,
     body: JSON.stringify({ name, color }),
-    headers: { 'Content-Type': 'application/json' },
+    headers: { [HEADER.CONTENT_TYPE]: CONTENT_TYPE.JSON },
   });
 
   return response.json();
 }
 
 export async function deleteCar(id: number): Promise<unknown> {
-  return fetch(`${BASE_URL}${PATH.GARAGE}/${String(id)}`, { method: 'DELETE' });
+  return fetch(`${BASE_URL}${PATH.GARAGE}/${String(id)}`, {
+    method: HTTP_METHOD.DELETE,
+  });
 }
 
 export async function getWinners(): Promise<void> {
