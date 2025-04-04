@@ -36,6 +36,8 @@ export const ERROR_TEXT = {
   CREATE: 'Failed to create car.',
   DELETE: 'Failed to delete car.',
   UPDATE: 'Failed to update car.',
+
+  UNKNOWN: 'Unknown error',
 };
 
 export const TAG_NAME = {
