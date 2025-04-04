@@ -1,4 +1,5 @@
 .main {
+  min-height: 58rem;
   padding: 1rem;
   border-radius: 3rem;
   background-color: var(--primary-dark);

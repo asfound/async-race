@@ -6,7 +6,7 @@ export function calculateLastPage(totalCount: number): number {
 
 export function isOnCurrent(currentPage: number, totalCount: number): boolean {
   const lastItemOnPage = currentPage * CARS_PER_PAGE;
-  return totalCount < lastItemOnPage;
+  return totalCount <= lastItemOnPage;
 }
 
 export function isOnFirst(currentPage: number): boolean {
