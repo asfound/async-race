@@ -76,13 +76,13 @@ function createDeleteButton(
 
       const updatedCount = currentCount - DEFAULT_INCREMENT;
 
-      store.setCount({ carsCount: updatedCount });
-
       const updatedPage = isExceeding(currentPage, updatedCount)
         ? currentPage - DEFAULT_INCREMENT || DEFAULT_PAGE
         : currentPage;
+      console.log('updated page', updatedPage);
 
       store.setPage({ currentPage: updatedPage });
+      store.setCount({ carsCount: updatedCount });
 
       trackItem.remove();
     } catch (error: unknown) {
