@@ -4,6 +4,7 @@ import { DEFAULT_INCREMENT, EMPTY_COUNT } from '~/app/constants/constants';
 import { createCar } from '~/app/services/api/async-race-api';
 import { getRandomColor } from '~/app/utils/get-random-color';
 import { getRandomName } from '~/app/utils/get-random-name';
+import { showErrorModal } from '~/app/utils/show-error-modal';
 
 export async function generateCars(store: Store): Promise<void> {
   for (
@@ -20,10 +21,7 @@ export async function generateCars(store: Store): Promise<void> {
 
       store.setCount({ carsCount: currentCount + DEFAULT_INCREMENT });
     } catch (error) {
-      console.error(
-        `Error creating car ${String(index + DEFAULT_INCREMENT)}:`,
-        error
-      );
+      showErrorModal(error);
     }
   }
 }

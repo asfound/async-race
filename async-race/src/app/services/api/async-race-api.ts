@@ -74,6 +74,7 @@ export async function deleteCar(id: number): Promise<void> {
   if (response.status !== HTTP_STATUS.OK) {
     throw new Error(ERROR_TEXT.DELETE);
   }
+  throw new Error(ERROR_TEXT.DELETE);
 }
 
 export async function updateCar(

@@ -10,6 +10,7 @@ import { deleteCar, updateCar } from '~/app/services/api/async-race-api';
 import { store } from '~/app/store/store';
 import { isExceeding } from '~/app/utils/check-page';
 import { div } from '~/app/utils/create-element';
+import { showErrorModal } from '~/app/utils/show-error-modal';
 
 import { createSettingsForm } from '../../car-settings-form/car-settings-form';
 import { createModal } from '../../modal/modal';
@@ -30,8 +31,8 @@ export function createItemControls(
 
       const { currentPage } = store.getState();
       store.setPage({ currentPage });
-    } catch (error: unknown) {
-      console.error(error);
+    } catch (error) {
+      showErrorModal(error);
     }
   };
 
@@ -84,8 +85,8 @@ function createDeleteButton(
       store.setCount({ carsCount: updatedCount });
 
       trackItem.remove();
-    } catch (error: unknown) {
-      console.error(error);
+    } catch (error) {
+      showErrorModal(error);
     }
   };
 

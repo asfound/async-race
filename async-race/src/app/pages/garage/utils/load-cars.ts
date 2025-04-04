@@ -1,4 +1,5 @@
 import { getCars } from '~/app/services/api/async-race-api';
+import { showErrorModal } from '~/app/utils/show-error-modal';
 
 import { renderCarsList } from './render-list';
 
@@ -11,6 +12,6 @@ export function loadCars(
       renderCarsList(cars, carsList);
     })
     .catch((error: unknown) => {
-      console.error('Error loading cars:', error);
+      showErrorModal(error);
     });
 }

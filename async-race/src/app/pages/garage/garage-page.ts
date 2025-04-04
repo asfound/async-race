@@ -12,6 +12,7 @@ import {
 } from '~/app/constants/constants';
 import { store } from '~/app/store/store';
 import { EventType } from '~/app/types/enums';
+import { showErrorModal } from '~/app/utils/show-error-modal';
 
 import { createCar } from '../../services/api/async-race-api';
 import { isOnCurrent } from '../../utils/check-page';
@@ -83,8 +84,8 @@ function createCarAdditionHandler(store: Store): CarAdditionHandler {
       const { carsCount: currentCount } = store.getState();
 
       store.setCount({ carsCount: currentCount + DEFAULT_INCREMENT });
-    } catch (error: unknown) {
-      console.error(error);
+    } catch (error) {
+      showErrorModal(error);
     }
   };
 }

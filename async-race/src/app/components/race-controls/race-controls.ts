@@ -12,9 +12,7 @@ export function createRaceControls(store: Store): HTMLElement {
   const generateCarsButton = createButton({
     textContent: 'Generate cars',
     onClick: (): void => {
-      generateCars(store).catch(() => {
-        console.error('Error during car creation');
-      });
+      void generateCars(store);
     },
   });
 
