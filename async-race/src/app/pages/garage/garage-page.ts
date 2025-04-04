@@ -16,7 +16,8 @@ import styles from './garage-page.module.css';
 import { loadCars } from './utils/load-cars';
 
 export function createGaragePage(): HTMLElement {
-  const { currentPage, carsCount, inputName, inputColor } = store.getState();
+  const { currentPage, carsCount, nameInputValue, colorInputValue } =
+    store.getState();
 
   const carAdditionHandler = (name: string, color: string): void => {
     createCar(name, color)
@@ -35,18 +36,18 @@ export function createGaragePage(): HTMLElement {
   const { titleContainer, updateCounter } = createGarageTitle(carsCount);
 
   const nameInputHandler = (name: string): void => {
-    store.setColor({ inputName: name });
+    store.setColor({ nameInputValue: name });
   };
 
   const colorInputHandler = (color: string): void => {
-    store.setColor({ inputColor: color });
+    store.setColor({ colorInputValue: color });
   };
 
   const carCreationForm = createSettingsForm(
     BUTTON_TEXT.ADD_CAR,
     carAdditionHandler,
-    inputName,
-    inputColor,
+    nameInputValue,
+    colorInputValue,
     { nameInputHandler, colorInputHandler }
   );
 

@@ -18,8 +18,8 @@ export interface State {
   currentPage: number;
   carsCount: number;
 
-  inputName: string;
-  inputColor: string;
+  nameInputValue: string;
+  colorInputValue: string;
 }
 
 export interface Store {

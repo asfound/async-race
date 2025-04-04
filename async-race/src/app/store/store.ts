@@ -46,8 +46,8 @@ const defaultState: State = {
   currentPage: DEFAULT_PAGE,
   carsCount: EMPTY_COUNT,
 
-  inputName: EMPTY_STRING,
-  inputColor: DEFAULT_COLOR,
+  nameInputValue: EMPTY_STRING,
+  colorInputValue: DEFAULT_COLOR,
 };
 
 async function initializeCarCount(): Promise<void> {

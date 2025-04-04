@@ -8,8 +8,9 @@ import styles from './car-settings-form.module.css';
 export function createSettingsForm(
   buttonText: string,
   handler: (newName: string, newColor: string) => void,
-  storedName: string,
-  storedColor: string,
+  nameValue: string,
+  colorValue: string,
+
   callbacks?: {
     nameInputHandler?: (name: string) => void;
     colorInputHandler?: (color: string) => void;
@@ -23,16 +24,17 @@ export function createSettingsForm(
     placeholder: PLACEHOLDERS.NAME,
   });
 
-  if (storedName) {
-    nameInput.value = storedName;
+  if (nameValue) {
+    nameInput.value = nameValue;
   }
 
   const colorInput = input({
     className: styles.color,
     type: INPUT_TYPE.COLOR,
-    value: storedColor,
+    value: colorValue,
   });
 
+  // TODO remove magic string
   const submitButton = createButton({
     textContent: buttonText,
     type: 'submit',
@@ -53,10 +55,10 @@ export function createSettingsForm(
   }
 
   formElement.addEventListener('submit', () => {
-    const providedName = nameInput.value.trim() || getRandomName();
-    const providedColor = colorInput.value;
+    const nameToSubmit = nameInput.value.trim() || getRandomName();
+    const colorToSubmit = colorInput.value;
 
-    handler(providedName, providedColor);
+    handler(nameToSubmit, colorToSubmit);
   });
 
   formElement.append(nameInput, colorInput, submitButton);
