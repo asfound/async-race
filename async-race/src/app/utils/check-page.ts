@@ -1,7 +1,7 @@
 import { CARS_PER_PAGE, DEFAULT_PAGE } from '~/app/constants/constants';
 
 export function calculateLastPage(totalCount: number): number {
-  return Math.ceil(totalCount / CARS_PER_PAGE);
+  return Math.ceil(totalCount / CARS_PER_PAGE) || DEFAULT_PAGE;
 }
 
 export function isOnCurrent(currentPage: number, totalCount: number): boolean {
