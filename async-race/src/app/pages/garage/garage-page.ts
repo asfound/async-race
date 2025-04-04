@@ -37,7 +37,7 @@ export function createGaragePage(): HTMLElement {
 
   const { titleContainer, updateCounter } = createGarageTitle(carsCount);
 
-  const raceControls = createRaceControls();
+  const raceControls = createRaceControls(store);
 
   const carCreationForm = createSettingsForm(
     BUTTON_TEXT.ADD_CAR,
