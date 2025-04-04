@@ -16,7 +16,7 @@ import styles from './garage-page.module.css';
 import { loadCars } from './utils/load-cars';
 
 export function createGaragePage(): HTMLElement {
-  const { currentPage, carsCount } = store.getState();
+  const { currentPage, carsCount, inputName, inputColor } = store.getState();
 
   const carAdditionHandler = (name: string, color: string): void => {
     createCar(name, color)
@@ -34,9 +34,20 @@ export function createGaragePage(): HTMLElement {
 
   const { titleContainer, updateCounter } = createGarageTitle(carsCount);
 
+  const nameInputHandler = (name: string): void => {
+    store.setColor({ inputName: name });
+  };
+
+  const colorInputHandler = (color: string): void => {
+    store.setColor({ inputColor: color });
+  };
+
   const carCreationForm = createSettingsForm(
     BUTTON_TEXT.ADD_CAR,
-    carAdditionHandler
+    carAdditionHandler,
+    inputName,
+    inputColor,
+    { nameInputHandler, colorInputHandler }
   );
 
   carCreationForm.classList.add(styles.form);
@@ -54,7 +65,6 @@ export function createGaragePage(): HTMLElement {
   });
 
   store.subscribe(EventType.COUNT_CHANGE, ({ currentPage, carsCount }) => {
-    console.log(carsCount);
     if (currentPage && carsCount !== undefined) {
       const previousCount = carsCount - DEFAULT_INCREMENT;
 

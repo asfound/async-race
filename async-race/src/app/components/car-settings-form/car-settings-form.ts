@@ -1,8 +1,4 @@
-import {
-  DEFAULT_COLOR,
-  INPUT_TYPE,
-  PLACEHOLDERS,
-} from '~/app/constants/constants';
+import { INPUT_TYPE, PLACEHOLDERS } from '~/app/constants/constants';
 import { form, input } from '~/app/utils/create-element';
 import { getRandomName } from '~/app/utils/get-random-name';
 
@@ -12,8 +8,12 @@ import styles from './car-settings-form.module.css';
 export function createSettingsForm(
   buttonText: string,
   handler: (newName: string, newColor: string) => void,
-  name?: string,
-  color?: string
+  storedName: string,
+  storedColor: string,
+  callbacks?: {
+    nameInputHandler?: (name: string) => void;
+    colorInputHandler?: (color: string) => void;
+  }
 ): HTMLFormElement {
   const formElement = form({ className: styles.form, method: 'dialog' });
 
@@ -23,24 +23,34 @@ export function createSettingsForm(
     placeholder: PLACEHOLDERS.NAME,
   });
 
-  if (name !== undefined) {
-    nameInput.value = name;
+  if (storedName) {
+    nameInput.value = storedName;
   }
 
   const colorInput = input({
     className: styles.color,
     type: INPUT_TYPE.COLOR,
-    value: DEFAULT_COLOR,
+    value: storedColor,
   });
-
-  if (color !== undefined) {
-    colorInput.value = color;
-  }
 
   const submitButton = createButton({
     textContent: buttonText,
     type: 'submit',
   });
+
+  if (callbacks !== undefined) {
+    nameInput.addEventListener('input', (event) => {
+      if (event.target instanceof HTMLInputElement) {
+        callbacks.nameInputHandler?.(event.target.value);
+      }
+    });
+
+    colorInput.addEventListener('input', (event) => {
+      if (event.target instanceof HTMLInputElement) {
+        callbacks.colorInputHandler?.(event.target.value);
+      }
+    });
+  }
 
   formElement.addEventListener('submit', () => {
     const providedName = nameInput.value.trim() || getRandomName();

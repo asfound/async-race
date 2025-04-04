@@ -17,11 +17,21 @@ export interface CarItemProperties {
 export interface State {
   currentPage: number;
   carsCount: number;
+
+  inputName: string;
+  inputColor: string;
 }
 
 export interface Store {
   getState: () => State;
+
   setPage: (newState: Partial<State>) => void;
+
   setCount: (newState: Partial<State>) => void;
+
+  setName: (newState: Partial<State>) => void;
+
+  setColor: (newState: Partial<State>) => void;
+
   subscribe: (event: string, callback: Listener) => void;
 }
