@@ -5,8 +5,12 @@
 
 .title {
   position: relative;
+
   display: block;
+
   margin: 0;
+  margin-bottom: 1.5rem;
+
   font-size: 2rem;
 }
 
@@ -26,7 +30,9 @@
 
 .counter {
   display: block;
+
   margin: 0;
   margin-top: 0.3rem;
+  margin-bottom: 1.5rem;
   padding-left: 1.2rem;
 }
