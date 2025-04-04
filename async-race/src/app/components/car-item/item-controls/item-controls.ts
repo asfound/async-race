@@ -68,29 +68,31 @@ function createDeleteButton(
   trackItem: HTMLLIElement,
   id: number
 ): HTMLButtonElement {
+  const handleDelete = async (): Promise<void> => {
+    try {
+      await deleteCar(id);
+
+      const { currentPage, carsCount: currentCount } = store.getState();
+
+      const updatedCount = currentCount - DEFAULT_INCREMENT;
+
+      store.setCount({ carsCount: updatedCount });
+
+      const updatedPage = isExceeding(currentPage, updatedCount)
+        ? currentPage - DEFAULT_INCREMENT || DEFAULT_PAGE
+        : currentPage;
+
+      store.setPage({ currentPage: updatedPage });
+
+      trackItem.remove();
+    } catch (error: unknown) {
+      console.error('Error deleting car:', error);
+    }
+  };
+
   return createButton({
     textContent: BUTTON_TEXT.DELETE,
-    onClick: (): void => {
-      deleteCar(id)
-        .then(() => {
-          const { currentPage, carsCount: currentCount } = store.getState();
-
-          const updatedCount = currentCount - DEFAULT_INCREMENT;
-
-          store.setCount({ carsCount: updatedCount });
-
-          const updatedPage = isExceeding(currentPage, updatedCount)
-            ? currentPage - DEFAULT_INCREMENT || DEFAULT_PAGE
-            : currentPage;
-
-          store.setPage({ currentPage: updatedPage });
-
-          trackItem.remove();
-        })
-        .catch((error: unknown) => {
-          console.error('Error deleting car:', error);
-        });
-    },
+    onClick: () => void handleDelete(),
   });
 }
 
