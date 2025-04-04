@@ -7,8 +7,17 @@ import { createGaragePage } from './pages/garage/garage-page';
 import { createWinnersPage } from './pages/winners/winners-page';
 import { Route } from './router/route';
 import { initRouter, navigate } from './router/router';
+import { initializeCarCount } from './store/store';
 
 export function initApp(): void {
+  initializeCarCount()
+    .then(initInternal)
+    .catch((error: unknown) => {
+      console.log(error);
+    });
+}
+
+function initInternal(): void {
   const buttonsContainer = div({ className: styles.container });
 
   const garageButton = createButton({

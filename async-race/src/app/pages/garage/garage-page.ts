@@ -63,6 +63,7 @@ export function createGaragePage(): HTMLElement {
   });
 
   store.subscribe(EventType.COUNT_CHANGE, ({ currentPage, carsCount }) => {
+    console.log('count change');
     if (currentPage && carsCount !== undefined) {
       if (isOnCurrent(currentPage, carsCount)) {
         loadCars(carsList, currentPage);

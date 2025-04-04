@@ -50,11 +50,9 @@ const defaultState: State = {
   colorInputValue: DEFAULT_COLOR,
 };
 
-async function initializeCarCount(): Promise<void> {
-  const { totalCount } = await getCars(DEFAULT_PAGE);
-  defaultState.carsCount = totalCount;
-}
-
-await initializeCarCount();
-
 export const store = createStore(defaultState);
+
+export async function initializeCarCount(): Promise<void> {
+  const { totalCount } = await getCars(DEFAULT_PAGE);
+  store.setCount({ carsCount: totalCount });
+}
