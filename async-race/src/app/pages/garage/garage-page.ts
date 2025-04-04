@@ -84,7 +84,7 @@ function createCarAdditionHandler(store: Store): CarAdditionHandler {
 
       store.setCount({ carsCount: currentCount + DEFAULT_INCREMENT });
     } catch (error: unknown) {
-      console.error('Error during car creation or loading:', error);
+      console.error(error);
     }
   };
 }

@@ -26,6 +26,18 @@ export const HTTP_METHOD = {
   PUT: 'PUT',
 } as const;
 
+export const HTTP_STATUS = {
+  OK: 200,
+  CREATED: 201,
+} as const;
+
+export const ERROR_TEXT = {
+  GET: 'Failed to retrieve car.',
+  CREATE: 'Failed to create car.',
+  DELETE: 'Failed to delete car.',
+  UPDATE: 'Failed to update car.',
+};
+
 export const TAG_NAME = {
   BUTTON: 'button',
   DIALOG: 'dialog',

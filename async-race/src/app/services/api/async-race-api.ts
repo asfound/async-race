@@ -5,8 +5,10 @@ import {
   CARS_PER_PAGE,
   CONTENT_TYPE,
   EMPTY_COUNT,
+  ERROR_TEXT,
   HEADER,
   HTTP_METHOD,
+  HTTP_STATUS,
   PATH,
   QUERY_PARAMETER,
 } from '~/app/constants/constants';
@@ -40,11 +42,14 @@ export async function getCars(
   }
 }
 
-export async function getCar(id: number): Promise<void> {
+export async function getCar(id: number): Promise<unknown> {
   const response = await fetch(`${BASE_URL}${PATH.GARAGE}/${String(id)}`);
-  const data: unknown = await response.json();
 
-  console.log(data);
+  if (response.status !== HTTP_STATUS.OK) {
+    throw new Error(ERROR_TEXT.GET);
+  }
+
+  return response.json();
 }
 
 export async function createCar(name: string, color: string): Promise<unknown> {
@@ -54,13 +59,21 @@ export async function createCar(name: string, color: string): Promise<unknown> {
     headers: { [HEADER.CONTENT_TYPE]: CONTENT_TYPE.JSON },
   });
 
+  if (response.status !== HTTP_STATUS.CREATED) {
+    throw new Error(ERROR_TEXT.CREATE);
+  }
+
   return response.json();
 }
 
-export async function deleteCar(id: number): Promise<unknown> {
-  return fetch(`${BASE_URL}${PATH.GARAGE}/${String(id)}`, {
+export async function deleteCar(id: number): Promise<void> {
+  const response = await fetch(`${BASE_URL}${PATH.GARAGE}/${String(id)}`, {
     method: HTTP_METHOD.DELETE,
   });
+
+  if (response.status !== HTTP_STATUS.OK) {
+    throw new Error(ERROR_TEXT.DELETE);
+  }
 }
 
 export async function updateCar(
@@ -74,6 +87,10 @@ export async function updateCar(
       body: JSON.stringify({ name: properties.name, color: properties.color }),
     }
   );
+
+  if (response.status !== HTTP_STATUS.OK) {
+    throw new Error(ERROR_TEXT.UPDATE);
+  }
 
   return response.json();
 }

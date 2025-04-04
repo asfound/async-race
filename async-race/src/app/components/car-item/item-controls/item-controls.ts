@@ -27,12 +27,12 @@ export function createItemControls(
   ): Promise<void> => {
     try {
       await updateCar({ id, name: newName, color: newColor });
-    } catch (error: unknown) {
-      console.error('Error updating car:', error);
-    }
 
-    const { currentPage } = store.getState();
-    store.setPage({ currentPage });
+      const { currentPage } = store.getState();
+      store.setPage({ currentPage });
+    } catch (error: unknown) {
+      console.error(error);
+    }
   };
 
   const startButton = createButton({
@@ -79,14 +79,13 @@ function createDeleteButton(
       const updatedPage = isExceeding(currentPage, updatedCount)
         ? currentPage - DEFAULT_INCREMENT || DEFAULT_PAGE
         : currentPage;
-      console.log('updated page', updatedPage);
 
       store.setPage({ currentPage: updatedPage });
       store.setCount({ carsCount: updatedCount });
 
       trackItem.remove();
     } catch (error: unknown) {
-      console.error('Error deleting car:', error);
+      console.error(error);
     }
   };
 
