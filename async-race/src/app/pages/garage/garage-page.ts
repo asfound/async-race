@@ -1,3 +1,5 @@
+import type { Store } from '~/app/types/interfaces';
+
 import { createSettingsForm } from '~/app/components/car-settings-form/car-settings-form';
 import { createPaginationControls } from '~/app/components/garage-pagination-controls/garage-pagination-controls';
 import { createGarageTitle } from '~/app/components/garage-title/garage-title';
@@ -19,17 +21,7 @@ export function createGaragePage(): HTMLElement {
   const { currentPage, carsCount, nameInputValue, colorInputValue } =
     store.getState();
 
-  const carAdditionHandler = (name: string, color: string): void => {
-    createCar(name, color)
-      .then(() => {
-        const { carsCount: currentCount } = store.getState();
-
-        store.setCount({ carsCount: currentCount + DEFAULT_INCREMENT });
-      })
-      .catch((error: unknown) => {
-        console.error('Error during car creation or loading:', error);
-      });
-  };
+  const carAdditionHandler = createCarAdditionHandler(store);
 
   const container = div({});
 
@@ -80,4 +72,19 @@ export function createGaragePage(): HTMLElement {
   container.append(paginationControls, carsList);
 
   return container;
+}
+
+type CarAdditionHandler = (name: string, color: string) => Promise<void>;
+
+function createCarAdditionHandler(store: Store): CarAdditionHandler {
+  return async (name, color): Promise<void> => {
+    try {
+      await createCar(name, color);
+      const { carsCount: currentCount } = store.getState();
+
+      store.setCount({ carsCount: currentCount + DEFAULT_INCREMENT });
+    } catch (error: unknown) {
+      console.error('Error during car creation or loading:', error);
+    }
+  };
 }

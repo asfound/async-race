@@ -21,12 +21,15 @@ export function createItemControls(
 ): HTMLElement {
   const { id, name, color } = properties;
 
-  const updateHandler = (newName: string, newColor: string): void => {
-    updateCar({ id, name: newName, color: newColor }).catch(
-      (error: unknown) => {
-        console.error('Error updating car:', error);
-      }
-    );
+  const updateHandler = async (
+    newName: string,
+    newColor: string
+  ): Promise<void> => {
+    try {
+      await updateCar({ id, name: newName, color: newColor });
+    } catch (error: unknown) {
+      console.error('Error updating car:', error);
+    }
 
     const { currentPage } = store.getState();
     store.setPage({ currentPage });
@@ -92,7 +95,7 @@ function createDeleteButton(
 }
 
 function createEditButton(
-  updateHandler: (newName: string, newColor: string) => void,
+  updateHandler: (newName: string, newColor: string) => Promise<void>,
   name: string,
   color: string
 ): HTMLButtonElement {

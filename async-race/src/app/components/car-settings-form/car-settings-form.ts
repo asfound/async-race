@@ -7,7 +7,7 @@ import styles from './car-settings-form.module.css';
 
 export function createSettingsForm(
   buttonText: string,
-  handler: (newName: string, newColor: string) => void,
+  handler: (newName: string, newColor: string) => Promise<void>,
   nameValue: string,
   colorValue: string,
 
@@ -41,27 +41,38 @@ export function createSettingsForm(
   });
 
   if (callbacks !== undefined) {
-    nameInput.addEventListener('input', (event) => {
-      if (event.target instanceof HTMLInputElement) {
-        callbacks.nameInputHandler?.(event.target.value);
-      }
-    });
-
-    colorInput.addEventListener('input', (event) => {
-      if (event.target instanceof HTMLInputElement) {
-        callbacks.colorInputHandler?.(event.target.value);
-      }
-    });
+    setupCallbacks(nameInput, colorInput, callbacks);
   }
 
   formElement.addEventListener('submit', () => {
     const nameToSubmit = nameInput.value.trim() || getRandomName();
     const colorToSubmit = colorInput.value;
 
-    handler(nameToSubmit, colorToSubmit);
+    void handler(nameToSubmit, colorToSubmit);
   });
 
   formElement.append(nameInput, colorInput, submitButton);
 
   return formElement;
+}
+
+function setupCallbacks(
+  nameInput: HTMLInputElement,
+  colorInput: HTMLInputElement,
+  callbacks: {
+    nameInputHandler?: (name: string) => void;
+    colorInputHandler?: (color: string) => void;
+  }
+): void {
+  nameInput.addEventListener('input', (event) => {
+    if (event.target instanceof HTMLInputElement) {
+      callbacks.nameInputHandler?.(event.target.value);
+    }
+  });
+
+  colorInput.addEventListener('input', (event) => {
+    if (event.target instanceof HTMLInputElement) {
+      callbacks.colorInputHandler?.(event.target.value);
+    }
+  });
 }
