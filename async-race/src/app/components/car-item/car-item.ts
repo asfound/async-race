@@ -8,14 +8,12 @@ import carSVG from '~/assets/icons/car.svg?raw';
 import styles from './car-item.module.css';
 import { createItemControls } from './item-controls/item-controls';
 
-export function createCarItem({
-  id,
-  name,
-  color,
-}: CarItemProperties): HTMLLIElement {
+export function createCarItem(properties: CarItemProperties): HTMLLIElement {
+  const { name, color } = properties;
+
   const trackItem = li({ className: styles.item });
 
-  const buttonsContainer = createItemControls(trackItem, id);
+  const buttonsContainer = createItemControls(trackItem, properties);
 
   const carName = p({ textContent: name, className: styles.name });
 

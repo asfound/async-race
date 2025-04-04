@@ -11,7 +11,9 @@ import styles from './car-settings-form.module.css';
 
 export function createSettingsForm(
   buttonText: string,
-  handler: (name: string, color: string) => void
+  handler: (newName: string, newColor: string) => void,
+  name?: string,
+  color?: string
 ): HTMLFormElement {
   const formElement = form({ className: styles.form, method: 'dialog' });
 
@@ -21,11 +23,19 @@ export function createSettingsForm(
     placeholder: PLACEHOLDERS.NAME,
   });
 
+  if (name !== undefined) {
+    nameInput.value = name;
+  }
+
   const colorInput = input({
     className: styles.color,
     type: INPUT_TYPE.COLOR,
     value: DEFAULT_COLOR,
   });
+
+  if (color !== undefined) {
+    colorInput.value = color;
+  }
 
   const submitButton = createButton({
     textContent: buttonText,
@@ -33,10 +43,10 @@ export function createSettingsForm(
   });
 
   formElement.addEventListener('submit', () => {
-    const name = nameInput.value.trim() || getRandomName();
-    const color = colorInput.value;
+    const providedName = nameInput.value.trim() || getRandomName();
+    const providedColor = colorInput.value;
 
-    handler(name, color);
+    handler(providedName, providedColor);
   });
 
   formElement.append(nameInput, colorInput, submitButton);

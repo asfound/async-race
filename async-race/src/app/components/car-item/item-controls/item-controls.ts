@@ -1,3 +1,5 @@
+import type { CarItemProperties } from '~/app/types/interfaces';
+
 import { createButton } from '~/app/components/button/button';
 import {
   BUTTON_TEXT,
@@ -15,12 +17,16 @@ import styles from './item-controls.module.css';
 
 export function createItemControls(
   trackItem: HTMLLIElement,
-  id: number
+  properties: CarItemProperties
 ): HTMLElement {
-  const updateHandler = (name: string, color: string): void => {
-    updateCar({ id, name, color }).catch((error: unknown) => {
-      console.error('Error updating car:', error);
-    });
+  const { id, name, color } = properties;
+
+  const updateHandler = (newName: string, newColor: string): void => {
+    updateCar({ id, name: newName, color: newColor }).catch(
+      (error: unknown) => {
+        console.error('Error updating car:', error);
+      }
+    );
 
     const { currentPage } = store.getState();
     store.setPage({ currentPage });
@@ -36,7 +42,7 @@ export function createItemControls(
 
   const deleteButton = createDeleteButton(trackItem, id);
 
-  const editButton = createEditButton(updateHandler);
+  const editButton = createEditButton(updateHandler, name, color);
 
   const startHandler = (): void => {
     console.log(`start ${String(id)}`);
@@ -86,12 +92,20 @@ function createDeleteButton(
 }
 
 function createEditButton(
-  updateHandler: (name: string, color: string) => void
+  updateHandler: (newName: string, newColor: string) => void,
+  name: string,
+  color: string
 ): HTMLButtonElement {
   return createButton({
     textContent: BUTTON_TEXT.EDIT,
+
     onClick: (): void => {
-      const settingsForm = createSettingsForm(BUTTON_TEXT.SAVE, updateHandler);
+      const settingsForm = createSettingsForm(
+        BUTTON_TEXT.SAVE,
+        updateHandler,
+        name,
+        color
+      );
 
       const modalWindow = createModal(settingsForm);
 
