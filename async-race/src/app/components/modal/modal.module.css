@@ -1,7 +1,12 @@
 .modal {
   padding: 0;
+  background-color: var(--primary-bright);
 }
 
 .content {
   padding: 1rem;
+}
+
+.modal::backdrop {
+  background-color: rgb(39 39 39 / 55%);
 }

@@ -11,6 +11,7 @@
 
   font: inherit;
 
+  background-color: var(--white);
   outline: none;
 }
 
