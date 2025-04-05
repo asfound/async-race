@@ -113,6 +113,11 @@ export const CAR_ICON_SIZE = {
   HEIGHT: '45',
 } as const;
 
+export const REPAIR_ICON_SIZE = {
+  WIDTH: '31',
+  HEIGHT: '22',
+} as const;
+
 export const MIME_TYPE = {
   SVG: 'image/svg+xml',
 } as const;

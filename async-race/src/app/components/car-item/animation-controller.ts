@@ -5,7 +5,7 @@ export interface CarAnimationController {
 }
 
 export function createAnimationController(
-  car: SVGElement,
+  car: HTMLElement,
   getter: () => number
 ): CarAnimationController {
   let animation: Animation | null = null;

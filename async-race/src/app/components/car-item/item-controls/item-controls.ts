@@ -28,7 +28,8 @@ import styles from './item-controls.module.css';
 export function createItemControls(
   trackItem: HTMLLIElement,
   properties: CarItemProperties,
-  animationController: CarAnimationController
+  animationController: CarAnimationController,
+  callback: () => void
 ): HTMLElement {
   const { id, name, color } = properties;
 
@@ -65,6 +66,7 @@ export function createItemControls(
         return distance / velocity;
       })
       .then((duration) => {
+        console.log(duration);
         animationController.drive(duration);
         return driveCar(id);
       })
@@ -74,6 +76,7 @@ export function createItemControls(
           error.statusCode === HTTP_STATUS.INTERNAL_SERVER_ERROR
         ) {
           animationController.pause();
+          callback();
         } else {
           showErrorModal(error);
         }
