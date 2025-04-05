@@ -14,7 +14,7 @@ export function isOnFirst(currentPage: number): boolean {
 }
 
 export function isOnLast(currentPage: number, totalCount: number): boolean {
-  const lastPage = Math.ceil(totalCount / CARS_PER_PAGE);
+  const lastPage = calculateLastPage(totalCount);
   return currentPage === lastPage;
 }
 

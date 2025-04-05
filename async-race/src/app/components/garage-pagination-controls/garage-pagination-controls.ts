@@ -1,4 +1,5 @@
 import type { Store } from '~/app/types/interfaces';
+import type { Render } from '~/app/types/types';
 
 import { BUTTON_TEXT, DEFAULT_INCREMENT } from '~/app/constants/constants';
 import { EventType } from '~/app/types/enums';
@@ -11,38 +12,26 @@ import styles from './garage-pagination-controls.module.css';
 export function createPaginationControls(store: Store): HTMLElement {
   const paginationContainer = div({ className: styles.container });
 
-  const previousPageButton = createPreviousButton(store);
+  const render: Render = ({ currentPage, carsCount }) => {
+    paginationContainer.replaceChildren();
 
-  const { currentPage, carsCount } = store.getState();
+    const pageNumber = span({
+      textContent: `${String(currentPage)}/${String(calculateLastPage(carsCount))}`,
+    });
 
-  const pageNumber = span({
-    textContent: `${String(currentPage)}/${String(calculateLastPage(carsCount))}`,
-  });
+    const previousPageButton = createPreviousButton(store);
+    const nextPageButton = createNextButton(store);
 
-  const nextPageButton = createNextButton(store);
-
-  const setButtonsState = (currentPage: number, carsCount: number): void => {
     nextPageButton.disabled = isOnLast(currentPage, carsCount);
     previousPageButton.disabled = isOnFirst(currentPage);
+
+    paginationContainer.append(previousPageButton, pageNumber, nextPageButton);
   };
 
-  setButtonsState(currentPage, carsCount);
+  store.subscribe(EventType.PAGE_CHANGE, render);
+  store.subscribe(EventType.COUNT_CHANGE, render);
 
-  store.subscribe(EventType.PAGE_CHANGE, ({ currentPage, carsCount }) => {
-    if (currentPage && carsCount) {
-      setButtonsState(currentPage, carsCount);
-      setPageNumberState(pageNumber, currentPage, carsCount);
-    }
-  });
-
-  store.subscribe(EventType.COUNT_CHANGE, ({ currentPage, carsCount }) => {
-    if (currentPage && carsCount) {
-      setButtonsState(currentPage, carsCount);
-      setPageNumberState(pageNumber, currentPage, carsCount);
-    }
-  });
-
-  paginationContainer.append(previousPageButton, pageNumber, nextPageButton);
+  render(store.getState());
 
   return paginationContainer;
 }
@@ -67,12 +56,4 @@ function createNextButton(store: Store): HTMLButtonElement {
       store.setPage({ currentPage: currentPage + DEFAULT_INCREMENT });
     },
   });
-}
-
-function setPageNumberState(
-  pageNumber: HTMLElement,
-  currentPage: number,
-  carsCount: number
-): void {
-  pageNumber.textContent = `${String(currentPage)}/${String(calculateLastPage(carsCount))}`;
 }

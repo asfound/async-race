@@ -36,6 +36,7 @@ export function createGaragePage(): HTMLElement {
   };
 
   const titleContainer = createGarageTitle(store);
+  const paginationControls = createPaginationControls(store);
 
   const raceControls = createRaceControls(store);
 
@@ -50,8 +51,6 @@ export function createGaragePage(): HTMLElement {
   carCreationForm.classList.add(styles.form);
 
   container.append(titleContainer, raceControls, carCreationForm);
-
-  const paginationControls = createPaginationControls(store);
 
   const carsList = ul({ className: styles.list });
 
