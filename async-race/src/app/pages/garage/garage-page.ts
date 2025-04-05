@@ -1,30 +1,41 @@
 import type { Store } from '~/app/types/interfaces';
 import type { CarAdditionHandler } from '~/app/types/types';
 
+import { createCarList } from '~/app/components/car-list/car-list';
 import { createSettingsForm } from '~/app/components/car-settings-form/car-settings-form';
 import { createPaginationControls } from '~/app/components/garage-pagination-controls/garage-pagination-controls';
 import { createGarageTitle } from '~/app/components/garage-title/garage-title';
 import { createRaceControls } from '~/app/components/race-controls/race-controls';
-import {
-  BUTTON_TEXT,
-  DEFAULT_INCREMENT,
-  DEFAULT_PAGE,
-} from '~/app/constants/constants';
+import { BUTTON_TEXT, DEFAULT_INCREMENT } from '~/app/constants/constants';
 import { store } from '~/app/store/store';
-import { EventType } from '~/app/types/enums';
 import { showErrorModal } from '~/app/utils/show-error-modal';
 
 import { createCar } from '../../services/api/api-service';
-import { isOnCurrent } from '../../utils/check-page';
-import { div, ul } from '../../utils/create-element';
+import { div } from '../../utils/create-element';
 import styles from './garage-page.module.css';
-import { loadCars } from './utils/load-cars';
 
 export function createGaragePage(): HTMLElement {
   const container = div({});
 
-  const { currentPage, nameInputValue, colorInputValue } = store.getState();
+  const titleContainer = createGarageTitle(store);
 
+  const paginationControls = createPaginationControls(store);
+
+  const raceControls = createRaceControls(store);
+
+  const carCreationForm = createCarCreationForm(store);
+
+  container.append(titleContainer, raceControls, carCreationForm);
+
+  const carsList = createCarList(store);
+
+  container.append(paginationControls, carsList);
+
+  return container;
+}
+
+function createCarCreationForm(store: Store): HTMLFormElement {
+  const { nameInputValue, colorInputValue } = store.getState();
   const carAdditionHandler = createCarAdditionHandler(store);
 
   const nameInputHandler = (name: string): void => {
@@ -34,12 +45,6 @@ export function createGaragePage(): HTMLElement {
   const colorInputHandler = (color: string): void => {
     store.setColor({ colorInputValue: color });
   };
-
-  const titleContainer = createGarageTitle(store);
-  const paginationControls = createPaginationControls(store);
-
-  const raceControls = createRaceControls(store);
-
   const carCreationForm = createSettingsForm(
     BUTTON_TEXT.ADD_CAR,
     carAdditionHandler,
@@ -47,29 +52,8 @@ export function createGaragePage(): HTMLElement {
     colorInputValue,
     { nameInputHandler, colorInputHandler }
   );
-
   carCreationForm.classList.add(styles.form);
-
-  container.append(titleContainer, raceControls, carCreationForm);
-
-  const carsList = ul({ className: styles.list });
-
-  loadCars(carsList, currentPage);
-
-  store.subscribe(EventType.PAGE_CHANGE, ({ currentPage = DEFAULT_PAGE }) => {
-    loadCars(carsList, currentPage);
-  });
-
-  store.subscribe(EventType.COUNT_CHANGE, ({ currentPage, carsCount }) => {
-    console.log('count change');
-    if (currentPage && isOnCurrent(currentPage, carsCount)) {
-      loadCars(carsList, currentPage);
-    }
-  });
-
-  container.append(paginationControls, carsList);
-
-  return container;
+  return carCreationForm;
 }
 
 function createCarAdditionHandler(store: Store): CarAdditionHandler {

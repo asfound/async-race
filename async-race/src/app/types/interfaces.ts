@@ -33,6 +33,8 @@ export interface Store {
 
   setColor: (newState: Partial<State>) => void;
 
+  updateState: (newState: Partial<State>) => void;
+
   subscribe: (event: string, callback: Listener) => void;
 }
 

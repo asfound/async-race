@@ -36,6 +36,10 @@ export function createStore(initialState: State): Store {
       Object.assign(state, newState);
     },
 
+    updateState: (newState: Partial<State>): void => {
+      Object.assign(state, newState);
+    },
+
     subscribe: (event: string, callback: Listener): void => {
       eventBus.subscribe(event, callback);
     },
