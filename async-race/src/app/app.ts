@@ -8,16 +8,17 @@ import { createWinnersPage } from './pages/winners/winners-page';
 import { Route } from './router/route';
 import { initRouter, navigate } from './router/router';
 import { initializeCarCount } from './store/store';
+import { showErrorModal } from './utils/show-error-modal';
 
 export function initApp(): void {
   initializeCarCount()
-    .then(initInternal)
+    .then(initUI)
     .catch((error: unknown) => {
-      console.log(error);
+      showErrorModal(error);
     });
 }
 
-function initInternal(): void {
+function initUI(): void {
   const buttonsContainer = div({ className: styles.container });
 
   const garageButton = createButton({
@@ -53,3 +54,5 @@ function initInternal(): void {
     },
   });
 }
+//init ui init router
+//pass store
