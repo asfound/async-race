@@ -7,7 +7,7 @@ import styles from './car-settings-form.module.css';
 
 export function createSettingsForm(
   buttonText: string,
-  handler: (newName: string, newColor: string) => Promise<void>,
+  handler: (newName: string, newColor: string) => void,
   nameValue: string,
   colorValue: string,
 
@@ -48,7 +48,7 @@ export function createSettingsForm(
     const nameToSubmit = nameInput.value.trim() || getRandomName();
     const colorToSubmit = colorInput.value;
 
-    void handler(nameToSubmit, colorToSubmit);
+    handler(nameToSubmit, colorToSubmit);
   });
 
   formElement.append(nameInput, colorInput, submitButton);

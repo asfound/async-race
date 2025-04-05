@@ -4,9 +4,12 @@ import { showErrorModal } from '~/app/utils/show-error-modal';
 
 export interface CarItemController {
   removeCar: (id: number) => void;
+
+  updateCar: (newName: string, newColor: string) => void;
 }
 
 export function createCarItemController(
+  id: number,
   item: HTMLLIElement,
   carService: CarService
 ): CarItemController {
@@ -18,6 +21,10 @@ export function createCarItemController(
         .finally(() => {
           item.remove();
         });
+    },
+
+    updateCar: (newName: string, newColor: string): void => {
+      carService.editCar(id, newName, newColor).catch(showErrorModal);
     },
   };
 }

@@ -3,7 +3,7 @@ import type { Store } from '~/app/types/interfaces';
 import { DEFAULT_INCREMENT, DEFAULT_PAGE } from '~/app/constants/constants';
 import { isExceeding, isOnCurrent } from '~/app/utils/check-page';
 
-import { createCar, deleteCar, getCars } from '../api/api-service';
+import { createCar, deleteCar, getCars, updateCar } from '../api/api-service';
 
 export interface CarService {
   goToPage: (page: number) => Promise<void>;
@@ -11,6 +11,8 @@ export interface CarService {
   addCar: (name: string, color: string) => Promise<void>;
 
   removeCar: (id: number) => Promise<void>;
+
+  editCar: (id: number, newName: string, newColor: string) => Promise<void>;
 }
 
 export function createCarService(store: Store): CarService {
@@ -48,5 +50,17 @@ export function createCarService(store: Store): CarService {
     await goToPage(updatedPage);
   };
 
-  return { goToPage, addCar, removeCar };
+  const editCar = async (
+    id: number,
+    newName: string,
+    newColor: string
+  ): Promise<void> => {
+    await updateCar({ id, name: newName, color: newColor });
+
+    const { currentPage } = store.getState();
+
+    await goToPage(currentPage);
+  };
+
+  return { goToPage, addCar, removeCar, editCar };
 }

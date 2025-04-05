@@ -8,6 +8,7 @@ import { createGarageTitle } from '~/app/components/garage-title/garage-title';
 import { createRaceControls } from '~/app/components/race-controls/race-controls';
 import { BUTTON_TEXT } from '~/app/constants/constants';
 import { store } from '~/app/store/store';
+import { showErrorModal } from '~/app/utils/show-error-modal';
 
 import { div } from '../../utils/create-element';
 import styles from './garage-page.module.css';
@@ -37,7 +38,10 @@ function createCarCreationForm(
   carService: CarService
 ): HTMLFormElement {
   const { nameInputValue, colorInputValue } = store.getState();
-  const carAdditionHandler = carService.addCar;
+
+  const carAdditionHandler = (name: string, color: string): void => {
+    carService.addCar(name, color).catch(showErrorModal);
+  };
 
   const nameInputHandler = (name: string): void => {
     store.setColor({ nameInputValue: name });

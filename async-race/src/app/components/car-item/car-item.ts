@@ -17,9 +17,9 @@ export function createCarItem(
   carService: CarService
 ): HTMLLIElement {
   const trackItem = li({ className: styles.item });
-  const { name, color } = properties;
+  const { id, name, color } = properties;
 
-  const itemController = createCarItemController(trackItem, carService);
+  const itemController = createCarItemController(id, trackItem, carService);
 
   const carName = p({ textContent: name, className: styles.name });
 

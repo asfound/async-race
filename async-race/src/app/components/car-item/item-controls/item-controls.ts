@@ -2,13 +2,7 @@ import type { CarItemProperties } from '~/app/types/interfaces';
 
 import { createButton } from '~/app/components/button/button';
 import { BUTTON_TEXT, HTTP_STATUS } from '~/app/constants/constants';
-import {
-  driveCar,
-  startCar,
-  stopCar,
-  updateCar,
-} from '~/app/services/api/api-service';
-import { store } from '~/app/store/store';
+import { driveCar, startCar, stopCar } from '~/app/services/api/api-service';
 import { div } from '~/app/utils/create-element';
 import { EngineError } from '~/app/utils/custom-errors';
 import { showErrorModal } from '~/app/utils/show-error-modal';
@@ -28,20 +22,6 @@ export function createItemControls(
 ): HTMLElement {
   const { id, name, color } = properties;
 
-  const updateHandler = async (
-    newName: string,
-    newColor: string
-  ): Promise<void> => {
-    try {
-      await updateCar({ id, name: newName, color: newColor });
-
-      const { currentPage } = store.getState();
-      store.setPage({ currentPage });
-    } catch (error) {
-      showErrorModal(error);
-    }
-  };
-
   const startButton = createButton({
     textContent: BUTTON_TEXT.START,
   });
@@ -59,7 +39,7 @@ export function createItemControls(
     },
   });
 
-  const editButton = createEditButton(updateHandler, name, color);
+  const editButton = createEditButton(controller.updateCar, name, color);
 
   const startHandler = (): void => {
     startButton.disabled = true;
@@ -106,7 +86,7 @@ export function createItemControls(
 }
 
 function createEditButton(
-  updateHandler: (newName: string, newColor: string) => Promise<void>,
+  updateHandler: (newName: string, newColor: string) => void,
   name: string,
   color: string
 ): HTMLButtonElement {
