@@ -25,7 +25,8 @@ export function createCarItem(properties: CarItemProperties): HTMLLIElement {
 
   const carTrack = div({ className: styles.track }, [carIcon]);
 
-  const getWidth = (): number => trackItem.offsetWidth;
+  const getWidth = (): number =>
+    trackItem.offsetWidth - carIcon.getBoundingClientRect().width;
 
   const animationController = createAnimationController(carIcon, getWidth);
 
