@@ -23,6 +23,7 @@ export function createCarItem(properties: CarItemProperties): HTMLLIElement {
     CAR_ICON_SIZE.HEIGHT
   );
 
+  carIcon.classList.add(styles.broken);
   const carTrack = div({ className: styles.track }, [carIcon]);
 
   const getWidth = (): number =>

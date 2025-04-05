@@ -15,6 +15,7 @@ import {
   PATH,
   QUERY_PARAMETER,
 } from '~/app/constants/constants';
+import { EngineError } from '~/app/utils/custom-errors';
 import {
   assertCarItemPropertiesArray,
   assertIsStartEngineProperties,
@@ -123,6 +124,25 @@ export async function startCar(id: number): Promise<StartEngineProperties> {
   assertIsStartEngineProperties(data);
 
   return data;
+}
+
+export async function driveCar(id: number): Promise<void> {
+  const query = new URLSearchParams({
+    id: id.toString(),
+    status: 'drive',
+  });
+
+  const response = await fetch(
+    `${BASE_URL}${PATH.ENGINE}?${query.toString()}`,
+    {
+      method: HTTP_METHOD.PATCH,
+    }
+  );
+
+  if (response.status !== HTTP_STATUS.OK) {
+    const errorData = await response.text();
+    throw new EngineError(response.status, errorData);
+  }
 }
 
 export async function getWinners(): Promise<void> {

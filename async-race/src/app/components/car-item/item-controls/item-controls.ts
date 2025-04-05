@@ -5,15 +5,18 @@ import {
   BUTTON_TEXT,
   DEFAULT_INCREMENT,
   DEFAULT_PAGE,
+  HTTP_STATUS,
 } from '~/app/constants/constants';
 import {
   deleteCar,
+  driveCar,
   startCar,
   updateCar,
 } from '~/app/services/api/async-race-api';
 import { store } from '~/app/store/store';
 import { isExceeding } from '~/app/utils/check-page';
 import { div } from '~/app/utils/create-element';
+import { EngineError } from '~/app/utils/custom-errors';
 import { showErrorModal } from '~/app/utils/show-error-modal';
 
 import type { CarAnimationController } from '../animation-controller';
@@ -56,18 +59,25 @@ export function createItemControls(
   const editButton = createEditButton(updateHandler, name, color);
 
   const startHandler = (): void => {
-    console.log(
-      startCar(id)
-        .then((response) => {
-          const { velocity, distance } = response;
-          const duration = distance / velocity;
-
-          animationController.drive(duration);
-        })
-        .catch(() => {
+    startCar(id)
+      .then((response) => {
+        const { velocity, distance } = response;
+        return distance / velocity;
+      })
+      .then((duration) => {
+        animationController.drive(duration);
+        return driveCar(id);
+      })
+      .catch((error: unknown) => {
+        if (
+          error instanceof EngineError &&
+          error.statusCode === HTTP_STATUS.INTERNAL_SERVER_ERROR
+        ) {
           animationController.pause();
-        })
-    );
+        } else {
+          showErrorModal(error);
+        }
+      });
   };
 
   const returnHandler = (): void => {

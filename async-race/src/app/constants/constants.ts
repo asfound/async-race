@@ -30,6 +30,7 @@ export const HTTP_METHOD = {
 export const HTTP_STATUS = {
   OK: 200,
   CREATED: 201,
+  INTERNAL_SERVER_ERROR: 500,
 } as const;
 
 export const ERROR_TEXT = {
