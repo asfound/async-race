@@ -60,13 +60,14 @@ export function createItemControls(
   const editButton = createEditButton(updateHandler, name, color);
 
   const startHandler = (): void => {
+    startButton.disabled = true;
+
     startCar(id)
       .then((response) => {
         const { velocity, distance } = response;
         return distance / velocity;
       })
       .then((duration) => {
-        console.log(duration);
         animationController.drive(duration);
         return driveCar(id);
       })

@@ -40,8 +40,9 @@ export function createCarItem(properties: CarItemProperties): HTMLLIElement {
 
   const carTrack = div({ className: styles.track }, [carIcon]);
 
-  const getWidth = (): number =>
-    trackItem.offsetWidth - carSvgElement.getBoundingClientRect().width;
+  const getWidth = (): number => {
+    return trackItem.offsetWidth - Number(CAR_ICON_SIZE.WIDTH);
+  };
 
   const onEngineBreak = (): void => {
     repairSvgElement.classList.remove(styles.hidden);

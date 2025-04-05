@@ -27,7 +27,7 @@
 }
 
 .icon {
-  display: flex;
+  display: inline-flex;
 }
 
 .hidden {
