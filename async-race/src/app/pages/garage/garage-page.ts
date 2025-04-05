@@ -21,8 +21,9 @@ import styles from './garage-page.module.css';
 import { loadCars } from './utils/load-cars';
 
 export function createGaragePage(): HTMLElement {
-  const { currentPage, carsCount, nameInputValue, colorInputValue } =
-    store.getState();
+  const container = div({});
+
+  const { currentPage, nameInputValue, colorInputValue } = store.getState();
 
   const carAdditionHandler = createCarAdditionHandler(store);
 
@@ -34,9 +35,7 @@ export function createGaragePage(): HTMLElement {
     store.setColor({ colorInputValue: color });
   };
 
-  const container = div({});
-
-  const { titleContainer, updateCounter } = createGarageTitle(carsCount);
+  const titleContainer = createGarageTitle(store);
 
   const raceControls = createRaceControls(store);
 
@@ -64,12 +63,8 @@ export function createGaragePage(): HTMLElement {
 
   store.subscribe(EventType.COUNT_CHANGE, ({ currentPage, carsCount }) => {
     console.log('count change');
-    if (currentPage && carsCount !== undefined) {
-      if (isOnCurrent(currentPage, carsCount)) {
-        loadCars(carsList, currentPage);
-      }
-
-      updateCounter(carsCount);
+    if (currentPage && isOnCurrent(currentPage, carsCount)) {
+      loadCars(carsList, currentPage);
     }
   });
 
