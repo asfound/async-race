@@ -4,20 +4,14 @@ export interface CarAnimationController {
   stop: () => void;
 }
 
-const MILLISECONDS_PER_SECOND = 1000;
-
 export function createAnimationController(
   car: SVGElement,
   getter: () => number
 ): CarAnimationController {
   let animation: Animation | null = null;
 
-  function drive(velocity: number): void {
-    const duration = (getter() / velocity) * MILLISECONDS_PER_SECOND;
-
-    if (animation) {
-      animation.cancel();
-    }
+  function drive(duration: number): void {
+    animation?.cancel();
 
     animation = car.animate(
       [

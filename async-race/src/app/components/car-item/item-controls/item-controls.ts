@@ -59,9 +59,10 @@ export function createItemControls(
     console.log(
       startCar(id)
         .then((response) => {
-          const { velocity } = response;
+          const { velocity, distance } = response;
+          const duration = distance / velocity;
 
-          animationController.drive(velocity);
+          animationController.drive(duration);
         })
         .catch(() => {
           animationController.pause();
