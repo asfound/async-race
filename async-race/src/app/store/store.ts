@@ -7,7 +7,7 @@ import {
   EMPTY_COUNT,
   EMPTY_STRING,
 } from '../constants/constants';
-import { getCars } from '../services/api/async-race-api';
+import { getCars } from '../services/api/api-service';
 import { EventType } from '../types/enums';
 import { EventEmitter } from '../utils/event-emitter';
 

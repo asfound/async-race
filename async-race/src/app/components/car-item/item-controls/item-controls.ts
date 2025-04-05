@@ -13,7 +13,7 @@ import {
   startCar,
   stopCar,
   updateCar,
-} from '~/app/services/api/async-race-api';
+} from '~/app/services/api/api-service';
 import { store } from '~/app/store/store';
 import { isExceeding } from '~/app/utils/check-page';
 import { div } from '~/app/utils/create-element';

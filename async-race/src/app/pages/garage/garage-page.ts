@@ -14,7 +14,7 @@ import { store } from '~/app/store/store';
 import { EventType } from '~/app/types/enums';
 import { showErrorModal } from '~/app/utils/show-error-modal';
 
-import { createCar } from '../../services/api/async-race-api';
+import { createCar } from '../../services/api/api-service';
 import { isOnCurrent } from '../../utils/check-page';
 import { div, ul } from '../../utils/create-element';
 import styles from './garage-page.module.css';

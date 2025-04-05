@@ -1,7 +1,7 @@
 import type { Store } from '~/app/types/interfaces';
 
 import { DEFAULT_INCREMENT, EMPTY_COUNT } from '~/app/constants/constants';
-import { createCar } from '~/app/services/api/async-race-api';
+import { createCar } from '~/app/services/api/api-service';
 import { getRandomColor } from '~/app/utils/get-random-color';
 import { getRandomName } from '~/app/utils/get-random-name';
 import { showErrorModal } from '~/app/utils/show-error-modal';
