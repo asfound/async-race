@@ -1,36 +1,30 @@
 import type { CarItemProperties } from '~/app/types/interfaces';
 
 import { createButton } from '~/app/components/button/button';
+import { BUTTON_TEXT, HTTP_STATUS } from '~/app/constants/constants';
 import {
-  BUTTON_TEXT,
-  DEFAULT_INCREMENT,
-  DEFAULT_PAGE,
-  HTTP_STATUS,
-} from '~/app/constants/constants';
-import {
-  deleteCar,
   driveCar,
   startCar,
   stopCar,
   updateCar,
 } from '~/app/services/api/api-service';
 import { store } from '~/app/store/store';
-import { isExceeding } from '~/app/utils/check-page';
 import { div } from '~/app/utils/create-element';
 import { EngineError } from '~/app/utils/custom-errors';
 import { showErrorModal } from '~/app/utils/show-error-modal';
 
-import type { CarAnimationController } from '../animation-controller';
+import type { CarAnimationController } from '../controllers/animation-controller';
+import type { CarItemController } from '../controllers/car-item-controller';
 
 import { createSettingsForm } from '../../car-settings-form/car-settings-form';
 import { createModal } from '../../modal/modal';
 import styles from './item-controls.module.css';
 
 export function createItemControls(
-  trackItem: HTMLLIElement,
   properties: CarItemProperties,
   animationController: CarAnimationController,
-  callback: () => void
+  callback: () => void,
+  controller: CarItemController
 ): HTMLElement {
   const { id, name, color } = properties;
 
@@ -58,7 +52,12 @@ export function createItemControls(
 
   returnButton.disabled = true;
 
-  const deleteButton = createDeleteButton(trackItem, id);
+  const deleteButton = createButton({
+    textContent: BUTTON_TEXT.DELETE,
+    onClick: () => {
+      controller.removeCar(id);
+    },
+  });
 
   const editButton = createEditButton(updateHandler, name, color);
 
@@ -104,37 +103,6 @@ export function createItemControls(
   buttonsContainer.append(startButton, returnButton, deleteButton, editButton);
 
   return buttonsContainer;
-}
-
-function createDeleteButton(
-  trackItem: HTMLLIElement,
-  id: number
-): HTMLButtonElement {
-  const handleDelete = async (): Promise<void> => {
-    try {
-      await deleteCar(id);
-
-      const { currentPage, carsCount: currentCount } = store.getState();
-
-      const updatedCount = currentCount - DEFAULT_INCREMENT;
-
-      const updatedPage = isExceeding(currentPage, updatedCount)
-        ? currentPage - DEFAULT_INCREMENT || DEFAULT_PAGE
-        : currentPage;
-
-      store.setPage({ currentPage: updatedPage });
-      store.setCount({ carsCount: updatedCount });
-
-      trackItem.remove();
-    } catch (error) {
-      showErrorModal(error);
-    }
-  };
-
-  return createButton({
-    textContent: BUTTON_TEXT.DELETE,
-    onClick: () => void handleDelete(),
-  });
 }
 
 function createEditButton(

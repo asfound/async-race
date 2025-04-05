@@ -25,7 +25,7 @@ export function createGaragePage(carService: CarService): HTMLElement {
 
   container.append(titleContainer, raceControls, carCreationForm);
 
-  const carsList = createCarList(store);
+  const carsList = createCarList(store, carService);
 
   container.append(paginationControls, carsList);
 

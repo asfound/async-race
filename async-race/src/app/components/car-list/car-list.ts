@@ -1,3 +1,4 @@
+import type { CarService } from '~/app/services/car/car-service';
 import type { Store } from '~/app/types/interfaces';
 import type { Render } from '~/app/types/types';
 
@@ -8,14 +9,17 @@ import { ul } from '~/app/utils/create-element';
 import { createCarItem } from '../car-item/car-item';
 import styles from './car-list.module.css';
 
-export function createCarList(store: Store): HTMLUListElement {
+export function createCarList(
+  store: Store,
+  carService: CarService
+): HTMLUListElement {
   const carsList = ul({ className: styles.list });
 
   const render: Render = ({ carsOnCurrentPage }) => {
     carsList.replaceChildren();
 
     const carItems = carsOnCurrentPage.map((carProperties) =>
-      createCarItem(carProperties)
+      createCarItem(carProperties, carService)
     );
 
     carsList.append(...carItems);

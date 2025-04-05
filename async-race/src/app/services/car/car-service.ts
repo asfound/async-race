@@ -1,14 +1,16 @@
 import type { Store } from '~/app/types/interfaces';
 
-import { DEFAULT_INCREMENT } from '~/app/constants/constants';
-import { isOnCurrent } from '~/app/utils/check-page';
+import { DEFAULT_INCREMENT, DEFAULT_PAGE } from '~/app/constants/constants';
+import { isExceeding, isOnCurrent } from '~/app/utils/check-page';
 
-import { createCar, getCars } from '../api/api-service';
+import { createCar, deleteCar, getCars } from '../api/api-service';
 
 export interface CarService {
   goToPage: (page: number) => Promise<void>;
 
   addCar: (name: string, color: string) => Promise<void>;
+
+  removeCar: (id: number) => Promise<void>;
 }
 
 export function createCarService(store: Store): CarService {
@@ -32,5 +34,19 @@ export function createCarService(store: Store): CarService {
     }
   };
 
-  return { goToPage, addCar };
+  const removeCar = async (id: number): Promise<void> => {
+    await deleteCar(id);
+
+    const { currentPage, carsCount: currentCount } = store.getState();
+
+    const updatedCount = currentCount - DEFAULT_INCREMENT;
+
+    const updatedPage = isExceeding(currentPage, updatedCount)
+      ? currentPage - DEFAULT_INCREMENT || DEFAULT_PAGE
+      : currentPage;
+
+    await goToPage(updatedPage);
+  };
+
+  return { goToPage, addCar, removeCar };
 }
