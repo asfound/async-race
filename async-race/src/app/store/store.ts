@@ -7,7 +7,6 @@ import {
   EMPTY_COUNT,
   EMPTY_STRING,
 } from '../constants/constants';
-import { getCars } from '../services/api/api-service';
 import { EventType } from '../types/enums';
 import { EventEmitter } from '../utils/event-emitter';
 
@@ -52,11 +51,7 @@ const defaultState: State = {
 
   nameInputValue: EMPTY_STRING,
   colorInputValue: DEFAULT_COLOR,
+  carsOnCurrentPage: [],
 };
 
 export const store = createStore(defaultState);
-
-export async function initializeCarCount(): Promise<void> {
-  const { totalCount } = await getCars(DEFAULT_PAGE);
-  store.setCount({ carsCount: totalCount });
-}

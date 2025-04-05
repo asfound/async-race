@@ -20,6 +20,8 @@ export interface State {
 
   nameInputValue: string;
   colorInputValue: string;
+
+  carsOnCurrentPage: CarItemProperties[];
 }
 
 export interface Store {

@@ -1,24 +1,29 @@
 import { createButton } from '~/app/components/button/button';
-import { BUTTON_TEXT } from '~/app/constants/constants';
+import { BUTTON_TEXT, DEFAULT_PAGE } from '~/app/constants/constants';
 import { div, main, section } from '~/app/utils/create-element';
+
+import type { CarService } from './services/car/car-service';
 
 import styles from './app.module.css';
 import { createGaragePage } from './pages/garage/garage-page';
 import { createWinnersPage } from './pages/winners/winners-page';
 import { Route } from './router/route';
 import { initRouter, navigate } from './router/router';
-import { initializeCarCount } from './store/store';
+import { createCarService } from './services/car/car-service';
+import { store } from './store/store';
 import { showErrorModal } from './utils/show-error-modal';
 
 export function initApp(): void {
-  initializeCarCount()
-    .then(initUI)
-    .catch((error: unknown) => {
-      showErrorModal(error);
-    });
+  const carService = createCarService(store);
+  carService
+    .goToPage(DEFAULT_PAGE)
+    .then(() => {
+      initUI(carService);
+    })
+    .catch(showErrorModal);
 }
 
-function initUI(): void {
+function initUI(carService: CarService): void {
   const buttonsContainer = div({ className: styles.container });
 
   const garageButton = createButton({
@@ -49,7 +54,7 @@ function initUI(): void {
   initRouter({
     root,
     routes: {
-      [Route.GARAGE]: createGaragePage,
+      [Route.GARAGE]: () => createGaragePage(carService),
       [Route.WINNERS]: createWinnersPage,
     },
   });
