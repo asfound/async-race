@@ -39,6 +39,7 @@ export const ERROR_TEXT = {
   DELETE: 'Failed to delete car.',
   UPDATE: 'Failed to update car.',
   START: 'Failed to start engine.',
+  STOP: 'Failed to stop car.',
 
   UNKNOWN: 'Unknown error',
 };

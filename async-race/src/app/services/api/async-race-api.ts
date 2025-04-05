@@ -145,6 +145,24 @@ export async function driveCar(id: number): Promise<void> {
   }
 }
 
+export async function stopCar(id: number): Promise<void> {
+  const query = new URLSearchParams({
+    id: id.toString(),
+    status: 'stopped',
+  });
+
+  const response = await fetch(
+    `${BASE_URL}${PATH.ENGINE}?${query.toString()}`,
+    {
+      method: HTTP_METHOD.PATCH,
+    }
+  );
+
+  if (response.status !== HTTP_STATUS.OK) {
+    throw new Error(ERROR_TEXT.STOP);
+  }
+}
+
 export async function getWinners(): Promise<void> {
   const response = await fetch(`${BASE_URL}${PATH.WINNERS}`);
   const data: unknown = await response.json();

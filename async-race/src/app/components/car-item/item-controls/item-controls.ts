@@ -11,6 +11,7 @@ import {
   deleteCar,
   driveCar,
   startCar,
+  stopCar,
   updateCar,
 } from '~/app/services/api/async-race-api';
 import { store } from '~/app/store/store';
@@ -55,12 +56,15 @@ export function createItemControls(
     textContent: BUTTON_TEXT.RETURN,
   });
 
+  returnButton.disabled = true;
+
   const deleteButton = createDeleteButton(trackItem, id);
 
   const editButton = createEditButton(updateHandler, name, color);
 
   const startHandler = (): void => {
     startButton.disabled = true;
+    returnButton.disabled = false;
 
     startCar(id)
       .then((response) => {
@@ -85,7 +89,12 @@ export function createItemControls(
   };
 
   const returnHandler = (): void => {
-    console.log(`return ${String(id)}`);
+    startButton.disabled = false;
+    returnButton.disabled = true;
+
+    animationController.stop();
+
+    void stopCar(id);
   };
 
   startButton.addEventListener('click', startHandler);
