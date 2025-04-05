@@ -6,11 +6,17 @@ import {
   DEFAULT_INCREMENT,
   DEFAULT_PAGE,
 } from '~/app/constants/constants';
-import { deleteCar, updateCar } from '~/app/services/api/async-race-api';
+import {
+  deleteCar,
+  startCar,
+  updateCar,
+} from '~/app/services/api/async-race-api';
 import { store } from '~/app/store/store';
 import { isExceeding } from '~/app/utils/check-page';
 import { div } from '~/app/utils/create-element';
 import { showErrorModal } from '~/app/utils/show-error-modal';
+
+import type { CarAnimationController } from '../animation-controller';
 
 import { createSettingsForm } from '../../car-settings-form/car-settings-form';
 import { createModal } from '../../modal/modal';
@@ -18,7 +24,8 @@ import styles from './item-controls.module.css';
 
 export function createItemControls(
   trackItem: HTMLLIElement,
-  properties: CarItemProperties
+  properties: CarItemProperties,
+  animationController: CarAnimationController
 ): HTMLElement {
   const { id, name, color } = properties;
 
@@ -49,7 +56,17 @@ export function createItemControls(
   const editButton = createEditButton(updateHandler, name, color);
 
   const startHandler = (): void => {
-    console.log(`start ${String(id)}`);
+    console.log(
+      startCar(id)
+        .then((response) => {
+          const { velocity } = response;
+
+          animationController.drive(velocity);
+        })
+        .catch(() => {
+          animationController.pause();
+        })
+    );
   };
 
   const returnHandler = (): void => {
