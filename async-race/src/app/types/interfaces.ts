@@ -35,3 +35,8 @@ export interface Store {
 
   subscribe: (event: string, callback: Listener) => void;
 }
+
+export interface StartEngineProperties {
+  velocity: number;
+  distance: number;
+}

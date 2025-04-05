@@ -1,4 +1,7 @@
-import type { CarItemProperties } from '~/app/types/interfaces';
+import type {
+  CarItemProperties,
+  StartEngineProperties,
+} from '~/app/types/interfaces';
 
 import {
   BASE_URL,
@@ -12,7 +15,10 @@ import {
   PATH,
   QUERY_PARAMETER,
 } from '~/app/constants/constants';
-import { assertCarItemPropertiesArray } from '~/app/utils/type-guards';
+import {
+  assertCarItemPropertiesArray,
+  assertIsStartEngineProperties,
+} from '~/app/utils/type-guards';
 
 export async function getCars(
   page: number
@@ -93,6 +99,30 @@ export async function updateCar(
   }
 
   return response.json();
+}
+
+export async function startCar(id: number): Promise<StartEngineProperties> {
+  const query = new URLSearchParams({
+    id: id.toString(),
+    status: 'started',
+  });
+
+  const response = await fetch(
+    `${BASE_URL}${PATH.ENGINE}?${query.toString()}`,
+    {
+      method: HTTP_METHOD.PATCH,
+    }
+  );
+
+  if (response.status !== HTTP_STATUS.OK) {
+    throw new Error(ERROR_TEXT.START);
+  }
+
+  const data: unknown = await response.json();
+
+  assertIsStartEngineProperties(data);
+
+  return data;
 }
 
 export async function getWinners(): Promise<void> {

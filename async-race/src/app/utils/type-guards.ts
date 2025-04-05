@@ -1,4 +1,7 @@
-import type { CarItemProperties } from '../types/interfaces';
+import type {
+  CarItemProperties,
+  StartEngineProperties,
+} from '../types/interfaces';
 
 import { CAR_PROPERTIES } from '../constants/constants';
 
@@ -56,5 +59,27 @@ export function assertCarItemPropertiesArray(
     !data.every((object) => isCarItemProperties(object))
   ) {
     throw new Error('Not valid CarItemProperties values or not an array');
+  }
+}
+
+function isStartEngineProperties(
+  object: unknown
+): object is StartEngineProperties {
+  const isObject = typeof object !== 'object' || object === null;
+
+  if (isObject || !('velocity' in object) || !('distance' in object)) {
+    return false;
+  }
+
+  return (
+    typeof object.velocity === 'number' || typeof object.distance === 'number'
+  );
+}
+
+export function assertIsStartEngineProperties(
+  object: unknown
+): asserts object is StartEngineProperties {
+  if (!isStartEngineProperties(object)) {
+    throw new TypeError(`Not valid StartEngineProperties values`);
   }
 }

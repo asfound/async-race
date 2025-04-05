@@ -22,6 +22,7 @@ export const CONTENT_TYPE = {
 
 export const HTTP_METHOD = {
   DELETE: 'DELETE',
+  PATCH: 'PATCH',
   POST: 'POST',
   PUT: 'PUT',
 } as const;
@@ -36,6 +37,7 @@ export const ERROR_TEXT = {
   CREATE: 'Failed to create car.',
   DELETE: 'Failed to delete car.',
   UPDATE: 'Failed to update car.',
+  START: 'Failed to start engine.',
 
   UNKNOWN: 'Unknown error',
 };
