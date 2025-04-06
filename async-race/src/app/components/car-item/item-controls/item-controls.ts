@@ -130,7 +130,16 @@ function convertToControlsState(status: CarStatus): ControlsState {
       };
     }
 
-    default: {
+    case CarStatus.DRIVING: {
+      return {
+        isStartDisabled: true,
+        isReturnDisabled: false,
+        isEditDisabled: false,
+        isDeleteDisabled: false,
+      };
+    }
+
+    case CarStatus.ON_START: {
       return {
         isStartDisabled: false,
         isReturnDisabled: true,

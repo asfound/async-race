@@ -127,7 +127,7 @@ async function startCar(id: number): Promise<StartEngineProperties> {
   return data;
 }
 
-async function driveCar(id: number): Promise<void> {
+async function driveCar(id: number, signal: AbortSignal): Promise<void> {
   const query = new URLSearchParams({
     id: id.toString(),
     status: CAR_STATUS.DRIVE,
@@ -137,6 +137,7 @@ async function driveCar(id: number): Promise<void> {
     `${BASE_URL}${PATH.ENGINE}?${query.toString()}`,
     {
       method: HTTP_METHOD.PATCH,
+      signal,
     }
   );
 

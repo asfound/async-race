@@ -9,6 +9,7 @@ export type CarListener = (data: CarState) => void;
 export enum CarStatus {
   RACING,
   ON_START,
+  DRIVING,
   FINISHED,
   ENGINE_BROKEN,
 }

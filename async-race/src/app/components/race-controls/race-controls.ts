@@ -27,7 +27,12 @@ export function createRaceControls(
     },
   });
 
-  const resetButton = createButton({ textContent: 'Reset' });
+  const resetButton = createButton({
+    textContent: 'Reset',
+    onClick: () => {
+      raceService.reset();
+    },
+  });
 
   container.append(generateCarsButton, raceButton, resetButton);
 

@@ -23,6 +23,8 @@ export class CarItemController {
 
   private readonly carStore: CarStore;
 
+  private abortController: AbortController;
+
   constructor(
     properties: CarItemProperties,
     item: HTMLLIElement,
@@ -36,6 +38,7 @@ export class CarItemController {
     this.carService = carService;
     this.animationController = animationController;
     this.carStore = carStore;
+    this.abortController = new AbortController();
   }
 
   public removeCar(): void {
@@ -48,9 +51,9 @@ export class CarItemController {
   }
 
   public returnCar(): void {
+    this.abortController.abort();
     this.animationController.stop();
     this.carStore.setStatus(CarStatus.ON_START);
-
     this.carService.returnCar(this.id).catch(showErrorModal);
   }
 
@@ -66,7 +69,12 @@ export class CarItemController {
       })
       .then((duration) => {
         this.animationController.drive(duration);
-        return apiService.driveCar(this.id);
+        if (!isRacing) {
+          this.carStore.setStatus(CarStatus.DRIVING);
+        }
+        this.abortController = new AbortController();
+
+        return apiService.driveCar(this.id, this.abortController.signal);
       })
       .then(() => {
         this.carStore.setStatus(CarStatus.FINISHED);
@@ -83,10 +91,10 @@ export class CarItemController {
           if (isRacing) {
             throw error;
           }
+        } else if (!isRacing && !(error instanceof DOMException)) {
+          showErrorModal(error);
         } else {
-          if (!isRacing) {
-            showErrorModal(error);
-          }
+          throw error;
         }
       });
   }

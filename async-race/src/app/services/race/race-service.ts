@@ -18,6 +18,8 @@ export interface RaceService {
   clearControllers: () => void;
 
   race: () => void;
+
+  reset: () => void;
 }
 
 export function createRaceService(): RaceService {
@@ -53,7 +55,17 @@ export function createRaceService(): RaceService {
 
         registerWinner(properties.id, time);
       })
-      .catch(showErrorModal);
+      .catch((error: unknown) => {
+        if (!(error instanceof AggregateError)) {
+          showErrorModal(error);
+        }
+      });
+  };
+
+  const reset = (): void => {
+    for (const controller of controllers.values()) {
+      controller.returnCar();
+    }
   };
 
   return {
@@ -61,6 +73,7 @@ export function createRaceService(): RaceService {
     removeController,
     clearControllers,
     race,
+    reset,
   };
 }
 
