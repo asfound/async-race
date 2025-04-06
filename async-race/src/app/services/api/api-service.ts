@@ -1,6 +1,7 @@
 import type {
   CarItemProperties,
   StartEngineProperties,
+  WinnerProperties,
 } from '~/app/types/interfaces';
 
 import {
@@ -194,6 +195,33 @@ async function createWinner(
   return response.json();
 }
 
+async function deleteWinner(id: number): Promise<void> {
+  const response = await fetch(`${BASE_URL}${PATH.WINNERS}/${String(id)}`, {
+    method: HTTP_METHOD.DELETE,
+  });
+
+  if (response.status !== HTTP_STATUS.OK) {
+    throw new Error(ERROR_TEXT.DELETE_WINNER);
+  }
+}
+
+async function updateWinner(properties: WinnerProperties): Promise<unknown> {
+  const response = await fetch(
+    `${BASE_URL}${PATH.WINNERS}/${String(properties.id)}`,
+    {
+      method: HTTP_METHOD.PUT,
+      headers: { [HEADER.CONTENT_TYPE]: CONTENT_TYPE.JSON },
+      body: JSON.stringify({ wins: properties.wins, time: properties.wins }),
+    }
+  );
+
+  if (response.status !== HTTP_STATUS.OK) {
+    throw new Error(ERROR_TEXT.UPDATE_WINNER);
+  }
+
+  return response.json();
+}
+
 export const apiService = {
   getCars,
   getCar,
@@ -206,4 +234,6 @@ export const apiService = {
   getWinners,
   getWinner,
   createWinner,
+  deleteWinner,
+  updateWinner,
 };

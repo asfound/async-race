@@ -1,9 +1,10 @@
 import type {
   CarItemProperties,
   StartEngineProperties,
+  WinnerProperties,
 } from '../types/interfaces';
 
-import { CAR_PROPERTIES } from '../constants/constants';
+import { CAR_PROPERTIES, WINNER_PROPERTIES } from '../constants/constants';
 
 export function isNonNullable<T>(value: T): value is NonNullable<T> {
   return value !== null && value !== undefined;
@@ -81,5 +82,32 @@ export function assertIsStartEngineProperties(
 ): asserts object is StartEngineProperties {
   if (!isStartEngineProperties(object)) {
     throw new TypeError(`Not valid StartEngineProperties values`);
+  }
+}
+
+function isWinnerProperties(object: unknown): object is WinnerProperties {
+  const isObject = typeof object !== 'object' || object === null;
+
+  if (
+    isObject ||
+    !(WINNER_PROPERTIES.ID in object) ||
+    !(WINNER_PROPERTIES.WINS in object) ||
+    !(WINNER_PROPERTIES.TIME in object)
+  ) {
+    return false;
+  }
+
+  return (
+    typeof object.id === 'number' ||
+    typeof object.wins === 'number' ||
+    typeof object.time === 'number'
+  );
+}
+
+export function assertIsWinnerProperties(
+  object: unknown
+): asserts object is WinnerProperties {
+  if (!isWinnerProperties(object)) {
+    throw new TypeError(`Not valid WinnerProperties values`);
   }
 }

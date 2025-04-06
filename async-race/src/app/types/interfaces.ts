@@ -1,4 +1,4 @@
-import type { CAR_PROPERTIES } from '../constants/constants';
+import type { CAR_PROPERTIES, WINNER_PROPERTIES } from '../constants/constants';
 import type { Listener } from './types';
 
 export interface ButtonProperties {
@@ -13,6 +13,12 @@ export interface CarItemProperties {
   [CAR_PROPERTIES.ID]: number;
   [CAR_PROPERTIES.NAME]: string;
   [CAR_PROPERTIES.COLOR]: string;
+}
+
+export interface WinnerProperties {
+  [WINNER_PROPERTIES.ID]: number;
+  [WINNER_PROPERTIES.WINS]: number;
+  [WINNER_PROPERTIES.TIME]: number;
 }
 
 export interface State {
