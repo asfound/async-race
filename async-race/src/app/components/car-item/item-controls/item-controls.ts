@@ -46,7 +46,13 @@ export function createItemControls(
     },
   });
 
-  const editButton = createEditButton(controller.updateCar, name, color);
+  const editButton = createEditButton(
+    (newName, newColor) => {
+      controller.updateCar(newName, newColor);
+    },
+    name,
+    color
+  );
 
   buttonsContainer.append(startButton, returnButton, deleteButton, editButton);
 
