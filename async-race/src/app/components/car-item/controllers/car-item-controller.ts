@@ -1,7 +1,7 @@
 import type { CarService } from '~/app/services/car/car-service';
 
 import { HTTP_STATUS } from '~/app/constants/constants';
-import { apiService, driveCar } from '~/app/services/api/api-service';
+import { apiService } from '~/app/services/api/api-service';
 import { EngineError } from '~/app/utils/custom-errors';
 import { showErrorModal } from '~/app/utils/show-error-modal';
 
@@ -62,7 +62,7 @@ export class CarItemController {
       })
       .then((duration) => {
         this.animationController.drive(duration);
-        return driveCar(this.id);
+        return apiService.driveCar(this.id);
       })
       .catch((error: unknown) => {
         if (

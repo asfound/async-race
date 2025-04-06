@@ -22,7 +22,7 @@ import {
   assertIsStartEngineProperties,
 } from '~/app/utils/type-guards';
 
-export async function getCars(
+async function getCars(
   page: number
 ): Promise<{ cars: CarItemProperties[]; totalCount: number }> {
   const query = new URLSearchParams({
@@ -50,7 +50,7 @@ export async function getCars(
   }
 }
 
-export async function getCar(id: number): Promise<unknown> {
+async function getCar(id: number): Promise<unknown> {
   const response = await fetch(`${BASE_URL}${PATH.GARAGE}/${String(id)}`);
 
   if (response.status !== HTTP_STATUS.OK) {
@@ -60,7 +60,7 @@ export async function getCar(id: number): Promise<unknown> {
   return response.json();
 }
 
-export async function createCar(name: string, color: string): Promise<unknown> {
+async function createCar(name: string, color: string): Promise<unknown> {
   const response = await fetch(`${BASE_URL}${PATH.GARAGE}`, {
     method: HTTP_METHOD.POST,
     body: JSON.stringify({ name, color }),
@@ -74,7 +74,7 @@ export async function createCar(name: string, color: string): Promise<unknown> {
   return response.json();
 }
 
-export async function deleteCar(id: number): Promise<void> {
+async function deleteCar(id: number): Promise<void> {
   const response = await fetch(`${BASE_URL}${PATH.GARAGE}/${String(id)}`, {
     method: HTTP_METHOD.DELETE,
   });
@@ -84,9 +84,7 @@ export async function deleteCar(id: number): Promise<void> {
   }
 }
 
-export async function updateCar(
-  properties: CarItemProperties
-): Promise<unknown> {
+async function updateCar(properties: CarItemProperties): Promise<unknown> {
   const response = await fetch(
     `${BASE_URL}${PATH.GARAGE}/${String(properties.id)}`,
     {
@@ -103,7 +101,7 @@ export async function updateCar(
   return response.json();
 }
 
-export async function startCar(id: number): Promise<StartEngineProperties> {
+async function startCar(id: number): Promise<StartEngineProperties> {
   const query = new URLSearchParams({
     id: id.toString(),
     status: CAR_STATUS.STARTED,
@@ -127,7 +125,7 @@ export async function startCar(id: number): Promise<StartEngineProperties> {
   return data;
 }
 
-export async function driveCar(id: number): Promise<void> {
+async function driveCar(id: number): Promise<void> {
   const query = new URLSearchParams({
     id: id.toString(),
     status: CAR_STATUS.DRIVE,
@@ -146,7 +144,7 @@ export async function driveCar(id: number): Promise<void> {
   }
 }
 
-export async function stopCar(id: number): Promise<void> {
+async function stopCar(id: number): Promise<void> {
   const query = new URLSearchParams({
     id: id.toString(),
     status: CAR_STATUS.STOPPED,
@@ -164,21 +162,21 @@ export async function stopCar(id: number): Promise<void> {
   }
 }
 
-export async function getWinners(): Promise<void> {
+async function getWinners(): Promise<void> {
   const response = await fetch(`${BASE_URL}${PATH.WINNERS}`);
   const data: unknown = await response.json();
 
   console.log(data);
 }
 
-export async function getWinner(id: number): Promise<void> {
+async function getWinner(id: number): Promise<void> {
   const response = await fetch(`${BASE_URL}${PATH.WINNERS}/${String(id)}`);
   const data: unknown = await response.json();
 
   console.log(data);
 }
 
-export async function createWinner(
+async function createWinner(
   id: number,
   wins: number,
   time: number

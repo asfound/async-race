@@ -1,7 +1,7 @@
 import type { Store } from '~/app/types/interfaces';
 
 import { DEFAULT_INCREMENT, EMPTY_COUNT } from '~/app/constants/constants';
-import { createCar } from '~/app/services/api/api-service';
+import { apiService } from '~/app/services/api/api-service';
 import { getRandomColor } from '~/app/utils/get-random-color';
 import { getRandomName } from '~/app/utils/get-random-name';
 import { showErrorModal } from '~/app/utils/show-error-modal';
@@ -16,7 +16,7 @@ export async function generateCars(store: Store): Promise<void> {
     const color = getRandomColor();
 
     try {
-      await createCar(name, color);
+      await apiService.createCar(name, color);
       const { carsCount: currentCount } = store.getState();
 
       store.setCount({ carsCount: currentCount + DEFAULT_INCREMENT });

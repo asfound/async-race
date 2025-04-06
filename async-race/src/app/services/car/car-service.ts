@@ -3,13 +3,7 @@ import type { Store } from '~/app/types/interfaces';
 import { DEFAULT_INCREMENT, DEFAULT_PAGE } from '~/app/constants/constants';
 import { isExceeding, isOnCurrent } from '~/app/utils/check-page';
 
-import {
-  createCar,
-  deleteCar,
-  getCars,
-  stopCar,
-  updateCar,
-} from '../api/api-service';
+import { apiService } from '../api/api-service';
 
 export class CarService {
   private readonly store: Store;
@@ -19,7 +13,7 @@ export class CarService {
   }
 
   public async goToPage(page: number): Promise<void> {
-    const { cars, totalCount } = await getCars(page);
+    const { cars, totalCount } = await apiService.getCars(page);
 
     this.store.updateState({ carsOnCurrentPage: cars });
     this.store.setCount({ carsCount: totalCount });
@@ -27,7 +21,7 @@ export class CarService {
   }
 
   public async addCar(name: string, color: string): Promise<void> {
-    await createCar(name, color);
+    await apiService.createCar(name, color);
     const { currentPage, carsCount } = this.store.getState();
     const newCount = carsCount + DEFAULT_INCREMENT;
 
@@ -39,7 +33,7 @@ export class CarService {
   }
 
   public async removeCar(id: number): Promise<void> {
-    await deleteCar(id);
+    await apiService.deleteCar(id);
 
     const { currentPage, carsCount: currentCount } = this.store.getState();
 
@@ -57,7 +51,7 @@ export class CarService {
     newName: string,
     newColor: string
   ): Promise<void> {
-    await updateCar({ id, name: newName, color: newColor });
+    await apiService.updateCar({ id, name: newName, color: newColor });
 
     const { currentPage } = this.store.getState();
 
@@ -65,6 +59,6 @@ export class CarService {
   }
 
   public async returnCar(id: number): Promise<void> {
-    await stopCar(id);
+    await apiService.stopCar(id);
   }
 }
