@@ -1,14 +1,19 @@
 import type { CarService } from '~/app/services/car/car-service';
 import type { Store } from '~/app/types/interfaces';
+import type { Render } from '~/app/types/types';
 
 import { createCarList } from '~/app/components/car-list/car-list';
 import { createSettingsForm } from '~/app/components/car-settings-form/car-settings-form';
 import { createPaginationControls } from '~/app/components/garage-pagination-controls/garage-pagination-controls';
 import { createGarageTitle } from '~/app/components/garage-title/garage-title';
-import { createRaceControls } from '~/app/components/race-controls/race-controls';
+import {
+  createRaceControls,
+  GarageStatus,
+} from '~/app/components/race-controls/race-controls';
 import { BUTTON_TEXT } from '~/app/constants/constants';
 import { createRaceService } from '~/app/services/race/race-service';
 import { store } from '~/app/store/store';
+import { EventType } from '~/app/types/enums';
 import { showErrorModal } from '~/app/utils/show-modal';
 
 import { div } from '../../utils/create-element';
@@ -39,8 +44,8 @@ export function createGaragePage(carService: CarService): HTMLElement {
 function createCarCreationForm(
   store: Store,
   carService: CarService
-): HTMLFormElement {
-  const { nameInputValue, colorInputValue } = store.getState();
+): HTMLElement {
+  const container = div({ className: styles.form });
 
   const carAdditionHandler = (name: string, color: string): void => {
     carService.addCar(name, color).catch(showErrorModal);
@@ -53,13 +58,29 @@ function createCarCreationForm(
   const colorInputHandler = (color: string): void => {
     store.setColor({ colorInputValue: color });
   };
-  const carCreationForm = createSettingsForm(
-    BUTTON_TEXT.ADD_CAR,
-    carAdditionHandler,
-    nameInputValue,
-    colorInputValue,
-    { nameInputHandler, colorInputHandler }
-  );
-  carCreationForm.classList.add(styles.form);
-  return carCreationForm;
+
+  const render: Render = (state) => {
+    container.replaceChildren();
+
+    const { nameInputValue, colorInputValue, garageStatus } = state;
+
+    const isAddDisabled = garageStatus === GarageStatus.RACING;
+
+    const carCreationForm = createSettingsForm(
+      BUTTON_TEXT.ADD_CAR,
+      carAdditionHandler,
+      nameInputValue,
+      colorInputValue,
+      { nameInputHandler, colorInputHandler },
+      isAddDisabled
+    );
+
+    container.append(carCreationForm);
+  };
+
+  render(store.getState());
+
+  store.subscribe(EventType.GARAGE_STATUS_CHANGE, render);
+
+  return container;
 }

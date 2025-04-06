@@ -54,7 +54,7 @@ export function createItemControls(
     const returnButton = createButton({
       textContent: BUTTON_TEXT.RETURN,
       onClick: () => {
-        controller.returnCar();
+        void controller.returnCar();
       },
       disabled: controlsState.isReturnDisabled,
     });

@@ -18,7 +18,8 @@ export function createSettingsForm(
   callbacks?: {
     nameInputHandler?: (name: string) => void;
     colorInputHandler?: (color: string) => void;
-  }
+  },
+  isButtonDisabled = false
 ): HTMLFormElement {
   const formElement = form({ className: styles.form, method: 'dialog' });
 
@@ -41,6 +42,7 @@ export function createSettingsForm(
   const submitButton = createButton({
     textContent: buttonText,
     type: BUTTON_TYPE.SUBMIT,
+    disabled: isButtonDisabled,
   });
 
   if (callbacks !== undefined) {
