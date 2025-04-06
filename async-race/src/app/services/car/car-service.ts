@@ -11,43 +11,37 @@ import {
   updateCar,
 } from '../api/api-service';
 
-export interface CarService {
-  goToPage: (page: number) => Promise<void>;
+export class CarService {
+  private readonly store: Store;
 
-  addCar: (name: string, color: string) => Promise<void>;
+  constructor(store: Store) {
+    this.store = store;
+  }
 
-  removeCar: (id: number) => Promise<void>;
-
-  editCar: (id: number, newName: string, newColor: string) => Promise<void>;
-
-  returnCar: (id: number) => Promise<void>;
-}
-
-export function createCarService(store: Store): CarService {
-  const goToPage = async (page: number): Promise<void> => {
+  public async goToPage(page: number): Promise<void> {
     const { cars, totalCount } = await getCars(page);
 
-    store.updateState({ carsOnCurrentPage: cars });
-    store.setCount({ carsCount: totalCount });
-    store.setPage({ currentPage: page });
-  };
+    this.store.updateState({ carsOnCurrentPage: cars });
+    this.store.setCount({ carsCount: totalCount });
+    this.store.setPage({ currentPage: page });
+  }
 
-  const addCar = async (name: string, color: string): Promise<void> => {
+  public async addCar(name: string, color: string): Promise<void> {
     await createCar(name, color);
-    const { currentPage, carsCount } = store.getState();
+    const { currentPage, carsCount } = this.store.getState();
     const newCount = carsCount + DEFAULT_INCREMENT;
 
     if (isOnCurrent(currentPage, newCount)) {
-      await goToPage(currentPage);
+      await this.goToPage(currentPage);
     } else {
-      store.setCount({ carsCount: newCount });
+      this.store.setCount({ carsCount: newCount });
     }
-  };
+  }
 
-  const removeCar = async (id: number): Promise<void> => {
+  public async removeCar(id: number): Promise<void> {
     await deleteCar(id);
 
-    const { currentPage, carsCount: currentCount } = store.getState();
+    const { currentPage, carsCount: currentCount } = this.store.getState();
 
     const updatedCount = currentCount - DEFAULT_INCREMENT;
 
@@ -55,25 +49,22 @@ export function createCarService(store: Store): CarService {
       ? currentPage - DEFAULT_INCREMENT || DEFAULT_PAGE
       : currentPage;
 
-    await goToPage(updatedPage);
-  };
+    await this.goToPage(updatedPage);
+  }
 
-  const editCar = async (
+  public async editCar(
     id: number,
     newName: string,
     newColor: string
-  ): Promise<void> => {
+  ): Promise<void> {
     await updateCar({ id, name: newName, color: newColor });
 
-    const { currentPage } = store.getState();
+    const { currentPage } = this.store.getState();
 
-    await goToPage(currentPage);
-  };
+    await this.goToPage(currentPage);
+  }
 
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-  const returnCar = async (id: number): Promise<void> => {
+  public async returnCar(id: number): Promise<void> {
     await stopCar(id);
-  };
-
-  return { goToPage, addCar, removeCar, editCar, returnCar };
+  }
 }
