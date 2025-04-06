@@ -46,6 +46,12 @@ export const ERROR_TEXT = {
   UPDATE_WINNER: 'Failed to update winner.',
 
   UNKNOWN: 'Unknown error',
+
+  NOT_ARRAY: 'Object is not array',
+  NOT_SVG: 'Parsed SVG is not a valid SVGElement',
+  NOT_CAR_PROPERTIES: 'Not valid CarItemProperties values',
+  NOT_ENGINE_PROPERTIES: 'Not valid StartEngineProperties values',
+  NOT_WINNER_PROPERTIES: 'Not valid WinnerProperties values',
 };
 
 export const CAR_STATUS = {
@@ -151,6 +157,11 @@ export const CAR_PROPERTIES = {
   ID: 'id',
   NAME: 'name',
   COLOR: 'color',
+} as const;
+
+export const ENGINE_PROPERTIES = {
+  VELOCITY: 'velocity',
+  DISTANCE: 'distance',
 } as const;
 
 export const WINNER_PROPERTIES = {

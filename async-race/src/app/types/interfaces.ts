@@ -1,4 +1,8 @@
-import type { CAR_PROPERTIES, WINNER_PROPERTIES } from '../constants/constants';
+import type {
+  CAR_PROPERTIES,
+  ENGINE_PROPERTIES,
+  WINNER_PROPERTIES,
+} from '../constants/constants';
 import type { Listener } from './types';
 
 export interface ButtonProperties {
@@ -13,6 +17,11 @@ export interface CarItemProperties {
   [CAR_PROPERTIES.ID]: number;
   [CAR_PROPERTIES.NAME]: string;
   [CAR_PROPERTIES.COLOR]: string;
+}
+
+export interface StartEngineProperties {
+  [ENGINE_PROPERTIES.VELOCITY]: number;
+  [ENGINE_PROPERTIES.DISTANCE]: number;
 }
 
 export interface WinnerProperties {
@@ -45,9 +54,4 @@ export interface Store {
   updateState: (newState: Partial<State>) => void;
 
   subscribe: (event: string, callback: Listener) => void;
-}
-
-export interface StartEngineProperties {
-  velocity: number;
-  distance: number;
 }

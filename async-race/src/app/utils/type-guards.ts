@@ -4,18 +4,22 @@ import type {
   WinnerProperties,
 } from '../types/interfaces';
 
-import { CAR_PROPERTIES, WINNER_PROPERTIES } from '../constants/constants';
+import {
+  CAR_PROPERTIES,
+  ENGINE_PROPERTIES,
+  ERROR_TEXT,
+  WINNER_PROPERTIES,
+} from '../constants/constants';
 
 export function isNonNullable<T>(value: T): value is NonNullable<T> {
   return value !== null && value !== undefined;
 }
 
-// TODO remove magic strings
 export function assertIsSVGElement(
   element: Element | null
 ): asserts element is SVGElement {
   if (!(element instanceof SVGElement)) {
-    throw new TypeError('Parsed SVG is not a valid SVGElement');
+    throw new TypeError(ERROR_TEXT.NOT_SVG);
   }
 }
 
@@ -42,13 +46,13 @@ export function assertIsCarItemProperties(
   object: unknown
 ): asserts object is CarItemProperties {
   if (!isCarItemProperties(object)) {
-    throw new TypeError(`Not valid CarItemProperties values`);
+    throw new TypeError(ERROR_TEXT.NOT_CAR_PROPERTIES);
   }
 }
 
 export function assertIsArray<T>(object: unknown): asserts object is T[] {
   if (!Array.isArray(object)) {
-    throw new TypeError('Not array');
+    throw new TypeError(ERROR_TEXT.NOT_ARRAY);
   }
 }
 
@@ -59,7 +63,9 @@ export function assertCarItemPropertiesArray(
     !Array.isArray(data) ||
     !data.every((object) => isCarItemProperties(object))
   ) {
-    throw new Error('Not valid CarItemProperties values or not an array');
+    throw new TypeError(
+      `${ERROR_TEXT.NOT_CAR_PROPERTIES} or ${ERROR_TEXT.NOT_ARRAY}`
+    );
   }
 }
 
@@ -68,7 +74,11 @@ function isStartEngineProperties(
 ): object is StartEngineProperties {
   const isObject = typeof object !== 'object' || object === null;
 
-  if (isObject || !('velocity' in object) || !('distance' in object)) {
+  if (
+    isObject ||
+    !(ENGINE_PROPERTIES.VELOCITY in object) ||
+    !(ENGINE_PROPERTIES.DISTANCE in object)
+  ) {
     return false;
   }
 
@@ -81,7 +91,7 @@ export function assertIsStartEngineProperties(
   object: unknown
 ): asserts object is StartEngineProperties {
   if (!isStartEngineProperties(object)) {
-    throw new TypeError(`Not valid StartEngineProperties values`);
+    throw new TypeError(ERROR_TEXT.NOT_ENGINE_PROPERTIES);
   }
 }
 
@@ -108,6 +118,6 @@ export function assertIsWinnerProperties(
   object: unknown
 ): asserts object is WinnerProperties {
   if (!isWinnerProperties(object)) {
-    throw new TypeError(`Not valid WinnerProperties values`);
+    throw new TypeError(ERROR_TEXT.NOT_WINNER_PROPERTIES);
   }
 }
