@@ -1,7 +1,7 @@
 import { p } from '~/app/utils/create-element';
 
-import { createModal } from '../components/modal/modal';
 import { ERROR_TEXT } from '../constants/constants';
+import { showModal } from './show-modal';
 
 export function showErrorModal(error: unknown): void {
   const text = p({ textContent: ERROR_TEXT.UNKNOWN });
@@ -10,9 +10,5 @@ export function showErrorModal(error: unknown): void {
     text.textContent = error.message;
   }
 
-  const modal = createModal(text);
-
-  document.body.prepend(modal);
-
-  modal.showModal();
+  showModal(text);
 }

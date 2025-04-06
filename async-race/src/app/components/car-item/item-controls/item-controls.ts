@@ -3,34 +3,41 @@ import type { CarItemProperties } from '~/app/types/interfaces';
 import { createButton } from '~/app/components/button/button';
 import { BUTTON_TEXT } from '~/app/constants/constants';
 import { div } from '~/app/utils/create-element';
+import { showModal } from '~/app/utils/show-modal';
 
 import type { CarItemController } from '../controllers/car-item-controller';
 
 import { createSettingsForm } from '../../car-settings-form/car-settings-form';
-import { createModal } from '../../modal/modal';
 import styles from './item-controls.module.css';
 
 export function createItemControls(
   properties: CarItemProperties,
   controller: CarItemController
 ): HTMLElement {
+  const buttonsContainer = div({ className: styles.container });
+
   const { name, color } = properties;
 
   const startButton = createButton({
     textContent: BUTTON_TEXT.START,
     onClick: () => {
-      startHandler();
+      startButton.disabled = true;
+      returnButton.disabled = false;
+
+      controller.startCar();
     },
   });
 
   const returnButton = createButton({
     textContent: BUTTON_TEXT.RETURN,
     onClick: () => {
-      returnHandler();
-    },
-  });
+      startButton.disabled = false;
+      returnButton.disabled = true;
 
-  returnButton.disabled = true;
+      controller.returnCar();
+    },
+    disabled: true,
+  });
 
   const deleteButton = createButton({
     textContent: BUTTON_TEXT.DELETE,
@@ -41,21 +48,6 @@ export function createItemControls(
 
   const editButton = createEditButton(controller.updateCar, name, color);
 
-  const startHandler = (): void => {
-    startButton.disabled = true;
-    returnButton.disabled = false;
-
-    controller.startCar();
-  };
-
-  const returnHandler = (): void => {
-    startButton.disabled = false;
-    returnButton.disabled = true;
-
-    controller.returnCar();
-  };
-
-  const buttonsContainer = div({ className: styles.container });
   buttonsContainer.append(startButton, returnButton, deleteButton, editButton);
 
   return buttonsContainer;
@@ -77,11 +69,7 @@ function createEditButton(
         color
       );
 
-      const modalWindow = createModal(settingsForm);
-
-      document.body.prepend(modalWindow);
-
-      modalWindow.showModal();
+      showModal(settingsForm);
     },
   });
 }

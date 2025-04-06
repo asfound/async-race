@@ -20,8 +20,6 @@ export interface CarService {
 
   editCar: (id: number, newName: string, newColor: string) => Promise<void>;
 
-  //   startCar: (id: number) => Promise<void>;
-
   returnCar: (id: number) => Promise<void>;
 }
 
@@ -71,11 +69,6 @@ export function createCarService(store: Store): CarService {
 
     await goToPage(currentPage);
   };
-
-  //   const startCar = async (id: number): Promise<void> => {
-  //     apiService.startCar(id)
-
-  //   };
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const returnCar = async (id: number): Promise<void> => {

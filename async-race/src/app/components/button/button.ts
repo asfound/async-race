@@ -12,6 +12,7 @@ export const createButton = (
     type = BUTTON_TYPE.BUTTON,
     className,
     onClick,
+    disabled = false,
   } = properties;
 
   const buttonElement = button({
@@ -26,6 +27,10 @@ export const createButton = (
 
   if (onClick) {
     buttonElement.addEventListener('click', onClick);
+  }
+
+  if (disabled) {
+    buttonElement.disabled = true;
   }
 
   return buttonElement;

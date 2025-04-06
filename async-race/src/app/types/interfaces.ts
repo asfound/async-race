@@ -6,6 +6,7 @@ export interface ButtonProperties {
   type?: HTMLButtonElement['type'];
   className?: string;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 export interface CarItemProperties {

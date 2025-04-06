@@ -7,7 +7,7 @@ import { showErrorModal } from '~/app/utils/show-error-modal';
 
 import type { CarAnimationController } from './animation-controller';
 
-interface CarItemActions {
+export interface CarItemActions {
   showAlert: () => void;
   hideAlert: () => void;
 }

@@ -7,6 +7,8 @@ import { createSVGElement } from '~/app/utils/create-svg-icon';
 import carSVG from '~/assets/icons/car.svg?raw';
 import repairSvg from '~/assets/icons/repair.svg?raw';
 
+import type { CarItemActions } from './controllers/car-item-controller';
+
 import styles from './car-item.module.css';
 import { createAnimationController } from './controllers/animation-controller';
 import { createCarItemController } from './controllers/car-item-controller';
@@ -17,9 +19,40 @@ export function createCarItem(
   carService: CarService
 ): HTMLLIElement {
   const trackItem = li({ className: styles.item });
+
   const { id, name, color } = properties;
 
+  const { carIcon, actions } = createCarIcon(color);
+
+  const getWidth = (): number => {
+    return trackItem.offsetWidth - Number(CAR_ICON_SIZE.WIDTH);
+  };
+
+  const animationController = createAnimationController(carIcon, getWidth);
+
+  const itemController = createCarItemController(
+    id,
+    trackItem,
+    carService,
+    animationController,
+    actions
+  );
+
+  const buttonsContainer = createItemControls(properties, itemController);
+
   const carName = p({ textContent: name, className: styles.name });
+
+  const carTrack = div({ className: styles.track }, [carIcon]);
+
+  trackItem.append(buttonsContainer, carName, carTrack);
+  return trackItem;
+}
+
+function createCarIcon(color: string): {
+  carIcon: HTMLElement;
+  actions: CarItemActions;
+} {
+  const carIcon = div({});
 
   const carSvgElement = createSVGElement(
     carSVG,
@@ -37,17 +70,6 @@ export function createCarItem(
 
   repairSvgElement.classList.add(styles.hidden);
 
-  const carIcon = div({ className: styles.icon }, [
-    carSvgElement,
-    repairSvgElement,
-  ]);
-
-  const carTrack = div({ className: styles.track }, [carIcon]);
-
-  const getWidth = (): number => {
-    return trackItem.offsetWidth - Number(CAR_ICON_SIZE.WIDTH);
-  };
-
   const showAlert = (): void => {
     repairSvgElement.classList.remove(styles.hidden);
   };
@@ -56,18 +78,7 @@ export function createCarItem(
     repairSvgElement.classList.add(styles.hidden);
   };
 
-  const animationController = createAnimationController(carIcon, getWidth);
+  carIcon.append(carSvgElement, repairSvgElement);
 
-  const itemController = createCarItemController(
-    id,
-    trackItem,
-    carService,
-    animationController,
-    { showAlert, hideAlert }
-  );
-
-  const buttonsContainer = createItemControls(properties, itemController);
-
-  trackItem.append(buttonsContainer, carName, carTrack);
-  return trackItem;
+  return { carIcon, actions: { showAlert, hideAlert } };
 }
