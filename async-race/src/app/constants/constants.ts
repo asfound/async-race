@@ -34,12 +34,14 @@ export const HTTP_STATUS = {
 } as const;
 
 export const ERROR_TEXT = {
-  GET: 'Failed to retrieve car.',
-  CREATE: 'Failed to create car.',
-  DELETE: 'Failed to delete car.',
-  UPDATE: 'Failed to update car.',
+  GET_CAR: 'Failed to retrieve car.',
+  CREATE_CAR: 'Failed to create car.',
+  DELETE_CAR: 'Failed to delete car.',
+  UPDATE_CAR: 'Failed to update car.',
   START: 'Failed to start engine.',
   STOP: 'Failed to stop car.',
+
+  CREATE_WINNER: 'Failed to create winner.',
 
   UNKNOWN: 'Unknown error',
 };

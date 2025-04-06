@@ -54,7 +54,7 @@ export async function getCar(id: number): Promise<unknown> {
   const response = await fetch(`${BASE_URL}${PATH.GARAGE}/${String(id)}`);
 
   if (response.status !== HTTP_STATUS.OK) {
-    throw new Error(ERROR_TEXT.GET);
+    throw new Error(ERROR_TEXT.GET_CAR);
   }
 
   return response.json();
@@ -68,7 +68,7 @@ export async function createCar(name: string, color: string): Promise<unknown> {
   });
 
   if (response.status !== HTTP_STATUS.CREATED) {
-    throw new Error(ERROR_TEXT.CREATE);
+    throw new Error(ERROR_TEXT.CREATE_CAR);
   }
 
   return response.json();
@@ -80,7 +80,7 @@ export async function deleteCar(id: number): Promise<void> {
   });
 
   if (response.status !== HTTP_STATUS.OK) {
-    throw new Error(ERROR_TEXT.DELETE);
+    throw new Error(ERROR_TEXT.DELETE_CAR);
   }
 }
 
@@ -97,7 +97,7 @@ export async function updateCar(
   );
 
   if (response.status !== HTTP_STATUS.OK) {
-    throw new Error(ERROR_TEXT.UPDATE);
+    throw new Error(ERROR_TEXT.UPDATE_CAR);
   }
 
   return response.json();
@@ -176,4 +176,22 @@ export async function getWinner(id: number): Promise<void> {
   const data: unknown = await response.json();
 
   console.log(data);
+}
+
+export async function createWinner(
+  id: number,
+  wins: number,
+  time: number
+): Promise<unknown> {
+  const response = await fetch(`${BASE_URL}${PATH.WINNERS}`, {
+    method: HTTP_METHOD.POST,
+    body: JSON.stringify({ id, wins, time }),
+    headers: { [HEADER.CONTENT_TYPE]: CONTENT_TYPE.JSON },
+  });
+
+  if (response.status !== HTTP_STATUS.CREATED) {
+    throw new Error(ERROR_TEXT.CREATE_WINNER);
+  }
+
+  return response.json();
 }
