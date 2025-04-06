@@ -21,6 +21,7 @@ import { EngineError } from '~/app/utils/custom-errors';
 import {
   assertCarItemPropertiesArray,
   assertIsStartEngineProperties,
+  assertIsWinnerProperties,
 } from '~/app/utils/type-guards';
 
 async function getCars(
@@ -163,28 +164,28 @@ async function stopCar(id: number): Promise<void> {
   }
 }
 
-async function getWinners(): Promise<void> {
+async function getWinners(): Promise<unknown> {
   const response = await fetch(`${BASE_URL}${PATH.WINNERS}`);
   const data: unknown = await response.json();
 
-  console.log(data);
+  return data;
 }
 
-async function getWinner(id: number): Promise<void> {
+async function getWinner(id: number): Promise<WinnerProperties> {
   const response = await fetch(`${BASE_URL}${PATH.WINNERS}/${String(id)}`);
-  const data: unknown = await response.json();
+  const winner: unknown = await response.json();
 
-  console.log(data);
+  assertIsWinnerProperties(winner);
+
+  return winner;
 }
 
-async function createWinner(
-  id: number,
-  wins: number,
-  time: number
-): Promise<unknown> {
+const WIN = 1;
+
+async function createWinner(id: number, time: number): Promise<unknown> {
   const response = await fetch(`${BASE_URL}${PATH.WINNERS}`, {
     method: HTTP_METHOD.POST,
-    body: JSON.stringify({ id, wins, time }),
+    body: JSON.stringify({ id, time, wins: WIN }),
     headers: { [HEADER.CONTENT_TYPE]: CONTENT_TYPE.JSON },
   });
 
@@ -211,7 +212,7 @@ async function updateWinner(properties: WinnerProperties): Promise<unknown> {
     {
       method: HTTP_METHOD.PUT,
       headers: { [HEADER.CONTENT_TYPE]: CONTENT_TYPE.JSON },
-      body: JSON.stringify({ wins: properties.wins, time: properties.wins }),
+      body: JSON.stringify({ wins: properties.wins, time: properties.time }),
     }
   );
 
