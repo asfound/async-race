@@ -1,5 +1,6 @@
 import type { CarItemController } from '~/app/components/car-item/controllers/car-item-controller';
 
+import { MILLISECONDS, TIME_PRECISION } from '~/app/constants/constants';
 import { p } from '~/app/utils/create-element';
 import { showErrorModal } from '~/app/utils/show-error-modal';
 import { showModal } from '~/app/utils/show-modal';
@@ -34,9 +35,15 @@ export function createRaceService(): RaceService {
       return controller.startCar(true).then(() => controller.properties.name);
     });
 
+    const startTime = new Date();
+
     Promise.any(promises)
       .then((name) => {
-        const message = `${name} won in x seconds`;
+        const endTime = new Date();
+
+        const time = (endTime.getTime() - startTime.getTime()) / MILLISECONDS;
+
+        const message = `${name} won in ${String(time.toFixed(TIME_PRECISION))} seconds`;
         showModal(p({}, [message]));
       })
       .catch(showErrorModal);

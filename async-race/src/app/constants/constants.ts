@@ -153,6 +153,9 @@ export const HEX_BASE = 16;
 export const PAD_LENGTH = 2;
 export const PAD_VALUE = '0';
 
+export const MILLISECONDS = 1000;
+export const TIME_PRECISION = 2;
+
 export const CAR_PROPERTIES = {
   ID: 'id',
   NAME: 'name',
