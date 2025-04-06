@@ -3,7 +3,13 @@ import type { Store } from '~/app/types/interfaces';
 import { DEFAULT_INCREMENT, DEFAULT_PAGE } from '~/app/constants/constants';
 import { isExceeding, isOnCurrent } from '~/app/utils/check-page';
 
-import { createCar, deleteCar, getCars, updateCar } from '../api/api-service';
+import {
+  createCar,
+  deleteCar,
+  getCars,
+  stopCar,
+  updateCar,
+} from '../api/api-service';
 
 export interface CarService {
   goToPage: (page: number) => Promise<void>;
@@ -13,6 +19,10 @@ export interface CarService {
   removeCar: (id: number) => Promise<void>;
 
   editCar: (id: number, newName: string, newColor: string) => Promise<void>;
+
+  //   startCar: (id: number) => Promise<void>;
+
+  returnCar: (id: number) => Promise<void>;
 }
 
 export function createCarService(store: Store): CarService {
@@ -62,5 +72,15 @@ export function createCarService(store: Store): CarService {
     await goToPage(currentPage);
   };
 
-  return { goToPage, addCar, removeCar, editCar };
+  //   const startCar = async (id: number): Promise<void> => {
+  //     apiService.startCar(id)
+
+  //   };
+
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const returnCar = async (id: number): Promise<void> => {
+    await stopCar(id);
+  };
+
+  return { goToPage, addCar, removeCar, editCar, returnCar };
 }

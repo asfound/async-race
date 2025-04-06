@@ -19,8 +19,6 @@ export function createCarItem(
   const trackItem = li({ className: styles.item });
   const { id, name, color } = properties;
 
-  const itemController = createCarItemController(id, trackItem, carService);
-
   const carName = p({ textContent: name, className: styles.name });
 
   const carSvgElement = createSVGElement(
@@ -50,18 +48,25 @@ export function createCarItem(
     return trackItem.offsetWidth - Number(CAR_ICON_SIZE.WIDTH);
   };
 
-  const onEngineBreak = (): void => {
+  const showAlert = (): void => {
     repairSvgElement.classList.remove(styles.hidden);
+  };
+
+  const hideAlert = (): void => {
+    repairSvgElement.classList.add(styles.hidden);
   };
 
   const animationController = createAnimationController(carIcon, getWidth);
 
-  const buttonsContainer = createItemControls(
-    properties,
+  const itemController = createCarItemController(
+    id,
+    trackItem,
+    carService,
     animationController,
-    onEngineBreak,
-    itemController
+    { showAlert, hideAlert }
   );
+
+  const buttonsContainer = createItemControls(properties, itemController);
 
   trackItem.append(buttonsContainer, carName, carTrack);
   return trackItem;

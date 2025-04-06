@@ -195,3 +195,17 @@ export async function createWinner(
 
   return response.json();
 }
+
+export const apiService = {
+  getCars,
+  getCar,
+  createCar,
+  deleteCar,
+  updateCar,
+  startCar,
+  driveCar,
+  stopCar,
+  getWinners,
+  getWinner,
+  createWinner,
+};
