@@ -23,7 +23,7 @@ export function createGaragePage(carService: CarService): HTMLElement {
 
   const paginationControls = createPaginationControls(store, carService);
 
-  const raceControls = createRaceControls(store, raceService);
+  const raceControls = createRaceControls(carService, raceService);
 
   const carCreationForm = createCarCreationForm(store, carService);
 
