@@ -20,7 +20,7 @@ export function createCarList(
     carsList.replaceChildren();
 
     const carItems = carsOnCurrentPage.map((carProperties) =>
-      createCarItem(carProperties, carService, raceService)
+      createCarItem(carProperties, carService, raceService, store)
     );
 
     carsList.append(...carItems);

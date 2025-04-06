@@ -1,5 +1,5 @@
 import type { CarService } from '~/app/services/car/car-service';
-import type { CarItemProperties } from '~/app/types/interfaces';
+import type { CarItemProperties, Store } from '~/app/types/interfaces';
 
 import { HTTP_STATUS } from '~/app/constants/constants';
 import { apiService } from '~/app/services/api/api-service';
@@ -8,6 +8,7 @@ import { showErrorModal } from '~/app/utils/show-modal';
 
 import type { CarAnimationController } from './animation-controller';
 
+import { GarageStatus } from '../../race-controls/race-controls';
 import { CarStatus, type CarStore } from '../car-store/car-store';
 
 export class CarItemController {
@@ -25,12 +26,15 @@ export class CarItemController {
 
   private abortController: AbortController;
 
+  private readonly store: Store;
+
   constructor(
     properties: CarItemProperties,
     item: HTMLLIElement,
     carService: CarService,
     animationController: CarAnimationController,
-    carStore: CarStore
+    carStore: CarStore,
+    store: Store
   ) {
     this.properties = properties;
     this.id = properties.id;
@@ -39,6 +43,7 @@ export class CarItemController {
     this.animationController = animationController;
     this.carStore = carStore;
     this.abortController = new AbortController();
+    this.store = store;
   }
 
   public removeCar(): void {
@@ -50,16 +55,19 @@ export class CarItemController {
       });
   }
 
-  public returnCar(): void {
+  public returnCar(): Promise<void> {
     this.abortController.abort();
-    this.animationController.stop();
-    this.carStore.setStatus(CarStatus.ON_START);
-    this.carService.returnCar(this.id).catch(showErrorModal);
+    return this.carService.returnCar(this.id).then(() => {
+      this.animationController.stop();
+      this.carStore.setStatus(CarStatus.ON_START);
+    });
   }
 
   public startCar(isRacing: boolean): Promise<void> {
     if (isRacing) {
       this.carStore.setStatus(CarStatus.RACING);
+    } else {
+      this.store.updateGarageStatus(GarageStatus.CARS_LEFT);
     }
     return apiService
       .startCar(this.id)

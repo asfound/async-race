@@ -1,6 +1,7 @@
 import type { State, Store } from '../types/interfaces';
 import type { Listener } from '../types/types';
 
+import { GarageStatus } from '../components/race-controls/race-controls';
 import {
   DEFAULT_COLOR,
   DEFAULT_PAGE,
@@ -39,6 +40,11 @@ export function createStore(initialState: State): Store {
       Object.assign(state, newState);
     },
 
+    updateGarageStatus: (newStatus: GarageStatus): void => {
+      state.garageStatus = newStatus;
+      eventBus.emit(EventType.GARAGE_STATUS_CHANGE, state);
+    },
+
     subscribe: (event: EventType, callback: Listener<State>): void => {
       eventBus.subscribe(event, callback);
     },
@@ -51,7 +57,10 @@ const defaultState: State = {
 
   nameInputValue: EMPTY_STRING,
   colorInputValue: DEFAULT_COLOR,
+
   carsOnCurrentPage: [],
+
+  garageStatus: GarageStatus.READY,
 };
 
 export const store = createStore(defaultState);

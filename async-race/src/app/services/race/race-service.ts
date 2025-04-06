@@ -1,5 +1,7 @@
 import type { CarItemController } from '~/app/components/car-item/controllers/car-item-controller';
+import type { Store } from '~/app/types/interfaces';
 
+import { GarageStatus } from '~/app/components/race-controls/race-controls';
 import {
   DEFAULT_INCREMENT,
   MILLISECONDS,
@@ -22,7 +24,7 @@ export interface RaceService {
   reset: () => void;
 }
 
-export function createRaceService(): RaceService {
+export function createRaceService(store: Store): RaceService {
   const controllers = new Map<number, CarItemController>();
 
   const addController = (controller: CarItemController): void => {
@@ -38,6 +40,8 @@ export function createRaceService(): RaceService {
   };
 
   const race = (): void => {
+    store.updateGarageStatus(GarageStatus.RACING);
+
     const promises = [...controllers.values()].map((controller) => {
       return controller.startCar(true).then(() => controller.properties);
     });
@@ -59,13 +63,22 @@ export function createRaceService(): RaceService {
         if (!(error instanceof AggregateError)) {
           showErrorModal(error);
         }
+      })
+      .finally(() => {
+        store.updateGarageStatus(GarageStatus.CARS_LEFT);
       });
   };
 
   const reset = (): void => {
-    for (const controller of controllers.values()) {
-      controller.returnCar();
-    }
+    const promises = [...controllers.values()].map((controller) => {
+      return controller.returnCar();
+    });
+
+    Promise.allSettled(promises)
+      .then(() => {
+        store.updateGarageStatus(GarageStatus.READY);
+      })
+      .catch(showErrorModal);
   };
 
   return {

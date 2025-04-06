@@ -1,6 +1,6 @@
 import type { CarService } from '~/app/services/car/car-service';
 import type { RaceService } from '~/app/services/race/race-service';
-import type { CarItemProperties } from '~/app/types/interfaces';
+import type { CarItemProperties, Store } from '~/app/types/interfaces';
 
 import { CAR_ICON_SIZE } from '~/app/constants/constants';
 import { CarEventType } from '~/app/types/enums';
@@ -20,7 +20,8 @@ import { createItemControls } from './item-controls/item-controls';
 export function createCarItem(
   properties: CarItemProperties,
   carService: CarService,
-  raceService: RaceService
+  raceService: RaceService,
+  store: Store
 ): HTMLLIElement {
   const trackItem = li({ className: styles.item });
 
@@ -49,7 +50,8 @@ export function createCarItem(
       trackItem,
       carService,
       animationController,
-      carStore
+      carStore,
+      store
     );
 
     raceService.addController(itemController);

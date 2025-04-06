@@ -42,7 +42,11 @@ export function createItemControls(
     const startButton = createButton({
       textContent: BUTTON_TEXT.START,
       onClick: () => {
-        controller.startCar(false).catch(showErrorModal);
+        controller.startCar(false).catch((error: unknown) => {
+          if (!(error instanceof DOMException)) {
+            showErrorModal(error);
+          }
+        });
       },
       disabled: controlsState.isStartDisabled,
     });

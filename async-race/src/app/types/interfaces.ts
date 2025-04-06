@@ -1,3 +1,4 @@
+import type { GarageStatus } from '../components/race-controls/race-controls';
 import type {
   CAR_PROPERTIES,
   ENGINE_PROPERTIES,
@@ -39,6 +40,8 @@ export interface State {
   colorInputValue: string;
 
   carsOnCurrentPage: CarItemProperties[];
+
+  garageStatus: GarageStatus;
 }
 
 //TODO remove duplicate methods
@@ -55,6 +58,8 @@ export interface Store {
   setColor: (newState: Partial<State>) => void;
 
   updateState: (newState: Partial<State>) => void;
+
+  updateGarageStatus: (newStatus: GarageStatus) => void;
 
   subscribe: (event: EventType, callback: Listener<State>) => void;
 }
