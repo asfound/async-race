@@ -3,6 +3,7 @@ import type { CarItemProperties } from '~/app/types/interfaces';
 import { createButton } from '~/app/components/button/button';
 import { BUTTON_TEXT } from '~/app/constants/constants';
 import { div } from '~/app/utils/create-element';
+import { showErrorModal } from '~/app/utils/show-error-modal';
 import { showModal } from '~/app/utils/show-modal';
 
 import type { CarItemController } from '../controllers/car-item-controller';
@@ -12,11 +13,12 @@ import styles from './item-controls.module.css';
 
 export function createItemControls(
   properties: CarItemProperties,
-  controller: CarItemController
+  controller: CarItemController,
+  onEdit: (properties: CarItemProperties) => void
 ): HTMLElement {
   const buttonsContainer = div({ className: styles.container });
 
-  const { name, color } = properties;
+  const { id, name, color } = properties;
 
   const startButton = createButton({
     textContent: BUTTON_TEXT.START,
@@ -48,7 +50,12 @@ export function createItemControls(
 
   const editButton = createEditButton(
     (newName, newColor) => {
-      controller.updateCar(newName, newColor);
+      controller
+        .updateCar(newName, newColor)
+        .then(() => {
+          onEdit({ id, name: newName, color: newColor });
+        })
+        .catch(showErrorModal);
     },
     name,
     color

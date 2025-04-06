@@ -40,6 +40,8 @@ export interface State {
   carsOnCurrentPage: CarItemProperties[];
 }
 
+//TODO remove duplicate methods
+
 export interface Store {
   getState: () => State;
 

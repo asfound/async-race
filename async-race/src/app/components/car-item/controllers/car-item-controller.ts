@@ -77,7 +77,7 @@ export class CarItemController {
       });
   }
 
-  public updateCar(newName: string, newColor: string): void {
-    this.carService.editCar(this.id, newName, newColor).catch(showErrorModal);
+  public updateCar(newName: string, newColor: string): Promise<void> {
+    return this.carService.editCar(this.id, newName, newColor);
   }
 }

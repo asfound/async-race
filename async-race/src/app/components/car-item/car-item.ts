@@ -16,30 +16,41 @@ export function createCarItem(
 ): HTMLLIElement {
   const trackItem = li({ className: styles.item });
 
-  const { id, name, color } = properties;
-
-  const { carIcon, actions } = createCarIcon(color);
-
   const getWidth = (): number => {
     return trackItem.offsetWidth - Number(CAR_ICON_SIZE.WIDTH);
   };
 
-  const animationController = createAnimationController(carIcon, getWidth);
+  const render = (properties: CarItemProperties): void => {
+    const { id, name, color } = properties;
 
-  const itemController = new CarItemController(
-    id,
-    trackItem,
-    carService,
-    animationController,
-    actions
-  );
+    trackItem.replaceChildren();
 
-  const buttonsContainer = createItemControls(properties, itemController);
+    const { carIcon, actions } = createCarIcon(color);
 
-  const carName = p({ textContent: name, className: styles.name });
+    const animationController = createAnimationController(carIcon, getWidth);
 
-  const carTrack = div({ className: styles.track }, [carIcon]);
+    const itemController = new CarItemController(
+      id,
+      trackItem,
+      carService,
+      animationController,
+      actions
+    );
 
-  trackItem.append(buttonsContainer, carName, carTrack);
+    const buttonsContainer = createItemControls(
+      properties,
+      itemController,
+      render
+    );
+
+    const carName = p({ textContent: name, className: styles.name });
+
+    const carTrack = div({ className: styles.track }, [carIcon]);
+
+    trackItem.append(buttonsContainer, carName, carTrack);
+  };
+
+  render(properties);
+
   return trackItem;
 }

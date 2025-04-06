@@ -52,10 +52,6 @@ export class CarService {
     newColor: string
   ): Promise<void> {
     await apiService.updateCar({ id, name: newName, color: newColor });
-
-    const { currentPage } = this.store.getState();
-
-    await this.goToPage(currentPage);
   }
 
   public async returnCar(id: number): Promise<void> {
