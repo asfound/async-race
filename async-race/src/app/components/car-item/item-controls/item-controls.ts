@@ -1,3 +1,4 @@
+import type { RaceService } from '~/app/services/race/race-service';
 import type { CarItemProperties } from '~/app/types/interfaces';
 
 import { createButton } from '~/app/components/button/button';
@@ -14,7 +15,8 @@ import styles from './item-controls.module.css';
 export function createItemControls(
   properties: CarItemProperties,
   controller: CarItemController,
-  onEdit: (properties: CarItemProperties) => void
+  onEdit: (properties: CarItemProperties) => void,
+  raceService: RaceService
 ): HTMLElement {
   const buttonsContainer = div({ className: styles.container });
 
@@ -26,7 +28,7 @@ export function createItemControls(
       startButton.disabled = true;
       returnButton.disabled = false;
 
-      controller.startCar();
+      controller.startCar(false).catch(showErrorModal);
     },
   });
 
@@ -45,6 +47,7 @@ export function createItemControls(
     textContent: BUTTON_TEXT.DELETE,
     onClick: () => {
       controller.removeCar();
+      raceService.removeController(controller.id);
     },
   });
 

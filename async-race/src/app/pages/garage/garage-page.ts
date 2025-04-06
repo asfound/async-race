@@ -7,6 +7,7 @@ import { createPaginationControls } from '~/app/components/garage-pagination-con
 import { createGarageTitle } from '~/app/components/garage-title/garage-title';
 import { createRaceControls } from '~/app/components/race-controls/race-controls';
 import { BUTTON_TEXT } from '~/app/constants/constants';
+import { createRaceService } from '~/app/services/race/race-service';
 import { store } from '~/app/store/store';
 import { showErrorModal } from '~/app/utils/show-error-modal';
 
@@ -18,15 +19,17 @@ export function createGaragePage(carService: CarService): HTMLElement {
 
   const titleContainer = createGarageTitle(store);
 
+  const raceService = createRaceService();
+
   const paginationControls = createPaginationControls(store, carService);
 
-  const raceControls = createRaceControls(store);
+  const raceControls = createRaceControls(store, raceService);
 
   const carCreationForm = createCarCreationForm(store, carService);
 
   container.append(titleContainer, raceControls, carCreationForm);
 
-  const carsList = createCarList(store, carService);
+  const carsList = createCarList(store, carService, raceService);
 
   container.append(paginationControls, carsList);
 

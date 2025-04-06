@@ -1,4 +1,5 @@
 import type { CarService } from '~/app/services/car/car-service';
+import type { CarItemProperties } from '~/app/types/interfaces';
 
 import { HTTP_STATUS } from '~/app/constants/constants';
 import { apiService } from '~/app/services/api/api-service';
@@ -13,7 +14,9 @@ export interface CarItemActions {
 }
 
 export class CarItemController {
-  private readonly id: number;
+  public readonly id: number;
+
+  public readonly properties: CarItemProperties;
 
   private readonly item: HTMLLIElement;
 
@@ -24,13 +27,14 @@ export class CarItemController {
   private readonly actions: CarItemActions;
 
   constructor(
-    id: number,
+    properties: CarItemProperties,
     item: HTMLLIElement,
     carService: CarService,
     animationController: CarAnimationController,
     actions: CarItemActions
   ) {
-    this.id = id;
+    this.properties = properties;
+    this.id = properties.id;
     this.item = item;
     this.carService = carService;
     this.animationController = animationController;
@@ -53,8 +57,8 @@ export class CarItemController {
     this.carService.returnCar(this.id).catch(showErrorModal);
   }
 
-  public startCar(): void {
-    apiService
+  public startCar(isRacing: boolean): Promise<void> {
+    return apiService
       .startCar(this.id)
       .then((response) => {
         const { velocity, distance } = response;
@@ -71,8 +75,14 @@ export class CarItemController {
         ) {
           this.animationController.pause();
           this.actions.showAlert();
+
+          if (isRacing) {
+            throw error;
+          }
         } else {
-          showErrorModal(error);
+          if (!isRacing) {
+            showErrorModal(error);
+          }
         }
       });
   }

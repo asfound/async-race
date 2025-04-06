@@ -1,9 +1,9 @@
 import type { CarService } from '~/app/services/car/car-service';
+import type { RaceService } from '~/app/services/race/race-service';
 import type { Store } from '~/app/types/interfaces';
 import type { Render } from '~/app/types/types';
 
 import { EventType } from '~/app/types/enums';
-import { isOnCurrent } from '~/app/utils/check-page';
 import { ul } from '~/app/utils/create-element';
 
 import { createCarItem } from '../car-item/car-item';
@@ -11,7 +11,8 @@ import styles from './car-list.module.css';
 
 export function createCarList(
   store: Store,
-  carService: CarService
+  carService: CarService,
+  raceService: RaceService
 ): HTMLUListElement {
   const carsList = ul({ className: styles.list });
 
@@ -19,20 +20,15 @@ export function createCarList(
     carsList.replaceChildren();
 
     const carItems = carsOnCurrentPage.map((carProperties) =>
-      createCarItem(carProperties, carService)
+      createCarItem(carProperties, carService, raceService)
     );
 
     carsList.append(...carItems);
   };
 
-  store.subscribe(EventType.PAGE_CHANGE, render);
-
-  store.subscribe(EventType.COUNT_CHANGE, (state) => {
-    const { currentPage, carsCount } = state;
-
-    if (isOnCurrent(currentPage, carsCount)) {
-      render(state);
-    }
+  store.subscribe(EventType.PAGE_CHANGE, (state) => {
+    raceService.clearControllers();
+    render(state);
   });
 
   render(store.getState());

@@ -1,4 +1,5 @@
 import type { CarService } from '~/app/services/car/car-service';
+import type { RaceService } from '~/app/services/race/race-service';
 import type { CarItemProperties } from '~/app/types/interfaces';
 
 import { CAR_ICON_SIZE } from '~/app/constants/constants';
@@ -12,7 +13,8 @@ import { createItemControls } from './item-controls/item-controls';
 
 export function createCarItem(
   properties: CarItemProperties,
-  carService: CarService
+  carService: CarService,
+  raceService: RaceService
 ): HTMLLIElement {
   const trackItem = li({ className: styles.item });
 
@@ -23,6 +25,8 @@ export function createCarItem(
   const render = (properties: CarItemProperties): void => {
     const { id, name, color } = properties;
 
+    raceService.removeController(id);
+
     trackItem.replaceChildren();
 
     const { carIcon, actions } = createCarIcon(color);
@@ -30,17 +34,20 @@ export function createCarItem(
     const animationController = createAnimationController(carIcon, getWidth);
 
     const itemController = new CarItemController(
-      id,
+      properties,
       trackItem,
       carService,
       animationController,
       actions
     );
 
+    raceService.addController(itemController);
+
     const buttonsContainer = createItemControls(
       properties,
       itemController,
-      render
+      render,
+      raceService
     );
 
     const carName = p({ textContent: name, className: styles.name });
