@@ -4,8 +4,7 @@ import type { CarItemProperties } from '~/app/types/interfaces';
 import { createButton } from '~/app/components/button/button';
 import { BUTTON_TEXT } from '~/app/constants/constants';
 import { div } from '~/app/utils/create-element';
-import { showErrorModal } from '~/app/utils/show-error-modal';
-import { showModal } from '~/app/utils/show-modal';
+import { showErrorModal, showModal } from '~/app/utils/show-modal';
 
 import type { CarItemController } from '../controllers/car-item-controller';
 

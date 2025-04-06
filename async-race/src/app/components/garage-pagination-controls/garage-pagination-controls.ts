@@ -6,7 +6,7 @@ import { BUTTON_TEXT, DEFAULT_INCREMENT } from '~/app/constants/constants';
 import { EventType } from '~/app/types/enums';
 import { isOnLast, isOnFirst, calculateLastPage } from '~/app/utils/check-page';
 import { div, span } from '~/app/utils/create-element';
-import { showErrorModal } from '~/app/utils/show-error-modal';
+import { showErrorModal } from '~/app/utils/show-modal';
 
 import { createButton } from '../button/button';
 import styles from './garage-pagination-controls.module.css';

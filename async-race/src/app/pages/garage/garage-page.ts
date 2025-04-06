@@ -9,7 +9,7 @@ import { createRaceControls } from '~/app/components/race-controls/race-controls
 import { BUTTON_TEXT } from '~/app/constants/constants';
 import { createRaceService } from '~/app/services/race/race-service';
 import { store } from '~/app/store/store';
-import { showErrorModal } from '~/app/utils/show-error-modal';
+import { showErrorModal } from '~/app/utils/show-modal';
 
 import { div } from '../../utils/create-element';
 import styles from './garage-page.module.css';

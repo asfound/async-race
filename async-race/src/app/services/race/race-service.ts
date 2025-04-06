@@ -2,8 +2,7 @@ import type { CarItemController } from '~/app/components/car-item/controllers/ca
 
 import { MILLISECONDS, TIME_PRECISION } from '~/app/constants/constants';
 import { p } from '~/app/utils/create-element';
-import { showErrorModal } from '~/app/utils/show-error-modal';
-import { showModal } from '~/app/utils/show-modal';
+import { showErrorModal, showModal } from '~/app/utils/show-modal';
 
 export interface RaceService {
   addController: (controller: CarItemController) => void;

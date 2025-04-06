@@ -4,7 +4,7 @@ import type { CarItemProperties } from '~/app/types/interfaces';
 import { HTTP_STATUS } from '~/app/constants/constants';
 import { apiService } from '~/app/services/api/api-service';
 import { EngineError } from '~/app/utils/custom-errors';
-import { showErrorModal } from '~/app/utils/show-error-modal';
+import { showErrorModal } from '~/app/utils/show-modal';
 
 import type { CarAnimationController } from './animation-controller';
 

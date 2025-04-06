@@ -9,7 +9,7 @@ import { Route } from './router/route';
 import { initRouter, navigate } from './router/router';
 import { CarService } from './services/car/car-service';
 import { store } from './store/store';
-import { showErrorModal } from './utils/show-error-modal';
+import { showErrorModal } from './utils/show-modal';
 
 export function initApp(): void {
   const carService = new CarService(store);
