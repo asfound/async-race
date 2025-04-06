@@ -1,69 +1,88 @@
 import type { RaceService } from '~/app/services/race/race-service';
-import type { CarItemProperties } from '~/app/types/interfaces';
 
 import { createButton } from '~/app/components/button/button';
 import { BUTTON_TEXT } from '~/app/constants/constants';
+import { CarEventType } from '~/app/types/enums';
 import { div } from '~/app/utils/create-element';
 import { showErrorModal, showModal } from '~/app/utils/show-modal';
 
 import type { CarItemController } from '../controllers/car-item-controller';
 
 import { createSettingsForm } from '../../car-settings-form/car-settings-form';
+import {
+  CarStatus,
+  type CarState,
+  type CarStore,
+} from '../car-store/car-store';
 import styles from './item-controls.module.css';
 
+interface ControlsState {
+  isStartDisabled: boolean;
+  isReturnDisabled: boolean;
+  isEditDisabled: boolean;
+  isDeleteDisabled: boolean;
+}
+
 export function createItemControls(
-  properties: CarItemProperties,
   controller: CarItemController,
-  onEdit: (properties: CarItemProperties) => void,
-  raceService: RaceService
+  raceService: RaceService,
+  carStore: CarStore
 ): HTMLElement {
   const buttonsContainer = div({ className: styles.container });
 
-  const { id, name, color } = properties;
+  const render = (carState: CarState): void => {
+    buttonsContainer.replaceChildren();
 
-  const startButton = createButton({
-    textContent: BUTTON_TEXT.START,
-    onClick: () => {
-      startButton.disabled = true;
-      returnButton.disabled = false;
+    const { name, color } = carState.properties;
 
-      controller.startCar(false).catch(showErrorModal);
-    },
-  });
+    const currentStatus = carState.currentStatus;
 
-  const returnButton = createButton({
-    textContent: BUTTON_TEXT.RETURN,
-    onClick: () => {
-      startButton.disabled = false;
-      returnButton.disabled = true;
+    const controlsState = convertToControlsState(currentStatus);
 
-      controller.returnCar();
-    },
-    disabled: true,
-  });
+    const startButton = createButton({
+      textContent: BUTTON_TEXT.START,
+      onClick: () => {
+        controller.startCar(false).catch(showErrorModal);
+      },
+      disabled: controlsState.isStartDisabled,
+    });
 
-  const deleteButton = createButton({
-    textContent: BUTTON_TEXT.DELETE,
-    onClick: () => {
-      controller.removeCar();
-      raceService.removeController(controller.id);
-    },
-  });
+    const returnButton = createButton({
+      textContent: BUTTON_TEXT.RETURN,
+      onClick: () => {
+        controller.returnCar();
+      },
+      disabled: controlsState.isReturnDisabled,
+    });
 
-  const editButton = createEditButton(
-    (newName, newColor) => {
-      controller
-        .updateCar(newName, newColor)
-        .then(() => {
-          onEdit({ id, name: newName, color: newColor });
-        })
-        .catch(showErrorModal);
-    },
-    name,
-    color
-  );
+    const deleteButton = createButton({
+      textContent: BUTTON_TEXT.DELETE,
+      onClick: () => {
+        controller.removeCar();
+        raceService.removeController(controller.id);
+      },
+      disabled: controlsState.isDeleteDisabled,
+    });
 
-  buttonsContainer.append(startButton, returnButton, deleteButton, editButton);
+    const editButton = createEditButton(
+      (newName, newColor) => {
+        controller.updateCar(newName, newColor);
+      },
+      name,
+      color,
+      controlsState
+    );
+
+    buttonsContainer.append(
+      startButton,
+      returnButton,
+      deleteButton,
+      editButton
+    );
+  };
+
+  render(carStore.getState());
+  carStore.subscribe(CarEventType.STATUS_CHANGE, render);
 
   return buttonsContainer;
 }
@@ -71,7 +90,8 @@ export function createItemControls(
 function createEditButton(
   updateHandler: (newName: string, newColor: string) => void,
   name: string,
-  color: string
+  color: string,
+  controlsState: ControlsState
 ): HTMLButtonElement {
   return createButton({
     textContent: BUTTON_TEXT.EDIT,
@@ -86,5 +106,37 @@ function createEditButton(
 
       showModal(settingsForm);
     },
+    disabled: controlsState.isDeleteDisabled,
   });
+}
+
+function convertToControlsState(status: CarStatus): ControlsState {
+  switch (status) {
+    case CarStatus.RACING: {
+      return {
+        isStartDisabled: true,
+        isReturnDisabled: true,
+        isEditDisabled: true,
+        isDeleteDisabled: true,
+      };
+    }
+    case CarStatus.FINISHED:
+    case CarStatus.ENGINE_BROKEN: {
+      return {
+        isStartDisabled: true,
+        isReturnDisabled: false,
+        isEditDisabled: false,
+        isDeleteDisabled: false,
+      };
+    }
+
+    default: {
+      return {
+        isStartDisabled: false,
+        isReturnDisabled: true,
+        isEditDisabled: false,
+        isDeleteDisabled: false,
+      };
+    }
+  }
 }

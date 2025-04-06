@@ -1,18 +1,17 @@
 import { CAR_ICON_SIZE, REPAIR_ICON_SIZE } from '~/app/constants/constants';
+import { CarEventType } from '~/app/types/enums';
 import { div } from '~/app/utils/create-element';
 import { createSVGElement } from '~/app/utils/create-svg-icon';
 import carSVG from '~/assets/icons/car.svg?raw';
 import repairSvg from '~/assets/icons/repair.svg?raw';
 
-import type { CarItemActions } from '../controllers/car-item-controller';
-
+import { CarStatus, type CarStore } from '../car-store/car-store';
 import styles from './car-icon.module.css';
 
-export function createCarIcon(color: string): {
-  carIcon: HTMLElement;
-  actions: CarItemActions;
-} {
+export function createCarIcon(carStore: CarStore): HTMLElement {
   const carIcon = div({ className: styles.icon });
+
+  const { color } = carStore.getState().properties;
 
   const carSvgElement = createSVGElement(
     carSVG,
@@ -40,5 +39,14 @@ export function createCarIcon(color: string): {
 
   carIcon.append(carSvgElement, repairSvgElement);
 
-  return { carIcon, actions: { showAlert, hideAlert } };
+  carStore.subscribe(CarEventType.STATUS_CHANGE, (state) => {
+    if (state.currentStatus === CarStatus.ENGINE_BROKEN) {
+      showAlert();
+    }
+    if (state.currentStatus === CarStatus.ON_START) {
+      hideAlert();
+    }
+  });
+
+  return carIcon;
 }

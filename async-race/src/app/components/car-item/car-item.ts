@@ -3,10 +3,16 @@ import type { RaceService } from '~/app/services/race/race-service';
 import type { CarItemProperties } from '~/app/types/interfaces';
 
 import { CAR_ICON_SIZE } from '~/app/constants/constants';
+import { CarEventType } from '~/app/types/enums';
 import { div, li, p } from '~/app/utils/create-element';
 
 import { createCarIcon } from './car-icon/car-icon';
 import styles from './car-item.module.css';
+import {
+  CarStatus,
+  createCarStore,
+  type CarState,
+} from './car-store/car-store';
 import { createAnimationController } from './controllers/animation-controller';
 import { CarItemController } from './controllers/car-item-controller';
 import { createItemControls } from './item-controls/item-controls';
@@ -22,14 +28,19 @@ export function createCarItem(
     return trackItem.offsetWidth - Number(CAR_ICON_SIZE.WIDTH);
   };
 
-  const render = (properties: CarItemProperties): void => {
-    const { id, name, color } = properties;
+  const carStore = createCarStore({
+    currentStatus: CarStatus.ON_START,
+    properties,
+  });
+
+  const render = (state: CarState): void => {
+    const { id, name } = state.properties;
 
     raceService.removeController(id);
 
     trackItem.replaceChildren();
 
-    const { carIcon, actions } = createCarIcon(color);
+    const carIcon = createCarIcon(carStore);
 
     const animationController = createAnimationController(carIcon, getWidth);
 
@@ -38,16 +49,15 @@ export function createCarItem(
       trackItem,
       carService,
       animationController,
-      actions
+      carStore
     );
 
     raceService.addController(itemController);
 
     const buttonsContainer = createItemControls(
-      properties,
       itemController,
-      render,
-      raceService
+      raceService,
+      carStore
     );
 
     const carName = p({ textContent: name, className: styles.name });
@@ -57,7 +67,9 @@ export function createCarItem(
     trackItem.append(buttonsContainer, carName, carTrack);
   };
 
-  render(properties);
+  render(carStore.getState());
+
+  carStore.subscribe(CarEventType.PROPERTIES_CHANGE, render);
 
   return trackItem;
 }

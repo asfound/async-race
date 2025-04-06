@@ -12,7 +12,7 @@ import { EventEmitter } from '../utils/event-emitter';
 
 export function createStore(initialState: State): Store {
   const state = { ...initialState };
-  const eventBus = new EventEmitter();
+  const eventBus = new EventEmitter<State, EventType>();
 
   return {
     getState: (): State => state,
@@ -39,7 +39,7 @@ export function createStore(initialState: State): Store {
       Object.assign(state, newState);
     },
 
-    subscribe: (event: string, callback: Listener): void => {
+    subscribe: (event: EventType, callback: Listener<State>): void => {
       eventBus.subscribe(event, callback);
     },
   };

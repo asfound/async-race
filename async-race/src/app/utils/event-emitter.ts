@@ -1,17 +1,16 @@
-import type { State } from '../types/interfaces';
 import type { Listener } from '../types/types';
 
-export class EventEmitter {
-  private readonly events = new Map<string, Listener[]>();
+export class EventEmitter<T, E> {
+  private readonly events = new Map<E, Listener<T>[]>();
 
-  public subscribe(event: string, callback: Listener): void {
+  public subscribe(event: E, callback: Listener<T>): void {
     if (!this.events.has(event)) {
       this.events.set(event, []);
     }
     this.events.get(event)?.push(callback);
   }
 
-  public unsubscribe(event: string, callback: Listener): void {
+  public unsubscribe(event: E, callback: Listener<T>): void {
     const listeners = this.events.get(event);
     if (listeners) {
       this.events.set(
@@ -21,7 +20,7 @@ export class EventEmitter {
     }
   }
 
-  public emit(event: string, data: State): void {
+  public emit(event: E, data: T): void {
     const listeners = this.events.get(event);
     if (listeners) {
       for (const callback of listeners) {

@@ -3,6 +3,7 @@ import type {
   ENGINE_PROPERTIES,
   WINNER_PROPERTIES,
 } from '../constants/constants';
+import type { EventType } from './enums';
 import type { Listener } from './types';
 
 export interface ButtonProperties {
@@ -55,5 +56,5 @@ export interface Store {
 
   updateState: (newState: Partial<State>) => void;
 
-  subscribe: (event: string, callback: Listener) => void;
+  subscribe: (event: EventType, callback: Listener<State>) => void;
 }
