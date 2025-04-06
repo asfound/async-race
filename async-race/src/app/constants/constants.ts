@@ -44,6 +44,12 @@ export const ERROR_TEXT = {
   UNKNOWN: 'Unknown error',
 };
 
+export const CAR_STATUS = {
+  STARTED: 'started',
+  DRIVE: 'drive',
+  STOPPED: 'stopped',
+} as const;
+
 export const TAG_NAME = {
   BUTTON: 'button',
   DIALOG: 'dialog',
@@ -60,7 +66,10 @@ export const TAG_NAME = {
   UL: 'ul',
 } as const;
 
-export const DEFAULT_BUTTON_TYPE = 'button';
+export const BUTTON_TYPE = {
+  BUTTON: 'button',
+  SUBMIT: 'submit',
+} as const;
 
 export const BUTTON_TEXT = {
   GARAGE: 'Garage',
@@ -85,7 +94,7 @@ export const TITLES = {
 
 export const COUNTER_TEXT = 'Total cars: ';
 
-export const PLACEHOLDERS = {
+export const PLACEHOLDER = {
   NAME: 'Enter car name...',
 };
 
@@ -129,6 +138,7 @@ export const DEFAULT_INCREMENT = 1;
 export const DEFAULT_PAGE = 1;
 export const DEFAULT_COLOR = '#FFE338';
 export const CARS_PER_PAGE = 7;
+
 export const HEX_BASE = 16;
 export const PAD_LENGTH = 2;
 export const PAD_VALUE = '0';

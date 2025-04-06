@@ -1,4 +1,8 @@
-import { INPUT_TYPE, PLACEHOLDERS } from '~/app/constants/constants';
+import {
+  BUTTON_TYPE,
+  INPUT_TYPE,
+  PLACEHOLDER,
+} from '~/app/constants/constants';
 import { form, input } from '~/app/utils/create-element';
 import { getRandomName } from '~/app/utils/get-random-name';
 
@@ -21,7 +25,7 @@ export function createSettingsForm(
   const nameInput = input({
     className: styles.name,
     type: INPUT_TYPE.TEXT,
-    placeholder: PLACEHOLDERS.NAME,
+    placeholder: PLACEHOLDER.NAME,
   });
 
   if (nameValue) {
@@ -34,10 +38,9 @@ export function createSettingsForm(
     value: colorValue,
   });
 
-  // TODO remove magic string
   const submitButton = createButton({
     textContent: buttonText,
-    type: 'submit',
+    type: BUTTON_TYPE.SUBMIT,
   });
 
   if (callbacks !== undefined) {

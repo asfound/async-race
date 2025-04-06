@@ -1,6 +1,6 @@
 import type { ButtonProperties } from '~/app/types/interfaces';
 
-import { DEFAULT_BUTTON_TYPE } from '~/app/constants/constants';
+import { BUTTON_TYPE } from '~/app/constants/constants';
 import { button } from '~/app/utils/create-element';
 
 import styles from './button.module.css';
@@ -9,7 +9,7 @@ export const createButton = (
 ): HTMLButtonElement => {
   const {
     textContent,
-    type = DEFAULT_BUTTON_TYPE,
+    type = BUTTON_TYPE.BUTTON,
     className,
     onClick,
   } = properties;

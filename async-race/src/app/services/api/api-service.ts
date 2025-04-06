@@ -5,6 +5,7 @@ import type {
 
 import {
   BASE_URL,
+  CAR_STATUS,
   CARS_PER_PAGE,
   CONTENT_TYPE,
   EMPTY_COUNT,
@@ -105,7 +106,7 @@ export async function updateCar(
 export async function startCar(id: number): Promise<StartEngineProperties> {
   const query = new URLSearchParams({
     id: id.toString(),
-    status: 'started',
+    status: CAR_STATUS.STARTED,
   });
 
   const response = await fetch(
@@ -129,7 +130,7 @@ export async function startCar(id: number): Promise<StartEngineProperties> {
 export async function driveCar(id: number): Promise<void> {
   const query = new URLSearchParams({
     id: id.toString(),
-    status: 'drive',
+    status: CAR_STATUS.DRIVE,
   });
 
   const response = await fetch(
@@ -148,7 +149,7 @@ export async function driveCar(id: number): Promise<void> {
 export async function stopCar(id: number): Promise<void> {
   const query = new URLSearchParams({
     id: id.toString(),
-    status: 'stopped',
+    status: CAR_STATUS.STOPPED,
   });
 
   const response = await fetch(
