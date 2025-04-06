@@ -1,14 +1,10 @@
 import type { CarService } from '~/app/services/car/car-service';
 import type { CarItemProperties } from '~/app/types/interfaces';
 
-import { CAR_ICON_SIZE, REPAIR_ICON_SIZE } from '~/app/constants/constants';
+import { CAR_ICON_SIZE } from '~/app/constants/constants';
 import { div, li, p } from '~/app/utils/create-element';
-import { createSVGElement } from '~/app/utils/create-svg-icon';
-import carSVG from '~/assets/icons/car.svg?raw';
-import repairSvg from '~/assets/icons/repair.svg?raw';
 
-import type { CarItemActions } from './controllers/car-item-controller';
-
+import { createCarIcon } from './car-icon/car-icon';
 import styles from './car-item.module.css';
 import { createAnimationController } from './controllers/animation-controller';
 import { CarItemController } from './controllers/car-item-controller';
@@ -46,39 +42,4 @@ export function createCarItem(
 
   trackItem.append(buttonsContainer, carName, carTrack);
   return trackItem;
-}
-
-function createCarIcon(color: string): {
-  carIcon: HTMLElement;
-  actions: CarItemActions;
-} {
-  const carIcon = div({});
-
-  const carSvgElement = createSVGElement(
-    carSVG,
-    color,
-    CAR_ICON_SIZE.WIDTH,
-    CAR_ICON_SIZE.HEIGHT
-  );
-
-  const repairSvgElement = createSVGElement(
-    repairSvg,
-    color,
-    REPAIR_ICON_SIZE.WIDTH,
-    REPAIR_ICON_SIZE.HEIGHT
-  );
-
-  repairSvgElement.classList.add(styles.hidden);
-
-  const showAlert = (): void => {
-    repairSvgElement.classList.remove(styles.hidden);
-  };
-
-  const hideAlert = (): void => {
-    repairSvgElement.classList.add(styles.hidden);
-  };
-
-  carIcon.append(carSvgElement, repairSvgElement);
-
-  return { carIcon, actions: { showAlert, hideAlert } };
 }

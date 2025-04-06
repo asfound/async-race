@@ -25,11 +25,3 @@
   width: 100%;
   border-bottom: 1px dashed var(--primary-bright);
 }
-
-.icon {
-  display: inline-flex;
-}
-
-.hidden {
-  display: none;
-}
