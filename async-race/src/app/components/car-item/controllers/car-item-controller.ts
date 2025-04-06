@@ -12,66 +12,72 @@ export interface CarItemActions {
   hideAlert: () => void;
 }
 
-export interface CarItemController {
-  removeCar: () => void;
+export class CarItemController {
+  private readonly id: number;
 
-  returnCar: () => void;
+  private readonly item: HTMLLIElement;
 
-  startCar: () => void;
+  private readonly carService: CarService;
 
-  updateCar: (newName: string, newColor: string) => void;
-}
+  private readonly animationController: CarAnimationController;
 
-export function createCarItemController(
-  id: number,
-  item: HTMLLIElement,
-  carService: CarService,
-  animationController: CarAnimationController,
-  actions: CarItemActions
-): CarItemController {
-  return {
-    removeCar: (): void => {
-      carService
-        .removeCar(id)
-        .catch(showErrorModal)
-        .finally(() => {
-          item.remove();
-        });
-    },
+  private readonly actions: CarItemActions;
 
-    returnCar: (): void => {
-      animationController.stop();
-      actions.hideAlert();
+  constructor(
+    id: number,
+    item: HTMLLIElement,
+    carService: CarService,
+    animationController: CarAnimationController,
+    actions: CarItemActions
+  ) {
+    this.id = id;
+    this.item = item;
+    this.carService = carService;
+    this.animationController = animationController;
+    this.actions = actions;
+  }
 
-      carService.returnCar(id).catch(showErrorModal);
-    },
+  public removeCar(): void {
+    this.carService
+      .removeCar(this.id)
+      .catch(showErrorModal)
+      .finally(() => {
+        this.item.remove();
+      });
+  }
 
-    startCar: (): void => {
-      apiService
-        .startCar(id)
-        .then((response) => {
-          const { velocity, distance } = response;
-          return distance / velocity;
-        })
-        .then((duration) => {
-          animationController.drive(duration);
-          return driveCar(id);
-        })
-        .catch((error: unknown) => {
-          if (
-            error instanceof EngineError &&
-            error.statusCode === HTTP_STATUS.INTERNAL_SERVER_ERROR
-          ) {
-            animationController.pause();
-            actions.showAlert();
-          } else {
-            showErrorModal(error);
-          }
-        });
-    },
+  public returnCar(): void {
+    this.animationController.stop();
+    this.actions.hideAlert();
 
-    updateCar: (newName: string, newColor: string): void => {
-      carService.editCar(id, newName, newColor).catch(showErrorModal);
-    },
-  };
+    this.carService.returnCar(this.id).catch(showErrorModal);
+  }
+
+  public startCar(): void {
+    apiService
+      .startCar(this.id)
+      .then((response) => {
+        const { velocity, distance } = response;
+        return distance / velocity;
+      })
+      .then((duration) => {
+        this.animationController.drive(duration);
+        return driveCar(this.id);
+      })
+      .catch((error: unknown) => {
+        if (
+          error instanceof EngineError &&
+          error.statusCode === HTTP_STATUS.INTERNAL_SERVER_ERROR
+        ) {
+          this.animationController.pause();
+          this.actions.showAlert();
+        } else {
+          showErrorModal(error);
+        }
+      });
+  }
+
+  public updateCar(newName: string, newColor: string): void {
+    this.carService.editCar(this.id, newName, newColor).catch(showErrorModal);
+  }
 }

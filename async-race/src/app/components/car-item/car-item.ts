@@ -11,7 +11,7 @@ import type { CarItemActions } from './controllers/car-item-controller';
 
 import styles from './car-item.module.css';
 import { createAnimationController } from './controllers/animation-controller';
-import { createCarItemController } from './controllers/car-item-controller';
+import { CarItemController } from './controllers/car-item-controller';
 import { createItemControls } from './item-controls/item-controls';
 
 export function createCarItem(
@@ -30,7 +30,7 @@ export function createCarItem(
 
   const animationController = createAnimationController(carIcon, getWidth);
 
-  const itemController = createCarItemController(
+  const itemController = new CarItemController(
     id,
     trackItem,
     carService,
