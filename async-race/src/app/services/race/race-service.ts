@@ -60,20 +60,19 @@ export class RaceService {
     });
   }
 
-  public reset(): void {
-    const currentGarageStatus = this.store.getState().garageStatus;
-    if (currentGarageStatus === GarageStatus.RACING) {
-      const promises = [...this.controllers.values()].map((controller) => {
-        return controller.returnCar();
-      });
+  public resetOnPageChange(): void {
+    this.store.updateGarageStatus(GarageStatus.READY);
+  }
 
-      Promise.allSettled(promises)
-        .then(() => {
-          this.store.updateGarageStatus(GarageStatus.READY);
-        })
-        .catch(showErrorModal);
-    } else {
-      this.store.updateGarageStatus(GarageStatus.READY);
-    }
+  public reset(): void {
+    const promises = [...this.controllers.values()].map((controller) => {
+      return controller.returnCar();
+    });
+
+    Promise.allSettled(promises)
+      .then(() => {
+        this.store.updateGarageStatus(GarageStatus.READY);
+      })
+      .catch(showErrorModal);
   }
 }

@@ -37,7 +37,7 @@ export function createGaragePage(carService: CarService): HTMLElement {
         carService
           .goToPage(newPage)
           .then(() => {
-            raceService.reset();
+            raceService.resetOnPageChange();
           })
           .catch(showErrorModal);
       },
