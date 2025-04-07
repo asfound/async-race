@@ -31,7 +31,12 @@ export function createGaragePage(carService: CarService): HTMLElement {
       itemsCount: state.carsCount,
       itemsPerPage: CARS_PER_PAGE,
       onPageChange: (newPage): void => {
-        carService.goToPage(newPage).catch(showErrorModal);
+        carService
+          .goToPage(newPage)
+          .then(() => {
+            raceService.resetOnPageChange();
+          })
+          .catch(showErrorModal);
       },
     };
   };

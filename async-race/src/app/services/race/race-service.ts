@@ -60,6 +60,10 @@ export class RaceService {
     });
   }
 
+  public resetOnPageChange(): void {
+    this.store.updateGarageStatus(GarageStatus.READY);
+  }
+
   public reset(): void {
     const promises = [...this.controllers.values()].map((controller) => {
       return controller.returnCar();
