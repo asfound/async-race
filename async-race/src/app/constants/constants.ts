@@ -109,7 +109,10 @@ export const TITLES = {
   WINNERS: 'Winners',
 } as const;
 
-export const COUNTER_TEXT = 'Total cars: ';
+export const COUNTER_TEXT = {
+  CARS: 'Total cars: ',
+  WINNERS: 'Total winners: ',
+};
 
 export const PLACEHOLDER = {
   NAME: 'Enter car name...',

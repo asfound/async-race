@@ -1,7 +1,9 @@
 import type { Store } from '~/app/types/interfaces';
 import type { Render } from '~/app/types/types';
 
+import { createSortingPanel } from '~/app/components/sorting-panel/sorting-panel';
 import { createWinnersTable } from '~/app/components/winners-table/winners-table';
+import { createWinnersTitle } from '~/app/components/winners-title/winners-title';
 import { DEFAULT_PAGE } from '~/app/constants/constants';
 import {
   apiService,
@@ -18,11 +20,13 @@ export function createWinnersPage(store: Store): HTMLElement {
   const render: Render = ({ winnersOnCurrentPage, winnersCars }) => {
     container.replaceChildren();
 
-    console.log(winnersOnCurrentPage);
+    const titleContainer = createWinnersTitle(store);
+
+    const sortingPanel = createSortingPanel();
 
     const winnersTable = createWinnersTable(winnersOnCurrentPage, winnersCars);
 
-    container.append(winnersTable);
+    container.append(titleContainer, sortingPanel, winnersTable);
   };
 
   apiService
