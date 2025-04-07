@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 171.605 150.617"
+    xmlns:bx="https://boxy-svg.com" width="171.605px" height="150.617px">
+
+    <path
+        style="stroke: #4c4c4c; stroke-linecap: round;  fill: none; stroke-width: 4px;"
+        d="M 7.339 6.722 L 7.956 149.931" />
+    <path
+        style="stroke: #4c4c4c; stroke-linecap: round;  fill: none; stroke-width: 4px;"
+        d="M 161.043 9.192 L 161.043 149.932" />
+    <path
+        style="stroke:#4c4c4c; stroke-linecap: round;  fill: none; stroke-width: 4px;"
+        d="M 7.339 14.129 C 9.27 24.752 161.763 22.103 160.425 14.746" />
+    <path
+        style="stroke: #4c4c4c; stroke-linecap:  stroke; fill: none; stroke-width: 4px;"
+        d="M 7.339 62.894 C 8.376 70.153 161.006 68.812 160.425 64.746" />
+</svg>

@@ -1,5 +1,10 @@
 .item {
   margin-bottom: 0.5rem;
+
+  background-image: url('../../../assets/icons/flag.svg');
+  background-repeat: no-repeat;
+  background-position: calc(100% - 2rem) bottom;
+  background-size: auto 75%;
 }
 
 .name {
