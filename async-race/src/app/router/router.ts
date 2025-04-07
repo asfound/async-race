@@ -1,5 +1,5 @@
 import { store } from '../store/store';
-import { Route } from './route';
+import { Route, routeFromString } from './route';
 
 interface RouterProperties {
   root: HTMLElement;
@@ -9,8 +9,10 @@ interface RouterProperties {
 export function initRouter({ root, routes }: RouterProperties): void {
   function handleHashChange(): void {
     const hash = globalThis.location.hash.replace(/#/, '') || Route.GARAGE;
+    const route = routeFromString(hash) ?? Route.GARAGE;
+    const newPage = routes[route];
 
-    const newPage = routes[hash] ?? routes[Route.GARAGE];
+    store.setAppPage(route);
 
     setPage(root, newPage);
   }
@@ -21,7 +23,6 @@ export function initRouter({ root, routes }: RouterProperties): void {
 }
 
 export function navigate(route: Route = Route.GARAGE): void {
-  store.setAppPage(route);
   globalThis.location.hash = route;
 }
 
