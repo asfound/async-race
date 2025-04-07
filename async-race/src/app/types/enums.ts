@@ -21,3 +21,9 @@ export enum SortOrder {
   ASC = 'ASC',
   DESC = 'DESC',
 }
+
+export enum GarageStatus {
+  RACING,
+  READY,
+  CARS_LEFT,
+}

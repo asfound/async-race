@@ -1,25 +1,14 @@
 import type { CarService } from '~/app/services/car/car-service';
 import type { RaceService } from '~/app/services/race/race-service';
-import type { State, Store } from '~/app/types/interfaces';
+import type { RaceControlsState, State, Store } from '~/app/types/interfaces';
 import type { Render } from '~/app/types/types';
 
 import { generateCars } from '~/app/pages/garage/utils/generate-cars';
-import { EventType } from '~/app/types/enums';
+import { EventType, GarageStatus } from '~/app/types/enums';
 import { div } from '~/app/utils/create-element';
 
 import { createButton } from '../button/button';
 import styles from './race-controls.module.css';
-
-export enum GarageStatus {
-  RACING,
-  READY,
-  CARS_LEFT,
-}
-interface RaceControlsState {
-  isGenerateDisabled: boolean;
-  isRaceDisabled: boolean;
-  isResetDisabled: boolean;
-}
 
 export function createRaceControls(
   store: Store,
@@ -34,7 +23,6 @@ export function createRaceControls(
     const { garageStatus } = state;
 
     const controlsState = convertToControlsState(garageStatus);
-    console.log('redner race controls', controlsState);
 
     const generateCarsButton = createButton({
       textContent: 'Generate cars',

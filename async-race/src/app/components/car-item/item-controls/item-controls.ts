@@ -3,14 +3,13 @@ import type { State, Store } from '~/app/types/interfaces';
 
 import { createButton } from '~/app/components/button/button';
 import { BUTTON_TEXT } from '~/app/constants/constants';
-import { CarEventType, EventType } from '~/app/types/enums';
+import { CarEventType, EventType, GarageStatus } from '~/app/types/enums';
 import { div } from '~/app/utils/create-element';
 import { showErrorModal, showModal } from '~/app/utils/show-modal';
 
 import type { CarItemController } from '../controllers/car-item-controller';
 
 import { createSettingsForm } from '../../car-settings-form/car-settings-form';
-import { GarageStatus } from '../../race-controls/race-controls';
 import {
   CarStatus,
   type CarState,

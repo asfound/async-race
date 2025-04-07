@@ -1,10 +1,9 @@
-import type { GarageStatus } from '../components/race-controls/race-controls';
 import type {
   CAR_PROPERTIES,
   ENGINE_PROPERTIES,
   WINNER_PROPERTIES,
 } from '../constants/constants';
-import type { EventType, SortField, SortOrder } from './enums';
+import type { EventType, GarageStatus, SortField, SortOrder } from './enums';
 import type { Listener } from './types';
 
 export interface ButtonProperties {
@@ -74,4 +73,10 @@ export interface PaginationControlsProperties {
   itemsCount: number;
   itemsPerPage: number;
   onPageChange: (newPage: number) => void;
+}
+
+export interface RaceControlsState {
+  isGenerateDisabled: boolean;
+  isRaceDisabled: boolean;
+  isResetDisabled: boolean;
 }

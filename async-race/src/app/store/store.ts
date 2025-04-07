@@ -1,14 +1,13 @@
 import type { State, Store } from '../types/interfaces';
 import type { Listener } from '../types/types';
 
-import { GarageStatus } from '../components/race-controls/race-controls';
 import {
   DEFAULT_COLOR,
   DEFAULT_PAGE,
   EMPTY_COUNT,
   EMPTY_STRING,
 } from '../constants/constants';
-import { EventType, SortField, SortOrder } from '../types/enums';
+import { EventType, GarageStatus, SortField, SortOrder } from '../types/enums';
 import { EventEmitter } from '../utils/event-emitter';
 
 export function createStore(initialState: State): Store {

@@ -6,14 +6,11 @@ import { createCarList } from '~/app/components/car-list/car-list';
 import { createSettingsForm } from '~/app/components/car-settings-form/car-settings-form';
 import { createGarageTitle } from '~/app/components/garage-title/garage-title';
 import { createPaginationControls } from '~/app/components/pagination-controls/pagination-controls';
-import {
-  createRaceControls,
-  GarageStatus,
-} from '~/app/components/race-controls/race-controls';
+import { createRaceControls } from '~/app/components/race-controls/race-controls';
 import { BUTTON_TEXT, CARS_PER_PAGE } from '~/app/constants/constants';
 import { RaceService } from '~/app/services/race/race-service';
 import { store } from '~/app/store/store';
-import { EventType } from '~/app/types/enums';
+import { EventType, GarageStatus } from '~/app/types/enums';
 import { showErrorModal } from '~/app/utils/show-modal';
 
 import { div } from '../../utils/create-element';

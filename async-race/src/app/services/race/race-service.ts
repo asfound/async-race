@@ -1,8 +1,8 @@
 import type { CarItemController } from '~/app/components/car-item/controllers/car-item-controller';
 import type { Store } from '~/app/types/interfaces';
 
-import { GarageStatus } from '~/app/components/race-controls/race-controls';
 import { MILLISECONDS, TIME_PRECISION } from '~/app/constants/constants';
+import { GarageStatus } from '~/app/types/enums';
 import { p } from '~/app/utils/create-element';
 import { showErrorModal, showModal } from '~/app/utils/show-modal';
 
