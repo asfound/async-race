@@ -6,3 +6,14 @@
   max-width: 20rem;
   margin: 0 auto;
 }
+
+.toggle {
+  min-width: 1.825rem;
+  border-color: var(--accent);
+  color: var(--primary-dark);
+  background-color: var(--accent);
+}
+
+.toggle:hover {
+  color: var(--primary-medium);
+}

@@ -10,8 +10,8 @@ import { createButton } from '../button/button';
 import styles from './sorting-panel.module.css';
 
 const ORDER_BUTTON_TEXT = {
-  ASC: '↑',
-  DESC: '↓',
+  ASC: 'Sort ▼',
+  DESC: 'Sort ▲',
 };
 
 export function createSortingPanel(store: Store): HTMLElement {
@@ -62,6 +62,7 @@ export function createSortingPanel(store: Store): HTMLElement {
 
         winnersService.setWinners(store, DEFAULT_PAGE, sortField, newSortOrder);
       },
+      className: styles.toggle,
     });
 
     container.append(timeButton, idButton, winsButton, orderButton);
