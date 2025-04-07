@@ -7,6 +7,7 @@ import { createWinnersList } from '~/app/components/winners-list/winners-list';
 import { createWinnersTitle } from '~/app/components/winners-title/winners-title';
 import { DEFAULT_PAGE, WINNERS_PER_PAGE } from '~/app/constants/constants';
 import { winnersService } from '~/app/services/winners/winners-service';
+import { EventType } from '~/app/types/enums';
 
 import { div } from '../../utils/create-element';
 
@@ -46,7 +47,7 @@ export function createWinnersPage(store: Store): HTMLElement {
     const paginationControls = createPaginationControls(
       store,
       winnersPaginationPropertiesGetter,
-      []
+      [EventType.WINNERS_PAGE_CHANGE]
     );
 
     const winnersList = createWinnersList(store);
