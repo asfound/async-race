@@ -53,8 +53,6 @@ export interface State {
   sortOrder: SortOrder;
 }
 
-//TODO remove duplicate methods
-
 export interface Store {
   getState: () => State;
 
@@ -63,10 +61,6 @@ export interface Store {
   setWinnersPage: (newState: Partial<State>) => void;
 
   setCount: (newState: Partial<State>) => void;
-
-  setName: (newState: Partial<State>) => void;
-
-  setColor: (newState: Partial<State>) => void;
 
   updateState: (newState: Partial<State>) => void;
 

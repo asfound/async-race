@@ -33,14 +33,6 @@ export function createStore(initialState: State): Store {
       eventBus.emit(EventType.COUNT_CHANGE, state);
     },
 
-    setName: (newState: Partial<State>): void => {
-      Object.assign(state, newState);
-    },
-
-    setColor: (newState: Partial<State>): void => {
-      Object.assign(state, newState);
-    },
-
     updateState: (newState: Partial<State>): void => {
       Object.assign(state, newState);
     },

@@ -52,11 +52,11 @@ function createCarCreationForm(
   };
 
   const nameInputHandler = (name: string): void => {
-    store.setColor({ nameInputValue: name });
+    store.updateState({ nameInputValue: name });
   };
 
   const colorInputHandler = (color: string): void => {
-    store.setColor({ colorInputValue: color });
+    store.updateState({ colorInputValue: color });
   };
 
   const render: Render = (state) => {
