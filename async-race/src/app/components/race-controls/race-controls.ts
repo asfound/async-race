@@ -1,8 +1,9 @@
 import type { CarService } from '~/app/services/car/car-service';
 import type { RaceService } from '~/app/services/race/race-service';
-import type { RaceControlsState, State, Store } from '~/app/types/interfaces';
+import type { RaceControlsState, Store } from '~/app/types/interfaces';
 import type { Render } from '~/app/types/types';
 
+import { EMPTY_COUNT } from '~/app/constants/constants';
 import { generateCars } from '~/app/pages/garage/utils/generate-cars';
 import { EventType, GarageStatus } from '~/app/types/enums';
 import { div } from '~/app/utils/create-element';
@@ -17,10 +18,8 @@ export function createRaceControls(
 ): HTMLElement {
   const container = div({ className: styles.container });
 
-  const render: Render = (state: State) => {
+  const render: Render = ({ garageStatus, carsCount }) => {
     container.replaceChildren();
-
-    const { garageStatus } = state;
 
     const controlsState = convertToControlsState(garageStatus);
 
@@ -37,7 +36,7 @@ export function createRaceControls(
       onClick: () => {
         raceService.race();
       },
-      disabled: controlsState.isRaceDisabled,
+      disabled: controlsState.isRaceDisabled || carsCount === EMPTY_COUNT,
     });
 
     const resetButton = createButton({
@@ -54,6 +53,7 @@ export function createRaceControls(
   render(store.getState());
 
   store.subscribe(EventType.GARAGE_STATUS_CHANGE, render);
+  store.subscribe(EventType.COUNT_CHANGE, render);
 
   return container;
 }
