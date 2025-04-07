@@ -59,7 +59,8 @@ export function createCarItem(
     const buttonsContainer = createItemControls(
       itemController,
       raceService,
-      carStore
+      carStore,
+      store
     );
 
     const carName = p({ textContent: name, className: styles.name });

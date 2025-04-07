@@ -53,10 +53,11 @@ export class RaceService {
         if (!(error instanceof AggregateError)) {
           showErrorModal(error);
         }
-      })
-      .finally(() => {
-        this.store.updateGarageStatus(GarageStatus.CARS_LEFT);
       });
+
+    void Promise.allSettled(promises).finally(() => {
+      this.store.updateGarageStatus(GarageStatus.CARS_LEFT);
+    });
   }
 
   public reset(): void {

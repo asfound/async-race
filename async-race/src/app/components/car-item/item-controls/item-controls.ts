@@ -1,14 +1,16 @@
 import type { RaceService } from '~/app/services/race/race-service';
+import type { State, Store } from '~/app/types/interfaces';
 
 import { createButton } from '~/app/components/button/button';
 import { BUTTON_TEXT } from '~/app/constants/constants';
-import { CarEventType } from '~/app/types/enums';
+import { CarEventType, EventType } from '~/app/types/enums';
 import { div } from '~/app/utils/create-element';
 import { showErrorModal, showModal } from '~/app/utils/show-modal';
 
 import type { CarItemController } from '../controllers/car-item-controller';
 
 import { createSettingsForm } from '../../car-settings-form/car-settings-form';
+import { GarageStatus } from '../../race-controls/race-controls';
 import {
   CarStatus,
   type CarState,
@@ -23,21 +25,32 @@ interface ControlsState {
   isDeleteDisabled: boolean;
 }
 
+const AllControlsDisabled = {
+  isStartDisabled: true,
+  isReturnDisabled: true,
+  isEditDisabled: true,
+  isDeleteDisabled: true,
+};
+
 export function createItemControls(
   controller: CarItemController,
   raceService: RaceService,
-  carStore: CarStore
+  carStore: CarStore,
+  store: Store
 ): HTMLElement {
   const buttonsContainer = div({ className: styles.container });
 
-  const render = (carState: CarState): void => {
+  const render = (state: State, carState: CarState): void => {
     buttonsContainer.replaceChildren();
 
     const { name, color } = carState.properties;
 
     const currentStatus = carState.currentStatus;
 
-    const controlsState = convertToControlsState(currentStatus);
+    const controlsState = convertToControlsState(
+      currentStatus,
+      state.garageStatus
+    );
 
     const startButton = createButton({
       textContent: BUTTON_TEXT.START,
@@ -85,8 +98,15 @@ export function createItemControls(
     );
   };
 
-  render(carStore.getState());
-  carStore.subscribe(CarEventType.STATUS_CHANGE, render);
+  render(store.getState(), carStore.getState());
+
+  carStore.subscribe(CarEventType.STATUS_CHANGE, (carState) => {
+    render(store.getState(), carState);
+  });
+
+  store.subscribe(EventType.GARAGE_STATUS_CHANGE, (state) => {
+    render(state, carStore.getState());
+  });
 
   return buttonsContainer;
 }
@@ -114,7 +134,13 @@ function createEditButton(
   });
 }
 
-function convertToControlsState(status: CarStatus): ControlsState {
+function convertToControlsState(
+  status: CarStatus,
+  garageStatus: GarageStatus
+): ControlsState {
+  if (garageStatus === GarageStatus.RACING) {
+    return AllControlsDisabled;
+  }
   switch (status) {
     case CarStatus.RACING: {
       return {
@@ -124,17 +150,9 @@ function convertToControlsState(status: CarStatus): ControlsState {
         isDeleteDisabled: true,
       };
     }
+    case CarStatus.DRIVING:
     case CarStatus.FINISHED:
     case CarStatus.ENGINE_BROKEN: {
-      return {
-        isStartDisabled: true,
-        isReturnDisabled: false,
-        isEditDisabled: false,
-        isDeleteDisabled: false,
-      };
-    }
-
-    case CarStatus.DRIVING: {
       return {
         isStartDisabled: true,
         isReturnDisabled: false,
