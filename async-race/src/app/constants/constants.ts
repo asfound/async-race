@@ -9,6 +9,8 @@ export const PATH = {
 export const QUERY_PARAMETER = {
   PAGE: '_page',
   LIMIT: '_limit',
+  SORT: '_sort',
+  ORDER: '_order',
 } as const;
 
 export const HEADER = {

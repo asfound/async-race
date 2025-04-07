@@ -2,15 +2,11 @@ import type { CarItemController } from '~/app/components/car-item/controllers/ca
 import type { Store } from '~/app/types/interfaces';
 
 import { GarageStatus } from '~/app/components/race-controls/race-controls';
-import {
-  DEFAULT_INCREMENT,
-  MILLISECONDS,
-  TIME_PRECISION,
-} from '~/app/constants/constants';
+import { MILLISECONDS, TIME_PRECISION } from '~/app/constants/constants';
 import { p } from '~/app/utils/create-element';
 import { showErrorModal, showModal } from '~/app/utils/show-modal';
 
-import { apiService } from '../api/api-service';
+import { winnersService } from '../winners/winners-service';
 
 export interface RaceService {
   addController: (controller: CarItemController) => void;
@@ -57,7 +53,7 @@ export function createRaceService(store: Store): RaceService {
         const message = `${properties.name} won in ${String(time.toFixed(TIME_PRECISION))} seconds`;
         showModal(p({}, [message]));
 
-        registerWinner(properties.id, time);
+        winnersService.registerWinner(properties.id, time);
       })
       .catch((error: unknown) => {
         if (!(error instanceof AggregateError)) {
@@ -88,27 +84,4 @@ export function createRaceService(store: Store): RaceService {
     race,
     reset,
   };
-}
-
-function registerWinner(id: number, newTime: number): void {
-  apiService.createWinner(id, newTime).catch(() => {
-    updateWinner(id, newTime);
-  });
-}
-
-function updateWinner(id: number, newTime: number): void {
-  apiService
-    .getWinner(id)
-    .then((properties) => {
-      const { id, wins, time } = properties;
-
-      const timeToRegister = Math.min(newTime, time);
-
-      return apiService.updateWinner({
-        id,
-        wins: wins + DEFAULT_INCREMENT,
-        time: timeToRegister,
-      });
-    })
-    .catch(showErrorModal);
 }

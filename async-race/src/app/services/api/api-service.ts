@@ -22,6 +22,7 @@ import {
   assertCarItemPropertiesArray,
   assertIsStartEngineProperties,
   assertIsWinnerProperties,
+  assertWinnerPropertiesArray,
 } from '~/app/utils/type-guards';
 
 async function getCars(
@@ -165,11 +166,48 @@ async function stopCar(id: number): Promise<void> {
   }
 }
 
-async function getWinners(): Promise<unknown> {
-  const response = await fetch(`${BASE_URL}${PATH.WINNERS}`);
-  const data: unknown = await response.json();
+export enum SortField {
+  ID = 'id',
+  WINS = 'wins',
+  TIME = 'time',
+}
 
-  return data;
+export enum SortOrder {
+  ASC = 'ASC',
+  DESC = 'DESC',
+}
+
+const WINNERS_PER_PAGE = 7;
+
+async function getWinners(
+  page: number,
+  sortField: SortField,
+  sortOrder: SortOrder
+): Promise<{ winners: WinnerProperties[]; totalCount: number }> {
+  const query = new URLSearchParams({
+    [QUERY_PARAMETER.PAGE]: page.toString(),
+    [QUERY_PARAMETER.LIMIT]: WINNERS_PER_PAGE.toString(),
+    [QUERY_PARAMETER.SORT]: sortField,
+    [QUERY_PARAMETER.ORDER]: sortOrder,
+  });
+
+  try {
+    const response = await fetch(
+      `${BASE_URL}${PATH.WINNERS}?${query.toString()}`
+    );
+    const winners: unknown = await response.json();
+
+    assertWinnerPropertiesArray(winners);
+
+    const totalCount =
+      Number(response.headers.get(HEADER.X_TOTAL_COUNT)) || EMPTY_COUNT;
+
+    console.log(winners, totalCount);
+
+    return { winners, totalCount };
+  } catch {
+    return { winners: [], totalCount: EMPTY_COUNT };
+  }
 }
 
 async function getWinner(id: number): Promise<WinnerProperties> {

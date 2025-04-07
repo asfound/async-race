@@ -121,3 +121,16 @@ export function assertIsWinnerProperties(
     throw new TypeError(ERROR_TEXT.NOT_WINNER_PROPERTIES);
   }
 }
+
+export function assertWinnerPropertiesArray(
+  data: unknown
+): asserts data is WinnerProperties[] {
+  if (
+    !Array.isArray(data) ||
+    !data.every((object) => isWinnerProperties(object))
+  ) {
+    throw new TypeError(
+      `${ERROR_TEXT.NOT_WINNER_PROPERTIES} or ${ERROR_TEXT.NOT_ARRAY}`
+    );
+  }
+}
