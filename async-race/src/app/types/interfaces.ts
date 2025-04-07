@@ -52,7 +52,7 @@ export interface State {
   sortField: SortField;
   sortOrder: SortOrder;
 
-  currentAppPage: Route.GARAGE | Route.WINNERS;
+  currentAppPage: Route;
 }
 
 export interface Store {

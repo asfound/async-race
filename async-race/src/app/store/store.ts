@@ -43,10 +43,9 @@ export function createStore(initialState: State): Store {
     },
 
     setAppPage: (route: Route): void => {
-      if (route === Route.GARAGE || route === Route.WINNERS) {
-        state.currentAppPage = route;
-        eventBus.unsubscribeAll();
-      }
+      state.currentAppPage = route;
+      state.garageStatus = GarageStatus.READY;
+      eventBus.unsubscribeAll();
     },
 
     subscribe: (event: EventType, callback: Listener<State>): void => {

@@ -54,6 +54,9 @@ export function createRaceControls(
 
   store.subscribe(EventType.GARAGE_STATUS_CHANGE, render);
   store.subscribe(EventType.COUNT_CHANGE, render);
+  store.subscribe(EventType.PAGE_CHANGE, () => {
+    raceService.reset();
+  });
 
   return container;
 }
