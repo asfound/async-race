@@ -3,6 +3,7 @@ import type {
   ENGINE_PROPERTIES,
   WINNER_PROPERTIES,
 } from '../constants/constants';
+import type { Route } from '../router/route';
 import type { EventType, GarageStatus, SortField, SortOrder } from './enums';
 import type { Listener } from './types';
 
@@ -50,6 +51,8 @@ export interface State {
 
   sortField: SortField;
   sortOrder: SortOrder;
+
+  currentAppPage: Route.GARAGE | Route.WINNERS;
 }
 
 export interface Store {
@@ -64,6 +67,8 @@ export interface Store {
   updateState: (newState: Partial<State>) => void;
 
   updateGarageStatus: (newStatus: GarageStatus) => void;
+
+  setAppPage: (route: Route) => void;
 
   subscribe: (event: EventType, callback: Listener<State>) => void;
 }

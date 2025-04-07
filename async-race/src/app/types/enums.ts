@@ -4,6 +4,8 @@ export enum EventType {
 
   GARAGE_STATUS_CHANGE,
   WINNERS_PAGE_CHANGE,
+
+  APP_PAGE_CHANGE,
 }
 
 export enum CarEventType {

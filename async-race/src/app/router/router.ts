@@ -1,3 +1,4 @@
+import { store } from '../store/store';
 import { Route } from './route';
 
 interface RouterProperties {
@@ -19,7 +20,8 @@ export function initRouter({ root, routes }: RouterProperties): void {
   handleHashChange();
 }
 
-export function navigate(route: string = Route.GARAGE): void {
+export function navigate(route: Route = Route.GARAGE): void {
+  store.setAppPage(route);
   globalThis.location.hash = route;
 }
 

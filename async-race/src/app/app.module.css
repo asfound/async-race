@@ -4,9 +4,3 @@
   border-radius: 3rem;
   background-color: var(--primary-dark);
 }
-
-.container {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-}

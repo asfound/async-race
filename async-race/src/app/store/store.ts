@@ -7,6 +7,7 @@ import {
   EMPTY_COUNT,
   EMPTY_STRING,
 } from '../constants/constants';
+import { Route } from '../router/route';
 import { EventType, GarageStatus, SortField, SortOrder } from '../types/enums';
 import { EventEmitter } from '../utils/event-emitter';
 
@@ -41,6 +42,13 @@ export function createStore(initialState: State): Store {
       eventBus.emit(EventType.GARAGE_STATUS_CHANGE, state);
     },
 
+    setAppPage: (route: Route): void => {
+      if (route === Route.GARAGE || route === Route.WINNERS) {
+        state.currentAppPage = route;
+        eventBus.emit(EventType.APP_PAGE_CHANGE, state);
+      }
+    },
+
     subscribe: (event: EventType, callback: Listener<State>): void => {
       eventBus.subscribe(event, callback);
     },
@@ -66,6 +74,8 @@ const defaultState: State = {
 
   sortField: SortField.TIME,
   sortOrder: SortOrder.ASC,
+
+  currentAppPage: Route.GARAGE,
 };
 
 export const store = createStore(defaultState);
