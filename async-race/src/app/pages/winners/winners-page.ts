@@ -29,6 +29,7 @@ export function createWinnersPage(store: Store): HTMLElement {
           state.sortOrder
         );
       },
+      isDisabled: false,
     };
   };
 

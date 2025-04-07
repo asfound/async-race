@@ -38,13 +38,18 @@ export function createGaragePage(carService: CarService): HTMLElement {
           })
           .catch(showErrorModal);
       },
+      isDisabled: state.garageStatus === GarageStatus.RACING,
     };
   };
 
   const paginationControls = createPaginationControls(
     store,
     garagePaginationPropertiesGetter,
-    [EventType.PAGE_CHANGE, EventType.COUNT_CHANGE]
+    [
+      EventType.PAGE_CHANGE,
+      EventType.COUNT_CHANGE,
+      EventType.GARAGE_STATUS_CHANGE,
+    ]
   );
 
   const raceControls = createRaceControls(store, carService, raceService);

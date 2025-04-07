@@ -19,7 +19,7 @@ export function createPaginationControls(
   const render: Render = (state) => {
     paginationContainer.replaceChildren();
 
-    const { currentPage, itemsCount, itemsPerPage, onPageChange } =
+    const { currentPage, itemsCount, itemsPerPage, onPageChange, isDisabled } =
       propertiesProvider(state);
 
     const pageNumber = span({
@@ -32,6 +32,7 @@ export function createPaginationControls(
         onPageChange(currentPage - DEFAULT_INCREMENT);
       },
     });
+
     const nextPageButton = createButton({
       textContent: BUTTON_TEXT.NEXT,
       onClick: () => {
@@ -39,8 +40,9 @@ export function createPaginationControls(
       },
     });
 
-    nextPageButton.disabled = isOnLast(currentPage, itemsCount, itemsPerPage);
-    previousPageButton.disabled = isOnFirst(currentPage);
+    nextPageButton.disabled =
+      isOnLast(currentPage, itemsCount, itemsPerPage) || isDisabled;
+    previousPageButton.disabled = isOnFirst(currentPage) || isDisabled;
 
     paginationContainer.append(previousPageButton, pageNumber, nextPageButton);
   };

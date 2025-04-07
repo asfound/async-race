@@ -73,6 +73,7 @@ export interface PaginationControlsProperties {
   itemsCount: number;
   itemsPerPage: number;
   onPageChange: (newPage: number) => void;
+  isDisabled: boolean;
 }
 
 export interface RaceControlsState {
