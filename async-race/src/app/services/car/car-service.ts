@@ -1,6 +1,10 @@
 import type { Store } from '~/app/types/interfaces';
 
-import { DEFAULT_INCREMENT, DEFAULT_PAGE } from '~/app/constants/constants';
+import {
+  CARS_PER_PAGE,
+  DEFAULT_INCREMENT,
+  DEFAULT_PAGE,
+} from '~/app/constants/constants';
 import { isExceeding, isOnCurrent } from '~/app/utils/check-page';
 
 import { apiService } from '../api/api-service';
@@ -26,7 +30,7 @@ export class CarService {
     const { currentPage, carsCount } = this.store.getState();
     const newCount = carsCount + DEFAULT_INCREMENT;
 
-    if (isOnCurrent(currentPage, newCount)) {
+    if (isOnCurrent(currentPage, newCount, CARS_PER_PAGE)) {
       await this.goToPage(currentPage);
     } else {
       this.store.setCount({ carsCount: newCount });
@@ -41,7 +45,7 @@ export class CarService {
 
     const updatedCount = currentCount - DEFAULT_INCREMENT;
 
-    const updatedPage = isExceeding(currentPage, updatedCount)
+    const updatedPage = isExceeding(currentPage, updatedCount, CARS_PER_PAGE)
       ? currentPage - DEFAULT_INCREMENT || DEFAULT_PAGE
       : currentPage;
 

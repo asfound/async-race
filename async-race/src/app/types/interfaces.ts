@@ -68,3 +68,10 @@ export interface Store {
 
   subscribe: (event: EventType, callback: Listener<State>) => void;
 }
+
+export interface PaginationControlsProperties {
+  currentPage: number;
+  itemsCount: number;
+  itemsPerPage: number;
+  onPageChange: (newPage: number) => void;
+}

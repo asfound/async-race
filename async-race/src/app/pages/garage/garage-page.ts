@@ -1,16 +1,16 @@
 import type { CarService } from '~/app/services/car/car-service';
 import type { Store } from '~/app/types/interfaces';
-import type { Render } from '~/app/types/types';
+import type { PaginationPropertiesGetter, Render } from '~/app/types/types';
 
 import { createCarList } from '~/app/components/car-list/car-list';
 import { createSettingsForm } from '~/app/components/car-settings-form/car-settings-form';
-import { createPaginationControls } from '~/app/components/garage-pagination-controls/garage-pagination-controls';
 import { createGarageTitle } from '~/app/components/garage-title/garage-title';
+import { createPaginationControls } from '~/app/components/pagination-controls/pagination-controls';
 import {
   createRaceControls,
   GarageStatus,
 } from '~/app/components/race-controls/race-controls';
-import { BUTTON_TEXT } from '~/app/constants/constants';
+import { BUTTON_TEXT, CARS_PER_PAGE } from '~/app/constants/constants';
 import { RaceService } from '~/app/services/race/race-service';
 import { store } from '~/app/store/store';
 import { EventType } from '~/app/types/enums';
@@ -26,7 +26,24 @@ export function createGaragePage(carService: CarService): HTMLElement {
 
   const raceService = new RaceService(store);
 
-  const paginationControls = createPaginationControls(store, carService);
+  const garagePaginationPropertiesGetter: PaginationPropertiesGetter = (
+    state
+  ) => {
+    return {
+      currentPage: state.currentPage,
+      itemsCount: state.carsCount,
+      itemsPerPage: CARS_PER_PAGE,
+      onPageChange: (newPage): void => {
+        carService.goToPage(newPage).catch(showErrorModal);
+      },
+    };
+  };
+
+  const paginationControls = createPaginationControls(
+    store,
+    garagePaginationPropertiesGetter,
+    [EventType.PAGE_CHANGE, EventType.COUNT_CHANGE]
+  );
 
   const raceControls = createRaceControls(store, carService, raceService);
 
