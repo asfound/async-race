@@ -214,5 +214,5 @@ export const CAR_MODELS: Record<string, string[]> = {
   Nyanssan: ['Altima', 'Maxima', '370Z', 'Leaf', 'Rogue'],
   Subeowru: ['Outback', 'Impreza', 'Forester', 'Crosstrek', 'Legacy'],
   Purrari: ['488 GTB', 'Portofino', 'LaFerrari', 'F8 Tributo', 'GTC4Lusso'],
-  Murgatti: ['Chiron', 'Veyron', 'Divo', 'Bolide', 'Chiron Purr Sport'],
+  Murgatti: ['Chiron', 'Veyron', 'Divo', 'Bolide', 'Purr Sport'],
 };
