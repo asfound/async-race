@@ -40,7 +40,6 @@ export function createMenu(store: Store): HTMLElement {
   render(store.getState());
 
   store.subscribe(EventType.GARAGE_STATUS_CHANGE, render);
-  store.subscribe(EventType.APP_PAGE_CHANGE, render);
 
   return buttonsContainer;
 }

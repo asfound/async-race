@@ -1,12 +1,8 @@
+import type { EventType } from '~/app/types/enums';
 import type { Store } from '~/app/types/interfaces';
 import type { PaginationPropertiesGetter, Render } from '~/app/types/types';
 
-import {
-  BUTTON_TEXT,
-  DEFAULT_INCREMENT,
-  EMPTY_COUNT,
-} from '~/app/constants/constants';
-import { EventType } from '~/app/types/enums';
+import { BUTTON_TEXT, DEFAULT_INCREMENT } from '~/app/constants/constants';
 import { isOnLast, isOnFirst, calculateLastPage } from '~/app/utils/check-page';
 import { div, span } from '~/app/utils/create-element';
 
@@ -53,17 +49,6 @@ export function createPaginationControls(
 
   for (const event of events) {
     store.subscribe(event, render);
-  }
-
-  const unsubscribeAll = (): void => {
-    for (const event of events) {
-      store.unsubscribe(event, render);
-    }
-    store.unsubscribe(EventType.APP_PAGE_CHANGE, unsubscribeAll);
-  };
-
-  if (events.length > EMPTY_COUNT) {
-    store.subscribe(EventType.APP_PAGE_CHANGE, unsubscribeAll);
   }
 
   render(store.getState());

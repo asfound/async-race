@@ -71,8 +71,6 @@ export interface Store {
   setAppPage: (route: Route) => void;
 
   subscribe: (event: EventType, callback: Listener<State>) => void;
-
-  unsubscribe: (events: EventType, callback: Listener<State>) => void;
 }
 
 export interface PaginationControlsProperties {

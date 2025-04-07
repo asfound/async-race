@@ -5,6 +5,7 @@ import type { PaginationPropertiesGetter, Render } from '~/app/types/types';
 import { createCarList } from '~/app/components/car-list/car-list';
 import { createSettingsForm } from '~/app/components/car-settings-form/car-settings-form';
 import { createGarageTitle } from '~/app/components/garage-title/garage-title';
+import { createMenu } from '~/app/components/menu/menu';
 import { createPaginationControls } from '~/app/components/pagination-controls/pagination-controls';
 import { createRaceControls } from '~/app/components/race-controls/race-controls';
 import { BUTTON_TEXT, CARS_PER_PAGE } from '~/app/constants/constants';
@@ -18,6 +19,8 @@ import styles from './garage-page.module.css';
 
 export function createGaragePage(carService: CarService): HTMLElement {
   const container = div({});
+
+  const menuElement = createMenu(store);
 
   const titleContainer = createGarageTitle(store);
 
@@ -56,7 +59,7 @@ export function createGaragePage(carService: CarService): HTMLElement {
 
   const carCreationForm = createCarCreationForm(store, carService);
 
-  container.append(titleContainer, raceControls, carCreationForm);
+  container.append(menuElement, titleContainer, raceControls, carCreationForm);
 
   const carsList = createCarList(store, carService, raceService);
 

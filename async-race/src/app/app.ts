@@ -2,7 +2,6 @@ import { DEFAULT_PAGE } from '~/app/constants/constants';
 import { main, section } from '~/app/utils/create-element';
 
 import styles from './app.module.css';
-import { createMenu } from './components/menu/menu';
 import { createGaragePage } from './pages/garage/garage-page';
 import { createWinnersPage } from './pages/winners/winners-page';
 import { Route } from './router/route';
@@ -22,9 +21,7 @@ export function initApp(): void {
 }
 
 function initUI(carService: CarService): void {
-  const menuElement = createMenu(store);
-
-  const mainElement = main({ className: styles.main }, [menuElement]);
+  const mainElement = main({ className: styles.main });
 
   const root = section({});
 

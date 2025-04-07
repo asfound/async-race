@@ -1,6 +1,7 @@
 import type { Store } from '~/app/types/interfaces';
 import type { PaginationPropertiesGetter, Render } from '~/app/types/types';
 
+import { createMenu } from '~/app/components/menu/menu';
 import { createPaginationControls } from '~/app/components/pagination-controls/pagination-controls';
 import { createWinnersList } from '~/app/components/winners-list/winners-list';
 import { createWinnersTitle } from '~/app/components/winners-title/winners-title';
@@ -38,6 +39,8 @@ export function createWinnersPage(store: Store): HTMLElement {
   const render: Render = () => {
     container.replaceChildren();
 
+    const menuElement = createMenu(store);
+
     const titleContainer = createWinnersTitle(store);
 
     const paginationControls = createPaginationControls(
@@ -48,7 +51,12 @@ export function createWinnersPage(store: Store): HTMLElement {
 
     const winnersList = createWinnersList(store);
 
-    container.append(titleContainer, paginationControls, winnersList);
+    container.append(
+      menuElement,
+      titleContainer,
+      paginationControls,
+      winnersList
+    );
   };
 
   render(store.getState());

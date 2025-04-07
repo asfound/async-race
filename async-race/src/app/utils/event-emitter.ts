@@ -20,6 +20,10 @@ export class EventEmitter<T, E> {
     }
   }
 
+  public unsubscribeAll(): void {
+    this.events.clear();
+  }
+
   public emit(event: E, data: T): void {
     const listeners = this.events.get(event);
     if (listeners) {
