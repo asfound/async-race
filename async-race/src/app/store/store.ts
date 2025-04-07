@@ -52,6 +52,10 @@ export function createStore(initialState: State): Store {
     subscribe: (event: EventType, callback: Listener<State>): void => {
       eventBus.subscribe(event, callback);
     },
+
+    unsubscribe: (event: EventType, callback: Listener<State>): void => {
+      eventBus.unsubscribe(event, callback);
+    },
   };
 }
 

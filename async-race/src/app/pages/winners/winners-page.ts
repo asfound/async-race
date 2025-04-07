@@ -2,12 +2,10 @@ import type { Store } from '~/app/types/interfaces';
 import type { PaginationPropertiesGetter, Render } from '~/app/types/types';
 
 import { createPaginationControls } from '~/app/components/pagination-controls/pagination-controls';
-import { createSortingPanel } from '~/app/components/sorting-panel/sorting-panel';
-import { createWinnersTable } from '~/app/components/winners-table/winners-table';
+import { createWinnersList } from '~/app/components/winners-list/winners-list';
 import { createWinnersTitle } from '~/app/components/winners-title/winners-title';
 import { DEFAULT_PAGE, WINNERS_PER_PAGE } from '~/app/constants/constants';
 import { winnersService } from '~/app/services/winners/winners-service';
-import { EventType } from '~/app/types/enums';
 
 import { div } from '../../utils/create-element';
 
@@ -37,7 +35,7 @@ export function createWinnersPage(store: Store): HTMLElement {
 
   winnersService.setWinners(store, DEFAULT_PAGE, sortField, sortOrder);
 
-  const render: Render = ({ winnersOnCurrentPage, winnersCars }) => {
+  const render: Render = () => {
     container.replaceChildren();
 
     const titleContainer = createWinnersTitle(store);
@@ -48,25 +46,12 @@ export function createWinnersPage(store: Store): HTMLElement {
       []
     );
 
-    const sortingPanel = createSortingPanel(store);
+    const winnersList = createWinnersList(store);
 
-    const winnersTable = createWinnersTable(
-      winnersOnCurrentPage,
-      winnersCars,
-      store
-    );
-
-    container.append(
-      titleContainer,
-      paginationControls,
-      sortingPanel,
-      winnersTable
-    );
+    container.append(titleContainer, paginationControls, winnersList);
   };
 
   render(store.getState());
-
-  store.subscribe(EventType.WINNERS_PAGE_CHANGE, render);
 
   return container;
 }
