@@ -60,4 +60,16 @@ export const section = createElementFactory(TAG_NAME.SECTION);
 
 export const span = createElementFactory(TAG_NAME.SPAN);
 
+export const table = createElementFactory(TAG_NAME.TABLE);
+
+export const tbody = createElementFactory(TAG_NAME.TBODY);
+
+export const thead = createElementFactory(TAG_NAME.THEAD);
+
+export const td = createElementFactory(TAG_NAME.TD);
+
+export const th = createElementFactory(TAG_NAME.TH);
+
+export const tr = createElementFactory(TAG_NAME.TR);
+
 export const ul = createElementFactory(TAG_NAME.UL);

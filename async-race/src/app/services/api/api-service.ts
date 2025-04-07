@@ -20,6 +20,7 @@ import {
 import { EngineError } from '~/app/utils/custom-errors';
 import {
   assertCarItemPropertiesArray,
+  assertIsCarItemProperties,
   assertIsStartEngineProperties,
   assertIsWinnerProperties,
   assertWinnerPropertiesArray,
@@ -53,14 +54,17 @@ async function getCars(
   }
 }
 
-async function getCar(id: number): Promise<unknown> {
+async function getCar(id: number): Promise<CarItemProperties> {
   const response = await fetch(`${BASE_URL}${PATH.GARAGE}/${String(id)}`);
 
+  const car: unknown = await response.json();
   if (response.status !== HTTP_STATUS.OK) {
     throw new Error(ERROR_TEXT.GET_CAR);
   }
 
-  return response.json();
+  assertIsCarItemProperties(car);
+
+  return car;
 }
 
 async function createCar(name: string, color: string): Promise<unknown> {
@@ -177,13 +181,13 @@ export enum SortOrder {
   DESC = 'DESC',
 }
 
-const WINNERS_PER_PAGE = 7;
+const WINNERS_PER_PAGE = 10;
 
 async function getWinners(
   page: number,
   sortField: SortField,
   sortOrder: SortOrder
-): Promise<{ winners: WinnerProperties[]; totalCount: number }> {
+): Promise<{ winners: WinnerProperties[]; totalWinners: number }> {
   const query = new URLSearchParams({
     [QUERY_PARAMETER.PAGE]: page.toString(),
     [QUERY_PARAMETER.LIMIT]: WINNERS_PER_PAGE.toString(),
@@ -199,14 +203,14 @@ async function getWinners(
 
     assertWinnerPropertiesArray(winners);
 
-    const totalCount =
+    const totalWinners =
       Number(response.headers.get(HEADER.X_TOTAL_COUNT)) || EMPTY_COUNT;
 
-    console.log(winners, totalCount);
+    console.log(winners, totalWinners);
 
-    return { winners, totalCount };
+    return { winners, totalWinners };
   } catch {
-    return { winners: [], totalCount: EMPTY_COUNT };
+    return { winners: [], totalWinners: EMPTY_COUNT };
   }
 }
 

@@ -16,6 +16,7 @@ export class CarService {
     const { cars, totalCount } = await apiService.getCars(page);
 
     this.store.updateState({ carsOnCurrentPage: cars });
+
     this.store.setCount({ carsCount: totalCount });
     this.store.setPage({ currentPage: page });
   }

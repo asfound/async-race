@@ -61,6 +61,10 @@ const defaultState: State = {
   carsOnCurrentPage: [],
 
   garageStatus: GarageStatus.READY,
+
+  winnersCount: EMPTY_COUNT,
+  winnersOnCurrentPage: [],
+  winnersCars: [],
 };
 
 export const store = createStore(defaultState);

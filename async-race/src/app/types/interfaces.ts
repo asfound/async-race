@@ -42,6 +42,10 @@ export interface State {
   carsOnCurrentPage: CarItemProperties[];
 
   garageStatus: GarageStatus;
+
+  winnersCount: number;
+  winnersOnCurrentPage: WinnerProperties[];
+  winnersCars: CarItemProperties[];
 }
 
 //TODO remove duplicate methods

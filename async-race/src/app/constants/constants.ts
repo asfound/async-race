@@ -75,6 +75,12 @@ export const TAG_NAME = {
   SECTION: 'section',
   SPAN: 'span',
   SVG: 'svg',
+  TABLE: 'table',
+  TBODY: 'tbody',
+  THEAD: 'thead',
+  TD: 'td',
+  TH: 'th',
+  TR: 'tr',
   UL: 'ul',
 } as const;
 

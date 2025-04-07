@@ -53,7 +53,7 @@ function initUI(carService: CarService): void {
     root,
     routes: {
       [Route.GARAGE]: () => createGaragePage(carService),
-      [Route.WINNERS]: createWinnersPage,
+      [Route.WINNERS]: () => createWinnersPage(store),
     },
   });
 }
