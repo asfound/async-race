@@ -102,7 +102,16 @@ export const BUTTON_TEXT = {
   START: 'Start',
 
   SAVE: 'Save',
+
+  ID: 'ID',
+  TIME: 'Time',
+  WINS: 'Wins',
 } as const;
+
+export const ORDER_BUTTON_TEXT = {
+  ASC: 'Sort ▼',
+  DESC: 'Sort ▲',
+};
 
 export const TITLES = {
   GARAGE: 'Garage',

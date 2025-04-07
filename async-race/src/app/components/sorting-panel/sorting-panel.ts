@@ -1,18 +1,17 @@
 import type { Store } from '~/app/types/interfaces';
 import type { Render } from '~/app/types/types';
 
-import { DEFAULT_PAGE } from '~/app/constants/constants';
+import {
+  BUTTON_TEXT,
+  DEFAULT_PAGE,
+  ORDER_BUTTON_TEXT,
+} from '~/app/constants/constants';
 import { winnersService } from '~/app/services/winners/winners-service';
 import { SortField, SortOrder } from '~/app/types/enums';
 import { div } from '~/app/utils/create-element';
 
 import { createButton } from '../button/button';
 import styles from './sorting-panel.module.css';
-
-const ORDER_BUTTON_TEXT = {
-  ASC: 'Sort ▼',
-  DESC: 'Sort ▲',
-};
 
 export function createSortingPanel(store: Store): HTMLElement {
   const container = div({ className: styles.container });
@@ -21,7 +20,7 @@ export function createSortingPanel(store: Store): HTMLElement {
     container.replaceChildren();
 
     const timeButton = createButton({
-      textContent: 'Time',
+      textContent: BUTTON_TEXT.TIME,
       onClick: () => {
         winnersService.setWinners(
           store,
@@ -34,7 +33,7 @@ export function createSortingPanel(store: Store): HTMLElement {
     });
 
     const idButton = createButton({
-      textContent: 'ID',
+      textContent: BUTTON_TEXT.ID,
       onClick: () => {
         winnersService.setWinners(store, DEFAULT_PAGE, SortField.ID, sortOrder);
       },
@@ -42,7 +41,7 @@ export function createSortingPanel(store: Store): HTMLElement {
     });
 
     const winsButton = createButton({
-      textContent: 'Wins',
+      textContent: BUTTON_TEXT.WINS,
       onClick: () => {
         winnersService.setWinners(
           store,
