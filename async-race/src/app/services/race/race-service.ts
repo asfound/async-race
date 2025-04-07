@@ -8,37 +8,31 @@ import { showErrorModal, showModal } from '~/app/utils/show-modal';
 
 import { winnersService } from '../winners/winners-service';
 
-export interface RaceService {
-  addController: (controller: CarItemController) => void;
+export class RaceService {
+  public controllers = new Map<number, CarItemController>();
 
-  removeController: (id: number) => void;
+  private readonly store: Store;
 
-  clearControllers: () => void;
+  constructor(store: Store) {
+    this.store = store;
+  }
 
-  race: () => void;
+  public addController(controller: CarItemController): void {
+    this.controllers.set(controller.id, controller);
+  }
 
-  reset: () => void;
-}
+  public removeController(id: number): void {
+    this.controllers.delete(id);
+  }
 
-export function createRaceService(store: Store): RaceService {
-  const controllers = new Map<number, CarItemController>();
+  public clearControllers(): void {
+    this.controllers.clear();
+  }
 
-  const addController = (controller: CarItemController): void => {
-    controllers.set(controller.id, controller);
-  };
+  public race(): void {
+    this.store.updateGarageStatus(GarageStatus.RACING);
 
-  const removeController = (id: number): void => {
-    controllers.delete(id);
-  };
-
-  const clearControllers = (): void => {
-    controllers.clear();
-  };
-
-  const race = (): void => {
-    store.updateGarageStatus(GarageStatus.RACING);
-
-    const promises = [...controllers.values()].map((controller) => {
+    const promises = [...this.controllers.values()].map((controller) => {
       return controller.startCar(true).then(() => controller.properties);
     });
 
@@ -61,27 +55,19 @@ export function createRaceService(store: Store): RaceService {
         }
       })
       .finally(() => {
-        store.updateGarageStatus(GarageStatus.CARS_LEFT);
+        this.store.updateGarageStatus(GarageStatus.CARS_LEFT);
       });
-  };
+  }
 
-  const reset = (): void => {
-    const promises = [...controllers.values()].map((controller) => {
+  public reset(): void {
+    const promises = [...this.controllers.values()].map((controller) => {
       return controller.returnCar();
     });
 
     Promise.allSettled(promises)
       .then(() => {
-        store.updateGarageStatus(GarageStatus.READY);
+        this.store.updateGarageStatus(GarageStatus.READY);
       })
       .catch(showErrorModal);
-  };
-
-  return {
-    addController,
-    removeController,
-    clearControllers,
-    race,
-    reset,
-  };
+  }
 }

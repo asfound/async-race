@@ -11,7 +11,7 @@ import {
   GarageStatus,
 } from '~/app/components/race-controls/race-controls';
 import { BUTTON_TEXT } from '~/app/constants/constants';
-import { createRaceService } from '~/app/services/race/race-service';
+import { RaceService } from '~/app/services/race/race-service';
 import { store } from '~/app/store/store';
 import { EventType } from '~/app/types/enums';
 import { showErrorModal } from '~/app/utils/show-modal';
@@ -24,7 +24,7 @@ export function createGaragePage(carService: CarService): HTMLElement {
 
   const titleContainer = createGarageTitle(store);
 
-  const raceService = createRaceService(store);
+  const raceService = new RaceService(store);
 
   const paginationControls = createPaginationControls(store, carService);
 
