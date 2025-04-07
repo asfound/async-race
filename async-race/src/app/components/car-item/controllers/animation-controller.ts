@@ -1,3 +1,5 @@
+import { ANIMATION, EMPTY_COUNT } from '~/app/constants/constants';
+
 export interface CarAnimationController {
   drive: (velocity: number) => void;
   pause: () => void;
@@ -15,13 +17,13 @@ export function createAnimationController(
 
     animation = car.animate(
       [
-        { transform: 'translateX(0)' },
+        { transform: `translateX(${String(EMPTY_COUNT)})` },
         { transform: `translateX(${String(getter())}px)` },
       ],
       {
         duration,
-        easing: 'linear',
-        fill: 'forwards',
+        easing: ANIMATION.EASING,
+        fill: ANIMATION.FILL,
       }
     );
   }

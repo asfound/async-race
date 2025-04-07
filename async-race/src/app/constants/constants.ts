@@ -157,6 +157,11 @@ export const REPAIR_ICON_SIZE = {
   HEIGHT: '22',
 } as const;
 
+export const ANIMATION = {
+  EASING: 'ease-in-out',
+  FILL: 'forwards',
+} as const;
+
 export const MIME_TYPE = {
   SVG: 'image/svg+xml',
 } as const;
