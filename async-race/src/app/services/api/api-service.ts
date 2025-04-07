@@ -239,14 +239,12 @@ async function createWinner(id: number, time: number): Promise<unknown> {
   return response.json();
 }
 
-async function deleteWinner(id: number): Promise<void> {
+async function deleteWinner(id: number): Promise<unknown> {
   const response = await fetch(`${BASE_URL}${PATH.WINNERS}/${String(id)}`, {
     method: HTTP_METHOD.DELETE,
   });
 
-  if (response.status !== HTTP_STATUS.OK) {
-    throw new Error(ERROR_TEXT.DELETE_WINNER);
-  }
+  return response.json();
 }
 
 async function updateWinner(properties: WinnerProperties): Promise<unknown> {

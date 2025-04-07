@@ -44,7 +44,6 @@ export const ERROR_TEXT = {
   STOP: 'Failed to stop car.',
 
   CREATE_WINNER: 'Failed to create winner.',
-  DELETE_WINNER: 'Failed to delete winner.',
   UPDATE_WINNER: 'Failed to update winner.',
 
   UNKNOWN: 'Unknown error',

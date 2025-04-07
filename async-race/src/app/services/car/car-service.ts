@@ -35,6 +35,7 @@ export class CarService {
 
   public async removeCar(id: number): Promise<void> {
     await apiService.deleteCar(id);
+    await apiService.deleteWinner(id);
 
     const { currentPage, carsCount: currentCount } = this.store.getState();
 
