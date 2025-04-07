@@ -8,6 +8,7 @@ import type { Render } from '~/app/types/types';
 import {
   CAR_ICON_SIZE,
   DEFAULT_INCREMENT,
+  TABLE_HEADERS,
   TIME_PRECISION,
 } from '~/app/constants/constants';
 import { table, tbody, td, th, thead, tr } from '~/app/utils/create-element';
@@ -15,8 +16,6 @@ import { createSVGElement } from '~/app/utils/create-svg-icon';
 import carSVG from '~/assets/icons/car.svg?raw';
 
 import styles from './winners-table.module.css';
-
-const TABLE_HEADERS = ['№', 'Car', 'ID', 'Name', 'Wins', 'Best time'];
 
 export function createWinnersTable(
   winners: WinnerProperties[],
@@ -40,42 +39,7 @@ export function createWinnersTable(
 
     const tbodyElement = tbody({});
 
-    for (const [index, winner] of winners.entries()) {
-      const row = tr({});
-
-      const numberCell = td({});
-      numberCell.textContent = `${String(index + DEFAULT_INCREMENT)}.`;
-      row.append(numberCell);
-
-      const carCell = td({ className: styles.car });
-      const carSvgElement = createSVGElement(
-        carSVG,
-        winnersCars[index].color,
-        CAR_ICON_SIZE.WIDTH,
-        CAR_ICON_SIZE.HEIGHT
-      );
-
-      carCell.append(carSvgElement);
-      row.append(carCell);
-
-      const idCell = td({});
-      idCell.textContent = `#${String(winner.id)}`;
-      row.append(idCell);
-
-      const nameCell = td({});
-      nameCell.textContent = winnersCars[index].name;
-      row.append(nameCell);
-
-      const winsCell = td({});
-      winsCell.textContent = String(winner.wins);
-      row.append(winsCell);
-
-      const bestTimeCell = td({});
-      bestTimeCell.textContent = `${winner.time.toFixed(TIME_PRECISION)}s`;
-      row.append(bestTimeCell);
-
-      tbodyElement.append(row);
-    }
+    createTableEntries(winners, winnersCars, tbodyElement);
 
     tableElement.append(tbodyElement);
   };
@@ -83,4 +47,47 @@ export function createWinnersTable(
   render(store.getState());
 
   return tableElement;
+}
+
+function createTableEntries(
+  winners: WinnerProperties[],
+  winnersCars: CarItemProperties[],
+  tbodyElement: HTMLTableSectionElement
+): void {
+  for (const [index, winner] of winners.entries()) {
+    const row = tr({});
+
+    const numberCell = td({});
+    numberCell.textContent = `${String(index + DEFAULT_INCREMENT)}.`;
+    row.append(numberCell);
+
+    const carCell = td({ className: styles.car });
+    const carSvgElement = createSVGElement(
+      carSVG,
+      winnersCars[index].color,
+      CAR_ICON_SIZE.WIDTH,
+      CAR_ICON_SIZE.HEIGHT
+    );
+
+    carCell.append(carSvgElement);
+    row.append(carCell);
+
+    const idCell = td({});
+    idCell.textContent = `#${String(winner.id)}`;
+    row.append(idCell);
+
+    const nameCell = td({});
+    nameCell.textContent = winnersCars[index].name;
+    row.append(nameCell);
+
+    const winsCell = td({});
+    winsCell.textContent = String(winner.wins);
+    row.append(winsCell);
+
+    const bestTimeCell = td({});
+    bestTimeCell.textContent = `${winner.time.toFixed(TIME_PRECISION)}s`;
+    row.append(bestTimeCell);
+
+    tbodyElement.append(row);
+  }
 }

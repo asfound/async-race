@@ -127,6 +127,8 @@ export const PLACEHOLDER = {
   NAME: 'Enter car name...',
 };
 
+export const TABLE_HEADERS = ['№', 'Car', 'ID', 'Name', 'Wins', 'Best time'];
+
 export const COLOR_MODEL: string[] = ['red', 'green', 'blue'];
 
 export const COLOR_RANGE = {
