@@ -8,7 +8,7 @@ import {
   EMPTY_COUNT,
   EMPTY_STRING,
 } from '../constants/constants';
-import { EventType } from '../types/enums';
+import { EventType, SortField, SortOrder } from '../types/enums';
 import { EventEmitter } from '../utils/event-emitter';
 
 export function createStore(initialState: State): Store {
@@ -21,6 +21,11 @@ export function createStore(initialState: State): Store {
     setPage: (newState: Partial<State>): void => {
       Object.assign(state, newState);
       eventBus.emit(EventType.PAGE_CHANGE, state);
+    },
+
+    setWinnersPage: (newState: Partial<State>): void => {
+      Object.assign(state, newState);
+      eventBus.emit(EventType.WINNERS_PAGE_CHANGE, state);
     },
 
     setCount: (newState: Partial<State>): void => {
@@ -62,9 +67,14 @@ const defaultState: State = {
 
   garageStatus: GarageStatus.READY,
 
+  currentWinnersPage: DEFAULT_PAGE,
   winnersCount: EMPTY_COUNT,
+
   winnersOnCurrentPage: [],
   winnersCars: [],
+
+  sortField: SortField.TIME,
+  sortOrder: SortOrder.ASC,
 };
 
 export const store = createStore(defaultState);

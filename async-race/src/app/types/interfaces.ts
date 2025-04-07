@@ -4,7 +4,7 @@ import type {
   ENGINE_PROPERTIES,
   WINNER_PROPERTIES,
 } from '../constants/constants';
-import type { EventType } from './enums';
+import type { EventType, SortField, SortOrder } from './enums';
 import type { Listener } from './types';
 
 export interface ButtonProperties {
@@ -43,9 +43,14 @@ export interface State {
 
   garageStatus: GarageStatus;
 
+  currentWinnersPage: number;
   winnersCount: number;
+
   winnersOnCurrentPage: WinnerProperties[];
   winnersCars: CarItemProperties[];
+
+  sortField: SortField;
+  sortOrder: SortOrder;
 }
 
 //TODO remove duplicate methods
@@ -54,6 +59,8 @@ export interface Store {
   getState: () => State;
 
   setPage: (newState: Partial<State>) => void;
+
+  setWinnersPage: (newState: Partial<State>) => void;
 
   setCount: (newState: Partial<State>) => void;
 

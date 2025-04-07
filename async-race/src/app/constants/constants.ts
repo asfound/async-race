@@ -166,6 +166,9 @@ export const PAD_VALUE = '0';
 export const MILLISECONDS = 1000;
 export const TIME_PRECISION = 2;
 
+export const WIN_AMOUNT = 1;
+export const WINNERS_PER_PAGE = 10;
+
 export const CAR_PROPERTIES = {
   ID: 'id',
   NAME: 'name',

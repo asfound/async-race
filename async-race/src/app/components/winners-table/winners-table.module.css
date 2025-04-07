@@ -1,16 +1,27 @@
 .table {
   border-collapse: collapse;
+
   width: 80%;
   margin: 0 auto;
   margin-top: 1rem;
+  border: 1px var(--primary-bright) solid;
+
+  color: var(--white);
 }
 
 .table th,
 .table td {
   padding: 0.5rem;
-  border: 1px var(--primary-bright) solid;
-  color: var(--white);
   text-align: center;
+}
+
+.table th {
+  color: var(--primary-dark);
+  background-color: var(--primary-bright);
+}
+
+.table tr:nth-child(even) {
+  background-color: var(--primary-medium);
 }
 
 .car {

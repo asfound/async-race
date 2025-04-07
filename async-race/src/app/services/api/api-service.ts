@@ -1,3 +1,4 @@
+import type { SortField, SortOrder } from '~/app/types/enums';
 import type {
   CarItemProperties,
   StartEngineProperties,
@@ -16,6 +17,8 @@ import {
   HTTP_STATUS,
   PATH,
   QUERY_PARAMETER,
+  WIN_AMOUNT,
+  WINNERS_PER_PAGE,
 } from '~/app/constants/constants';
 import { EngineError } from '~/app/utils/custom-errors';
 import {
@@ -170,19 +173,6 @@ async function stopCar(id: number): Promise<void> {
   }
 }
 
-export enum SortField {
-  ID = 'id',
-  WINS = 'wins',
-  TIME = 'time',
-}
-
-export enum SortOrder {
-  ASC = 'ASC',
-  DESC = 'DESC',
-}
-
-const WINNERS_PER_PAGE = 10;
-
 async function getWinners(
   page: number,
   sortField: SortField,
@@ -195,6 +185,7 @@ async function getWinners(
     [QUERY_PARAMETER.ORDER]: sortOrder,
   });
 
+  console.log(query.toString());
   try {
     const response = await fetch(
       `${BASE_URL}${PATH.WINNERS}?${query.toString()}`
@@ -223,12 +214,10 @@ async function getWinner(id: number): Promise<WinnerProperties> {
   return winner;
 }
 
-const WIN = 1;
-
 async function createWinner(id: number, time: number): Promise<unknown> {
   const response = await fetch(`${BASE_URL}${PATH.WINNERS}`, {
     method: HTTP_METHOD.POST,
-    body: JSON.stringify({ id, time, wins: WIN }),
+    body: JSON.stringify({ id, time, wins: WIN_AMOUNT }),
     headers: { [HEADER.CONTENT_TYPE]: CONTENT_TYPE.JSON },
   });
 
