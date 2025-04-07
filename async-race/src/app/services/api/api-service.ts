@@ -49,8 +49,6 @@ async function getCars(
     const totalCount =
       Number(response.headers.get(HEADER.X_TOTAL_COUNT)) || EMPTY_COUNT;
 
-    console.log(cars, totalCount);
-
     return { cars, totalCount };
   } catch {
     return { cars: [], totalCount: EMPTY_COUNT };
@@ -185,7 +183,6 @@ async function getWinners(
     [QUERY_PARAMETER.ORDER]: sortOrder,
   });
 
-  console.log(query.toString());
   try {
     const response = await fetch(
       `${BASE_URL}${PATH.WINNERS}?${query.toString()}`
@@ -196,8 +193,6 @@ async function getWinners(
 
     const totalWinners =
       Number(response.headers.get(HEADER.X_TOTAL_COUNT)) || EMPTY_COUNT;
-
-    console.log(winners, totalWinners);
 
     return { winners, totalWinners };
   } catch {

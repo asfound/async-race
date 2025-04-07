@@ -46,6 +46,7 @@ function setWinners(
         winnersOnCurrentPage: winners,
         winnersCount: totalWinners,
         winnersCars: cars,
+        currentWinnersPage: page,
         sortField,
         sortOrder,
       });
