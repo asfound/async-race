@@ -1,6 +1,7 @@
 .form {
   display: flex;
   gap: 0.25rem;
+  align-items: center;
 }
 
 .name {
@@ -32,4 +33,8 @@
 
   appearance: none;
   background: none;
+}
+
+.icon {
+  margin-right: 0.5rem;
 }

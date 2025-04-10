@@ -1,10 +1,13 @@
 import {
   BUTTON_TYPE,
+  CAR_ICON_SIZE,
   INPUT_TYPE,
   PLACEHOLDER,
 } from '~/app/constants/constants';
 import { form, input } from '~/app/utils/create-element';
+import { createSVGElement } from '~/app/utils/create-svg-icon';
 import { getRandomName } from '~/app/utils/get-random-name';
+import carSVG from '~/assets/icons/car.svg?raw';
 
 import { createButton } from '../button/button';
 import styles from './car-settings-form.module.css';
@@ -57,6 +60,25 @@ export function createSettingsForm(
   });
 
   formElement.append(nameInput, colorInput, submitButton);
+
+  if (!callbacks) {
+    const carSvgElement = createSVGElement(
+      carSVG,
+      colorValue,
+      CAR_ICON_SIZE.WIDTH,
+      CAR_ICON_SIZE.HEIGHT
+    );
+
+    carSvgElement.classList.add(styles.icon);
+
+    colorInput.addEventListener('input', (event) => {
+      if (event.target instanceof HTMLInputElement) {
+        carSvgElement.style.fill = event.target.value;
+      }
+    });
+
+    formElement.prepend(carSvgElement);
+  }
 
   return formElement;
 }
