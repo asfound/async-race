@@ -5,7 +5,7 @@ import { createMenu } from '~/app/components/menu/menu';
 import { createPaginationControls } from '~/app/components/pagination-controls/pagination-controls';
 import { createWinnersList } from '~/app/components/winners-list/winners-list';
 import { createWinnersTitle } from '~/app/components/winners-title/winners-title';
-import { DEFAULT_PAGE, WINNERS_PER_PAGE } from '~/app/constants/constants';
+import { WINNERS_PER_PAGE } from '~/app/constants/constants';
 import { winnersService } from '~/app/services/winners/winners-service';
 import { EventType } from '~/app/types/enums';
 
@@ -33,9 +33,9 @@ export function createWinnersPage(store: Store): HTMLElement {
     };
   };
 
-  const { sortField, sortOrder } = store.getState();
+  const { sortField, sortOrder, currentWinnersPage } = store.getState();
 
-  winnersService.setWinners(store, DEFAULT_PAGE, sortField, sortOrder);
+  winnersService.setWinners(store, currentWinnersPage, sortField, sortOrder);
 
   const render: Render = () => {
     container.replaceChildren();
