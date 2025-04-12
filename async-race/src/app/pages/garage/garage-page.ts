@@ -1,4 +1,3 @@
-import type { CarService } from '~/app/services/car/car-service';
 import type { Store } from '~/app/types/interfaces';
 import type { PaginationPropertiesGetter, Render } from '~/app/types/types';
 
@@ -9,16 +8,22 @@ import { createMenu } from '~/app/components/menu/menu';
 import { createPaginationControls } from '~/app/components/pagination-controls/pagination-controls';
 import { createRaceControls } from '~/app/components/race-controls/race-controls';
 import { BUTTON_TEXT, CARS_PER_PAGE } from '~/app/constants/constants';
+import { CarService } from '~/app/services/car/car-service';
 import { RaceService } from '~/app/services/race/race-service';
-import { store } from '~/app/store/store';
 import { EventType, GarageStatus } from '~/app/types/enums';
 import { showErrorModal } from '~/app/utils/show-modal';
 
 import { div } from '../../utils/create-element';
 import styles from './garage-page.module.css';
 
-export function createGaragePage(carService: CarService): HTMLElement {
+export function createGaragePage(store: Store): HTMLElement {
   const container = div({});
+
+  const { currentPage } = store.getState();
+
+  const carService = new CarService(store);
+
+  carService.goToPage(currentPage).catch(showErrorModal);
 
   const menuElement = createMenu(store);
 
