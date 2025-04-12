@@ -1,3 +1,5 @@
+import type { SettingsFormCallbacks } from '~/app/types/interfaces';
+
 import {
   BUTTON_TYPE,
   CAR_ICON_SIZE,
@@ -11,11 +13,6 @@ import carSVG from '~/assets/icons/car.svg?raw';
 
 import { createButton } from '../button/button';
 import styles from './car-settings-form.module.css';
-
-interface SettingsFormCallbacks {
-  nameInputHandler?: (name: string) => void;
-  colorInputHandler?: (color: string) => void;
-}
 
 export function createSettingsForm(
   buttonText: string,

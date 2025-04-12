@@ -1,5 +1,5 @@
 import type { RaceService } from '~/app/services/race/race-service';
-import type { State, Store } from '~/app/types/interfaces';
+import type { ControlsState, State, Store } from '~/app/types/interfaces';
 
 import { createButton } from '~/app/components/button/button';
 import { BUTTON_TEXT } from '~/app/constants/constants';
@@ -16,20 +16,6 @@ import {
   type CarStore,
 } from '../car-store/car-store';
 import styles from './item-controls.module.css';
-
-interface ControlsState {
-  isStartDisabled: boolean;
-  isReturnDisabled: boolean;
-  isEditDisabled: boolean;
-  isDeleteDisabled: boolean;
-}
-
-const AllControlsDisabled = {
-  isStartDisabled: true,
-  isReturnDisabled: true,
-  isEditDisabled: true,
-  isDeleteDisabled: true,
-};
 
 export function createItemControls(
   controller: CarItemController,
@@ -152,6 +138,13 @@ function createEditButton(
   });
 }
 
+const AllControlsDisabled = {
+  isStartDisabled: true,
+  isReturnDisabled: true,
+  isEditDisabled: true,
+  isDeleteDisabled: true,
+};
+
 function convertToControlsState(
   status: CarStatus,
   garageStatus: GarageStatus
@@ -159,6 +152,7 @@ function convertToControlsState(
   if (garageStatus === GarageStatus.RACING) {
     return AllControlsDisabled;
   }
+
   switch (status) {
     case CarStatus.RACING: {
       return {

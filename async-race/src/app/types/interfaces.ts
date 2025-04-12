@@ -86,3 +86,15 @@ export interface RaceControlsState {
   isRaceDisabled: boolean;
   isResetDisabled: boolean;
 }
+
+export interface ControlsState {
+  isStartDisabled: boolean;
+  isReturnDisabled: boolean;
+  isEditDisabled: boolean;
+  isDeleteDisabled: boolean;
+}
+
+export interface SettingsFormCallbacks {
+  nameInputHandler?: (name: string) => void;
+  colorInputHandler?: (color: string) => void;
+}
