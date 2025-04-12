@@ -14,24 +14,8 @@ import { div } from '../../utils/create-element';
 export function createWinnersPage(store: Store): HTMLElement {
   const container = div({});
 
-  const winnersPaginationPropertiesGetter: PaginationPropertiesGetter = (
-    state
-  ) => {
-    return {
-      currentPage: state.currentWinnersPage,
-      itemsCount: state.winnersCount,
-      itemsPerPage: WINNERS_PER_PAGE,
-      onPageChange: (newPage): void => {
-        winnersService.setWinners(
-          store,
-          newPage,
-          state.sortField,
-          state.sortOrder
-        );
-      },
-      isDisabled: false,
-    };
-  };
+  const winnersPaginationPropertiesGetter =
+    initWinnersPaginationPropertiesGetter(store);
 
   const { sortField, sortOrder, currentWinnersPage } = store.getState();
 
@@ -63,4 +47,25 @@ export function createWinnersPage(store: Store): HTMLElement {
   render(store.getState());
 
   return container;
+}
+
+function initWinnersPaginationPropertiesGetter(
+  store: Store
+): PaginationPropertiesGetter {
+  return (state) => {
+    return {
+      currentPage: state.currentWinnersPage,
+      itemsCount: state.winnersCount,
+      itemsPerPage: WINNERS_PER_PAGE,
+      onPageChange: (newPage): void => {
+        winnersService.setWinners(
+          store,
+          newPage,
+          state.sortField,
+          state.sortOrder
+        );
+      },
+      isDisabled: false,
+    };
+  };
 }

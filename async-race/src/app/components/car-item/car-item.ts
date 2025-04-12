@@ -25,14 +25,10 @@ export function createCarItem(
 ): HTMLLIElement {
   const trackItem = li({ className: styles.item });
 
-  const getWidth = (): number => {
-    return trackItem.offsetWidth - Number(CAR_ICON_SIZE.WIDTH);
-  };
+  const getWidth = (): number =>
+    trackItem.offsetWidth - Number(CAR_ICON_SIZE.WIDTH);
 
-  const carStore = createCarStore({
-    currentStatus: CarStatus.ON_START,
-    properties,
-  });
+  const carStore = createCarStore(carStateOnStart(properties));
 
   const render = (state: CarState): void => {
     const { id, name } = state.properties;
@@ -75,4 +71,11 @@ export function createCarItem(
   carStore.subscribe(CarEventType.PROPERTIES_CHANGE, render);
 
   return trackItem;
+}
+
+function carStateOnStart(properties: CarItemProperties): CarState {
+  return {
+    currentStatus: CarStatus.ON_START,
+    properties,
+  };
 }

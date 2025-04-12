@@ -31,24 +31,10 @@ export function createGaragePage(store: Store): HTMLElement {
 
   const raceService = new RaceService(store);
 
-  const garagePaginationPropertiesGetter: PaginationPropertiesGetter = (
-    state
-  ) => {
-    return {
-      currentPage: state.currentPage,
-      itemsCount: state.carsCount,
-      itemsPerPage: CARS_PER_PAGE,
-      onPageChange: (newPage): void => {
-        carService
-          .goToPage(newPage)
-          .then(() => {
-            raceService.resetOnPageChange();
-          })
-          .catch(showErrorModal);
-      },
-      isDisabled: state.garageStatus === GarageStatus.RACING,
-    };
-  };
+  const garagePaginationPropertiesGetter = initGaragePaginationPropertiesGetter(
+    carService,
+    raceService
+  );
 
   const paginationControls = createPaginationControls(
     store,
@@ -115,4 +101,26 @@ function createCarCreationForm(
   store.subscribe(EventType.GARAGE_STATUS_CHANGE, render);
 
   return container;
+}
+
+function initGaragePaginationPropertiesGetter(
+  carService: CarService,
+  raceService: RaceService
+): PaginationPropertiesGetter {
+  return (state) => {
+    return {
+      currentPage: state.currentPage,
+      itemsCount: state.carsCount,
+      itemsPerPage: CARS_PER_PAGE,
+      onPageChange: (newPage): void => {
+        carService
+          .goToPage(newPage)
+          .then(() => {
+            raceService.resetOnPageChange();
+          })
+          .catch(showErrorModal);
+      },
+      isDisabled: state.garageStatus === GarageStatus.RACING,
+    };
+  };
 }

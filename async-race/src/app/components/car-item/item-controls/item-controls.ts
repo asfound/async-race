@@ -51,34 +51,13 @@ export function createItemControls(
       state.garageStatus
     );
 
-    const startButton = createButton({
-      textContent: BUTTON_TEXT.START,
-      onClick: () => {
-        controller.startCar(false).catch((error: unknown) => {
-          if (!(error instanceof DOMException)) {
-            showErrorModal(error);
-          }
-        });
-      },
-      disabled: controlsState.isStartDisabled,
-    });
+    const startButton = createStartButton(controller, controlsState);
 
-    const returnButton = createButton({
-      textContent: BUTTON_TEXT.RETURN,
-      onClick: () => {
-        void controller.returnCar();
-      },
-      disabled: controlsState.isReturnDisabled,
-    });
+    const returnButton = createReturnButton(controller, controlsState);
 
-    const deleteButton = createButton({
-      textContent: BUTTON_TEXT.DELETE,
-      onClick: () => {
-        controller.removeCar();
-        raceService.removeController(controller.id);
-      },
-      disabled: controlsState.isDeleteDisabled,
-    });
+    buttonsContainer.append(startButton, returnButton);
+
+    const deleteButton = createDelete(controller, controlsState, raceService);
 
     const editButton = createEditButton(
       (newName, newColor) => {
@@ -89,12 +68,7 @@ export function createItemControls(
       controlsState
     );
 
-    buttonsContainer.append(
-      startButton,
-      returnButton,
-      deleteButton,
-      editButton
-    );
+    buttonsContainer.append(deleteButton, editButton);
   };
 
   render(store.getState(), carStore.getState());
@@ -108,6 +82,51 @@ export function createItemControls(
   });
 
   return buttonsContainer;
+}
+
+function createStartButton(
+  controller: CarItemController,
+  controlsState: ControlsState
+): HTMLButtonElement {
+  return createButton({
+    textContent: BUTTON_TEXT.START,
+    onClick: () => {
+      controller.startCar(false).catch((error: unknown) => {
+        if (!(error instanceof DOMException)) {
+          showErrorModal(error);
+        }
+      });
+    },
+    disabled: controlsState.isStartDisabled,
+  });
+}
+
+function createReturnButton(
+  controller: CarItemController,
+  controlsState: ControlsState
+): HTMLButtonElement {
+  return createButton({
+    textContent: BUTTON_TEXT.RETURN,
+    onClick: () => {
+      void controller.returnCar();
+    },
+    disabled: controlsState.isReturnDisabled,
+  });
+}
+
+function createDelete(
+  controller: CarItemController,
+  controlsState: ControlsState,
+  raceService: RaceService
+): HTMLButtonElement {
+  return createButton({
+    textContent: BUTTON_TEXT.DELETE,
+    onClick: () => {
+      controller.removeCar();
+      raceService.removeController(controller.id);
+    },
+    disabled: controlsState.isDeleteDisabled,
+  });
 }
 
 function createEditButton(

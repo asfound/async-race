@@ -19,50 +19,13 @@ export function createSortingPanel(store: Store): HTMLElement {
   const render: Render = ({ sortField, sortOrder }) => {
     container.replaceChildren();
 
-    const timeButton = createButton({
-      textContent: BUTTON_TEXT.TIME,
-      onClick: () => {
-        winnersService.setWinners(
-          store,
-          DEFAULT_PAGE,
-          SortField.TIME,
-          sortOrder
-        );
-      },
-      disabled: sortField === SortField.TIME,
-    });
+    const timeButton = createTimeButton(store, sortField, sortOrder);
 
-    const idButton = createButton({
-      textContent: BUTTON_TEXT.ID,
-      onClick: () => {
-        winnersService.setWinners(store, DEFAULT_PAGE, SortField.ID, sortOrder);
-      },
-      disabled: sortField === SortField.ID,
-    });
+    const idButton = createIdButton(store, sortField, sortOrder);
 
-    const winsButton = createButton({
-      textContent: BUTTON_TEXT.WINS,
-      onClick: () => {
-        winnersService.setWinners(
-          store,
-          DEFAULT_PAGE,
-          SortField.WINS,
-          sortOrder
-        );
-      },
-      disabled: sortField === SortField.WINS,
-    });
+    const winsButton = createWinsButton(store, sortField, sortOrder);
 
-    const orderButton = createButton({
-      textContent: ORDER_BUTTON_TEXT[sortOrder],
-      onClick: () => {
-        const newSortOrder =
-          sortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
-
-        winnersService.setWinners(store, DEFAULT_PAGE, sortField, newSortOrder);
-      },
-      className: styles.toggle,
-    });
+    const orderButton = createOrderButton(store, sortField, sortOrder);
 
     container.append(timeButton, idButton, winsButton, orderButton);
   };
@@ -70,4 +33,63 @@ export function createSortingPanel(store: Store): HTMLElement {
   render(store.getState());
 
   return container;
+}
+
+function createOrderButton(
+  store: Store,
+  sortField: SortField,
+  sortOrder: SortOrder
+): HTMLButtonElement {
+  return createButton({
+    textContent: ORDER_BUTTON_TEXT[sortOrder],
+    onClick: () => {
+      const newSortOrder =
+        sortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
+
+      winnersService.setWinners(store, DEFAULT_PAGE, sortField, newSortOrder);
+    },
+    className: styles.toggle,
+  });
+}
+
+function createWinsButton(
+  store: Store,
+  sortField: SortField,
+  sortOrder: SortOrder
+): HTMLButtonElement {
+  return createButton({
+    textContent: BUTTON_TEXT.WINS,
+    onClick: () => {
+      winnersService.setWinners(store, DEFAULT_PAGE, SortField.WINS, sortOrder);
+    },
+    disabled: sortField === SortField.WINS,
+  });
+}
+
+function createIdButton(
+  store: Store,
+  sortField: SortField,
+  sortOrder: SortOrder
+): HTMLButtonElement {
+  return createButton({
+    textContent: BUTTON_TEXT.ID,
+    onClick: () => {
+      winnersService.setWinners(store, DEFAULT_PAGE, SortField.ID, sortOrder);
+    },
+    disabled: sortField === SortField.ID,
+  });
+}
+
+function createTimeButton(
+  store: Store,
+  sortField: SortField,
+  sortOrder: SortOrder
+): HTMLButtonElement {
+  return createButton({
+    textContent: BUTTON_TEXT.TIME,
+    onClick: () => {
+      winnersService.setWinners(store, DEFAULT_PAGE, SortField.TIME, sortOrder);
+    },
+    disabled: sortField === SortField.TIME,
+  });
 }

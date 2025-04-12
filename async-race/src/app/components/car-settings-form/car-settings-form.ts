@@ -12,35 +12,24 @@ import carSVG from '~/assets/icons/car.svg?raw';
 import { createButton } from '../button/button';
 import styles from './car-settings-form.module.css';
 
+interface SettingsFormCallbacks {
+  nameInputHandler?: (name: string) => void;
+  colorInputHandler?: (color: string) => void;
+}
+
 export function createSettingsForm(
   buttonText: string,
   handler: (newName: string, newColor: string) => void,
   nameValue: string,
   colorValue: string,
-
-  callbacks?: {
-    nameInputHandler?: (name: string) => void;
-    colorInputHandler?: (color: string) => void;
-  },
+  callbacks?: SettingsFormCallbacks,
   isButtonDisabled = false
 ): HTMLFormElement {
   const formElement = form({ className: styles.form, method: 'dialog' });
 
-  const nameInput = input({
-    className: styles.name,
-    type: INPUT_TYPE.TEXT,
-    placeholder: PLACEHOLDER.NAME,
-  });
+  const nameInput = createNameInput(nameValue);
 
-  if (nameValue) {
-    nameInput.value = nameValue;
-  }
-
-  const colorInput = input({
-    className: styles.color,
-    type: INPUT_TYPE.COLOR,
-    value: colorValue,
-  });
+  const colorInput = createColorInput(colorValue);
 
   const submitButton = createButton({
     textContent: buttonText,
@@ -48,7 +37,17 @@ export function createSettingsForm(
     disabled: isButtonDisabled,
   });
 
-  if (callbacks !== undefined) {
+  if (callbacks === undefined) {
+    const carSvgElement = createPreviewIcon(colorValue);
+
+    colorInput.addEventListener('input', (event) => {
+      if (event.target instanceof HTMLInputElement) {
+        carSvgElement.style.fill = event.target.value;
+      }
+    });
+
+    formElement.prepend(carSvgElement);
+  } else {
     setupCallbacks(nameInput, colorInput, callbacks);
   }
 
@@ -60,25 +59,6 @@ export function createSettingsForm(
   });
 
   formElement.append(nameInput, colorInput, submitButton);
-
-  if (!callbacks) {
-    const carSvgElement = createSVGElement(
-      carSVG,
-      colorValue,
-      CAR_ICON_SIZE.WIDTH,
-      CAR_ICON_SIZE.HEIGHT
-    );
-
-    carSvgElement.classList.add(styles.icon);
-
-    colorInput.addEventListener('input', (event) => {
-      if (event.target instanceof HTMLInputElement) {
-        carSvgElement.style.fill = event.target.value;
-      }
-    });
-
-    formElement.prepend(carSvgElement);
-  }
 
   return formElement;
 }
@@ -102,4 +82,34 @@ function setupCallbacks(
       callbacks.colorInputHandler?.(event.target.value);
     }
   });
+}
+
+function createNameInput(value: string): HTMLInputElement {
+  return input({
+    className: styles.name,
+    type: INPUT_TYPE.TEXT,
+    placeholder: PLACEHOLDER.NAME,
+    value,
+  });
+}
+
+function createColorInput(value: string): HTMLInputElement {
+  return input({
+    className: styles.color,
+    type: INPUT_TYPE.COLOR,
+    value,
+  });
+}
+
+function createPreviewIcon(colorValue: string): SVGElement {
+  const carSvgElement = createSVGElement(
+    carSVG,
+    colorValue,
+    CAR_ICON_SIZE.WIDTH,
+    CAR_ICON_SIZE.HEIGHT
+  );
+
+  carSvgElement.classList.add(styles.icon);
+
+  return carSvgElement;
 }
