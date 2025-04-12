@@ -1,18 +1,18 @@
 import type { CarService } from '~/app/services/car/car-service';
 import type { RaceService } from '~/app/services/race/race-service';
-import type { CarItemProperties, Store } from '~/app/types/interfaces';
+import type {
+  CarItemProperties,
+  CarState,
+  Store,
+} from '~/app/types/interfaces';
 
 import { CAR_ICON_SIZE } from '~/app/constants/constants';
-import { CarEventType } from '~/app/types/enums';
+import { CarEventType, CarStatus } from '~/app/types/enums';
 import { div, li, p } from '~/app/utils/create-element';
 
 import { createCarIcon } from './car-icon/car-icon';
 import styles from './car-item.module.css';
-import {
-  CarStatus,
-  createCarStore,
-  type CarState,
-} from './car-store/car-store';
+import { createCarStore } from './car-store/car-store';
 import { createAnimationController } from './controllers/animation-controller';
 import { CarItemController } from './controllers/car-item-controller';
 import { createItemControls } from './item-controls/item-controls';

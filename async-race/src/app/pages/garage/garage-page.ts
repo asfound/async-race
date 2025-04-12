@@ -19,7 +19,7 @@ import styles from './garage-page.module.css';
 export function createGaragePage(store: Store): HTMLElement {
   const container = div({});
 
-  const { currentPage } = store.getState();
+  const { currentCarsPage: currentPage } = store.getState();
 
   const carService = new CarService(store);
 
@@ -109,7 +109,7 @@ function initGaragePaginationPropertiesGetter(
 ): PaginationPropertiesGetter {
   return (state) => {
     return {
-      currentPage: state.currentPage,
+      currentPage: state.currentCarsPage,
       itemsCount: state.carsCount,
       itemsPerPage: CARS_PER_PAGE,
       onPageChange: (newPage): void => {

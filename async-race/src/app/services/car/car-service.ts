@@ -22,12 +22,12 @@ export class CarService {
     this.store.updateState({ carsOnCurrentPage: cars });
 
     this.store.setCount({ carsCount: totalCount });
-    this.store.setPage({ currentPage: page });
+    this.store.setPage({ currentCarsPage: page });
   }
 
   public async addCar(name: string, color: string): Promise<void> {
     await apiService.createCar(name, color);
-    const { currentPage, carsCount } = this.store.getState();
+    const { currentCarsPage: currentPage, carsCount } = this.store.getState();
     const newCount = carsCount + DEFAULT_INCREMENT;
 
     if (isOnCurrent(currentPage, newCount, CARS_PER_PAGE)) {
@@ -41,7 +41,8 @@ export class CarService {
     await apiService.deleteCar(id);
     await apiService.deleteWinner(id);
 
-    const { currentPage, carsCount: currentCount } = this.store.getState();
+    const { currentCarsPage: currentPage, carsCount: currentCount } =
+      this.store.getState();
 
     const updatedCount = currentCount - DEFAULT_INCREMENT;
 

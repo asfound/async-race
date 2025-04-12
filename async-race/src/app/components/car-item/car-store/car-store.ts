@@ -1,33 +1,9 @@
-import type { CarItemProperties } from '~/app/types/interfaces';
+import type { CarStatus } from '~/app/types/enums';
+import type { CarState, CarStore } from '~/app/types/interfaces';
 import type { Listener } from '~/app/types/types';
 
 import { CarEventType } from '~/app/types/enums';
 import { EventEmitter } from '~/app/utils/event-emitter';
-
-export type CarListener = (data: CarState) => void;
-
-export enum CarStatus {
-  RACING,
-  ON_START,
-  DRIVING,
-  FINISHED,
-  ENGINE_BROKEN,
-}
-
-export interface CarState {
-  currentStatus: CarStatus;
-  properties: CarItemProperties;
-}
-
-export interface CarStore {
-  getState: () => CarState;
-
-  setStatus: (newStatus: CarStatus) => void;
-
-  editCar: (newName: string, newColor: string) => void;
-
-  subscribe: (event: CarEventType, callback: CarListener) => void;
-}
 
 export function createCarStore(initialState: CarState): CarStore {
   const state = { ...initialState };

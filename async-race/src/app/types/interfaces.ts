@@ -4,8 +4,15 @@ import type {
   WINNER_PROPERTIES,
 } from '../constants/constants';
 import type { Route } from '../router/route';
-import type { EventType, GarageStatus, SortField, SortOrder } from './enums';
-import type { Listener } from './types';
+import type {
+  CarEventType,
+  CarStatus,
+  EventType,
+  GarageStatus,
+  SortField,
+  SortOrder,
+} from './enums';
+import type { CarListener, Listener } from './types';
 
 export interface ButtonProperties {
   textContent: string;
@@ -33,7 +40,7 @@ export interface WinnerProperties {
 }
 
 export interface State {
-  currentPage: number;
+  currentCarsPage: number;
   carsCount: number;
 
   nameInputValue: string;
@@ -97,4 +104,19 @@ export interface ControlsState {
 export interface SettingsFormCallbacks {
   nameInputHandler?: (name: string) => void;
   colorInputHandler?: (color: string) => void;
+}
+
+export interface CarState {
+  currentStatus: CarStatus;
+  properties: CarItemProperties;
+}
+
+export interface CarStore {
+  getState: () => CarState;
+
+  setStatus: (newStatus: CarStatus) => void;
+
+  editCar: (newName: string, newColor: string) => void;
+
+  subscribe: (event: CarEventType, callback: CarListener) => void;
 }

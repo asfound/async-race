@@ -29,3 +29,11 @@ export enum GarageStatus {
   READY,
   CARS_LEFT,
 }
+
+export enum CarStatus {
+  RACING,
+  ON_START,
+  DRIVING,
+  FINISHED,
+  ENGINE_BROKEN,
+}

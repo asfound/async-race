@@ -55,7 +55,7 @@ export function createStore(initialState: State): Store {
 }
 
 const defaultState: State = {
-  currentPage: DEFAULT_PAGE,
+  currentCarsPage: DEFAULT_PAGE,
   carsCount: EMPTY_COUNT,
 
   nameInputValue: EMPTY_STRING,

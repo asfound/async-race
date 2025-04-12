@@ -1,11 +1,12 @@
+import type { CarStore } from '~/app/types/interfaces';
+
 import { CAR_ICON_SIZE, REPAIR_ICON_SIZE } from '~/app/constants/constants';
-import { CarEventType } from '~/app/types/enums';
+import { CarEventType, CarStatus } from '~/app/types/enums';
 import { div } from '~/app/utils/create-element';
 import { createSVGElement } from '~/app/utils/create-svg-icon';
 import carSVG from '~/assets/icons/car.svg?raw';
 import repairSvg from '~/assets/icons/repair.svg?raw';
 
-import { CarStatus, type CarStore } from '../car-store/car-store';
 import styles from './car-icon.module.css';
 
 export function createCarIcon(carStore: CarStore): HTMLElement {

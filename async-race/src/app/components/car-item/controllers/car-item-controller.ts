@@ -1,15 +1,17 @@
 import type { CarService } from '~/app/services/car/car-service';
-import type { CarItemProperties, Store } from '~/app/types/interfaces';
+import type {
+  CarItemProperties,
+  CarStore,
+  Store,
+} from '~/app/types/interfaces';
 
 import { HTTP_STATUS } from '~/app/constants/constants';
 import { apiService } from '~/app/services/api/api-service';
-import { GarageStatus } from '~/app/types/enums';
+import { CarStatus, GarageStatus } from '~/app/types/enums';
 import { EngineError } from '~/app/utils/custom-errors';
 import { showErrorModal } from '~/app/utils/show-modal';
 
 import type { CarAnimationController } from './animation-controller';
-
-import { CarStatus, type CarStore } from '../car-store/car-store';
 
 export class CarItemController {
   public readonly id: number;
