@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://jellyfish-app-h6ibc.ondigitalocean.app';
+export const BASE_URL = 'https://rsschool.shubbush.xyz/async-race/';
 
 export const PATH = {
   GARAGE: '/garage',
